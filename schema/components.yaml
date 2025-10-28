@@ -269,7 +269,7 @@ components:
         Details of an access method the client can use to monitor and interact with the execution.
         These details are provided by the service based on the description of the executable and how it is implemented.
       type: object
-      title: DockerContainer
+      title: ExecutableAccessMethod
       properties:
         status:
           type: string
