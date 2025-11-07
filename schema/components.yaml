@@ -101,7 +101,7 @@ components:
       type: string
       title: LifecyclePhase
       enum:
-            - INITIAL
+            - INITIALIZING
 
             - WAITING
             - PREPARING
@@ -279,49 +279,6 @@ components:
         - $ref: 'AbstractComponent'
         - $ref: 'LifecycleComponent'
         - type: object
-          properties:
-            access:
-              description: >-
-                A list of access methods that the client can use to monitor and interact with the execution.
-              $ref: 'ExecutableAccessList'
-
-    ExecutableAccessList:
-      description: >-
-        A list of data access methods.
-      type: array
-      title: ExecutableAccessList
-      xml:
-        name: access
-      items:
-        $ref: 'ExecutableAccessMethod'
-
-    ExecutableAccessMethod:
-      description: |
-        Details of an access method the client can use to monitor and interact with the execution.
-        These details are provided by the service based on the description of the executable and how it is implemented.
-      type: object
-      title: ExecutableAccessMethod
-      properties:
-        status:
-          type: string
-          enum:
-            - PREPARING
-            - ACTIVE
-            - FINISHED
-          description: >-
-            A flag to indicate the staus of the connection.
-        protocol:
-          type: string
-          description: >-
-            The access protocol, provided by the server when an offer is made.
-            Typically one of [TCP, HTTP, HTTPS].
-        locations:
-          type: array
-          items:
-            type: string
-          description: >-
-            A list of access URLs, provided by the server once the execution is ready to start.
-            This is defined as a list to provide support for internal and external, IPv4 and IPv6 addresses.
 
 # update-options.yaml
 
@@ -715,6 +672,49 @@ components:
               type: array
               items:
                 $ref: 'AbstractOption'
+            connectors:
+              description: >-
+                A list of access connectors to interact with the session.
+              $ref: 'AccessConnectorList'
+
+    AccessConnectorList:
+      description: >-
+        A list of access endpoints.
+      type: array
+      title: AccessConnectorList
+      xml:
+        name: connector
+      items:
+        $ref: 'AccessConnector'
+
+    AccessConnector:
+      description: |
+        An access connector to interact with the session.
+      type: object
+      title: AccessConnector
+      properties:
+        type:
+          type: string
+          description: >-
+            A URI to identify the type of connector.
+        status:
+          type: string
+          enum:
+            - PREPARING
+            - AVAILABLE
+            - FINISHED
+          description: >-
+            A flag to indicate the staus of the access method.
+        protocol:
+          type: string
+          description: >-
+            The access protocol, provided by the server when an offer is made.
+            Typically one of [TCP, HTTP, HTTPS].
+        location:
+          type: string
+          description: >-
+            The access connector URL.
+
 
 # offersets.yaml
 
