@@ -61,6 +61,7 @@ components:
           description: >-
             The URL to access this component.
           type: string
+          format: uri
         description:
           description: >-
             A human readable description.
@@ -104,6 +105,7 @@ components:
           description: >-
             The component type identifier.
           type: string
+          format: uri
           xml:
             attribute: true
         meta:
