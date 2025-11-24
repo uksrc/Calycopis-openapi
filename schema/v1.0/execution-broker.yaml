@@ -46,13 +46,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './components.yaml#/components/schemas/OfferSetRequest'
+              $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#             $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+#             oneOf:
+#               - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+#               - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
           application/xml:
             schema:
-              $ref: './components.yaml#/components/schemas/OfferSetRequest'
+              $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#             $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+#             oneOf:
+#               - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+#               - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
           application/yaml:
             schema:
-              $ref: './components.yaml#/components/schemas/OfferSetRequest'
+              $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#             $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+#             oneOf:
+#               - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+#               - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
         required: true
       # TODO Errors return error codes and ErrorResponse.
       responses:
@@ -67,7 +79,7 @@ paths:
                 format: url
         "200":
           description: >-
-            A simple OK response with the same contant as the '/offersets/{uuid}' endpoint.
+            A simple OK response with the offerset details.
           content:
             application/json:
               schema:
@@ -95,7 +107,7 @@ paths:
       responses:
         "200":
           description: >-
-            Required description ...
+            The set of responses for each content type.
           content:
             application/json:
               schema:
@@ -123,17 +135,29 @@ paths:
       responses:
         "200":
           description: >-
-            Required description ...
+            The set of responses for each content type.
           content:
             application/json:
               schema:
-                $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+               $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#               $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+#               oneOf:
+#                 - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+#                 - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
             application/xml:
               schema:
                 $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#               $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+#               oneOf:
+#                 - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+#                 - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
             application/yaml:
               schema:
                 $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#               $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+#               oneOf:
+#                 - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+#                 - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
 
     post:
       operationId: ExecutionSessionPost
@@ -168,11 +192,15 @@ paths:
             application/json:
               schema:
                 $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#               $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
             application/xml:
               schema:
                 $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#               $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
             application/yaml:
               schema:
                 $ref: './components.yaml#/components/schemas/ExecutionSessionResponse'
+#               $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
+
 
 

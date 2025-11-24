@@ -1,0 +1,106 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2025, Manchester University (http://www.manchester.ac.uk/)
+#
+#     This work is made available under the Creative Commons
+#     Attribution-ShareAlike 4.0 International licence.
+#
+#     For details of the licence terms see:
+#     https://creativecommons.org/licenses/by-sa/4.0/
+#   </meta:licence>
+# </meta:header>
+#
+# AIMetrics: []
+#
+
+openapi: 3.1.0
+info:
+  title: IvoaDataResource
+  version: "1.0"
+  summary: A scheduled execution session.
+  description: >-
+    Metadata describing a scheduled execution session.
+  contact:
+    name: Dave Morris
+    url: https://github.com/Zarquan
+  license:
+    name: Creative Commons Attribution Share Alike 4.0 International
+    identifier: CC-BY-SA-4.0
+
+components:
+  schemas:
+
+    ScheduleDuration:
+      description: >-
+        A schedule duration.
+      type: object
+      title: ScheduleDuration
+      properties:
+        duration:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Duration'
+
+    ScheduleStartDurationInstant:
+      description: >-
+        A schedule instant and duration.
+      type: object
+      title: ScheduleStartDurationInstant
+      properties:
+        start:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Instant'
+        duration:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Duration'
+
+    ScheduleStartDurationInterval:
+      description: >-
+        A schedule interval and duration.
+      type: object
+      title: ScheduleStartDurationInterval
+      properties:
+        start:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Interval'
+        duration:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Duration'
+
+    ScheduleDoneDurationInterval:
+      description: >-
+        A schedule interval and duration.
+      type: object
+      title: ScheduleDoneDurationInterval
+      properties:
+        done:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Interval'
+        duration:
+          $ref: '../../components/utils.yaml#/components/schemas/ISO8601Duration'
+
+    ScheduledExecutionSchedule:
+      description: >-
+        An Execution Session schedule.
+      type: object
+      title: ScheduledExecutionSchedule
+      properties:
+        preparing:
+          $ref: 'ScheduleStartDurationInstant'
+        available:
+          $ref: 'ScheduleStartDurationInterval'
+        releasing:
+          $ref: 'ScheduleStartDurationInstant'
+
+    ScheduledExecutionSession:
+      description: >-
+        A scheduled execution session.
+      type: object
+      title: ScheduledExecutionSession
+      xml:
+        name: execution
+      allOf:
+        # $ref: './simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+        # $ref: './simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
+        - type: object
+          properties:
+            schedule:
+              description: >-
+                The session schedule.
+              $ref: 'ScheduledExecutionSchedule'
+
+
