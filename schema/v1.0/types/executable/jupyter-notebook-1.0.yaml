@@ -41,7 +41,6 @@ components:
 
     JupyterNotebook:
       type: object
-      name:  JupyterNotebook
       title: JupyterNotebook
       description: >-
         Details for a Jupyter notebook executable.

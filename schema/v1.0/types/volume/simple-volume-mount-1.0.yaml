@@ -41,7 +41,6 @@ components:
 
     SimpleVolumeMount:
       type: object
-      name:  SimpleVolumeMount
       title: SimpleVolumeMount
       description: >-
         A simple volume mount.

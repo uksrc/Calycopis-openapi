@@ -41,7 +41,6 @@ components:
 
     SingularityContainer:
       type: object
-      name:  SingularContainer
       title: SingularContainer
       description: >-
         Details for a Singularity container executable.

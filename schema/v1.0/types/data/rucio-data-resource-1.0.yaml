@@ -41,7 +41,6 @@ components:
 
     RucioDataResource:
       type: object
-      name:  RucioDataResource
       title: RucioDataResource
       description: >-
         Metadata describing a data resource in a Rucio storage system.
@@ -54,7 +53,6 @@ components:
 
     RucioDataResourceBlock:
       type: object
-      name:  RucioDataResourceBlock
       title: RucioDataResourceBlock
       description: >-
         A reusable block describing a data resource in a Rucio storage system.
@@ -82,7 +80,6 @@ components:
 
     RucioReplicaBlock:
       type: object
-      name:  RucioReplicaBlock
       title: RucioReplicaBlock
       description: >-
         A reusable block describing a Rucio replica.

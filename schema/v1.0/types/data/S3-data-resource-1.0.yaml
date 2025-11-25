@@ -41,7 +41,6 @@ components:
 
     S3DataResource:
       type: object
-      name:  S3DataResource
       title: S3DataResource
       description: >-
         A data resource in a S3 storage system.

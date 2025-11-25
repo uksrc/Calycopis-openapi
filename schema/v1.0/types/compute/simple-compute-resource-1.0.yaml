@@ -41,7 +41,6 @@ components:
 
     SimpleComputeResource:
       type: object
-      name:  SimpleComputeResource
       title: SimpleComputeResource
       description: >-
         A simple compute resource.

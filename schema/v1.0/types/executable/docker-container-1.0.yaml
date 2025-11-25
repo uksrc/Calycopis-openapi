@@ -41,7 +41,6 @@ components:
 
     DockerContainer:
       type: object
-      name:  DockerContainer
       title: DockerContainer
       description: >-
         Details for a Docker or OCI container executable.

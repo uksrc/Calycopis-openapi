@@ -708,7 +708,6 @@ components:
               $ref: '#/components/schemas/SimpleSessionConnectorList'
     ScheduleDuration:
       type: object
-      name:  ScheduleDuration
       title: ScheduleDuration
       description: >-
         A schedule duration.
@@ -718,7 +717,6 @@ components:
 
     ScheduleStartDurationInstant:
       type: object
-      name:  ScheduleStartDurationInstant
       title: ScheduleStartDurationInstant
       description: >-
         A schedule instant and duration.
@@ -730,7 +728,6 @@ components:
 
     ScheduleStartDurationInterval:
       type: object
-      name:  ScheduleStartDurationInterval
       title: ScheduleStartDurationInterval
       description: >-
         A schedule interval and duration.
@@ -742,7 +739,6 @@ components:
 
     ScheduleDoneDurationInterval:
       type: object
-      name:  ScheduleDoneDurationInterval
       title: ScheduleDoneDurationInterval
       description: >-
         A schedule interval and duration.
@@ -754,7 +750,6 @@ components:
 
     ScheduledExecutionSchedule:
       type: object
-      name:  ScheduledExecutionSchedule
       title: ScheduledExecutionSchedule
       description: >-
         An Execution Session schedule.
@@ -768,7 +763,6 @@ components:
 
     ScheduledExecutionSession:
       type: object
-      name:  ScheduledExecutionSession
       title: ScheduledExecutionSession
       description: >-
         A scheduled execution session.
