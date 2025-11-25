@@ -580,20 +580,6 @@ components:
         max:
           type: string
 
-    # TODO This should be is-a AbstractUpdate rather than has-a AbstractUpdate
-    UpdateRequest:
-      description: >-
-        A request to update an execution.
-      type: object
-      title: UpdateRequest
-      xml:
-        name: update-request
-      properties:
-        update:
-          xml:
-            name: update
-          $ref: 'AbstractUpdate'
-
 # abstract-session.yaml
 
     AbstractExecutionSession:

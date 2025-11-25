@@ -152,13 +152,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './components.yaml#/components/schemas/UpdateRequest'
+              $ref: './components.yaml#/components/schemas/AbstractUpdate'
           application/xml:
             schema:
-              $ref: './components.yaml#/components/schemas/UpdateRequest'
+              $ref: './components.yaml#/components/schemas/AbstractUpdate'
           application/yaml:
             schema:
-              $ref: './components.yaml#/components/schemas/UpdateRequest'
+              $ref: './components.yaml#/components/schemas/AbstractUpdate'
       # TODO Errors return error codes and ErrorResponse.
       responses:
         "200":
@@ -210,4 +210,12 @@ components:
       oneOf:
        - $ref: './components.yaml#/components/schemas/SimpleExecutionSession'
        - $ref: './components.yaml#/components/schemas/ScheduledExecutionSession'
+
+    UpdateRequest:
+      type: object
+      name:  UpdateRequest
+      title: UpdateRequest
+      description: >-
+        A request to update a component.
+      $ref: './components.yaml#/components/schemas/AbstractUpdate'
 
