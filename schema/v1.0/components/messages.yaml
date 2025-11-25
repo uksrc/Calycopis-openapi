@@ -91,7 +91,7 @@ components:
       type: array
       title: MessageList
       items:
-        $ref: 'MessageItem'
+        $ref: '#/components/schemas/MessageItem'
         xml:
           name: message
 

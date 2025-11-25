@@ -50,7 +50,7 @@ components:
         - type: object
           properties:
             ivoa:
-              $ref: 'IvoaDataResourceBlock'
+              $ref: '#/components/schemas/IvoaDataResourceBlock'
 
     IvoaDataResourceBlock:
       type: object
@@ -67,11 +67,11 @@ components:
         obscore:
           description: >-
             The ObsCore metadata about the resource.
-          $ref: 'IvoaObsCoreItem'
+          $ref: '#/components/schemas/IvoaObsCoreItem'
         datalink:
           description: >-
             The DataLink metadata about the resource.
-          $ref: 'IvoaDataLinkItem'
+          $ref: '#/components/schemas/IvoaDataLinkItem'
 
     IvoaObsCoreItem:
       type: object

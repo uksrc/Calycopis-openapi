@@ -51,7 +51,7 @@ components:
         - type: object
           properties:
             size:
-              $ref: 'SimpleStorageSize'
+              $ref: '#/components/schemas/SimpleStorageSize'
 
     SimpleStorageSize:
       description: >-

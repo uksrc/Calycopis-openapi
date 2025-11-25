@@ -50,9 +50,9 @@ components:
         - type: object
           properties:
             cores:
-              $ref: 'SimpleComputeCores'
+              $ref: '#/components/schemas/SimpleComputeCores'
             memory:
-              $ref: 'SimpleComputeMemory'
+              $ref: '#/components/schemas/SimpleComputeMemory'
             volumes:
               description: >-
                 A list of the filesystem volumes to mount.
@@ -69,7 +69,7 @@ components:
       title: SimpleComputeCores
 #     allOf:
 #       - $ref: '../../../components/utils.yaml#/components/schemas/MinMaxLong'
-#       - $ref: 'SimpleMinMaxLong'
+#       - $ref: '#/components/schemas/SimpleMinMaxLong'
 #       - type: object
       properties:
         min:

@@ -51,7 +51,7 @@ components:
       xml:
         name: offers-response
       allOf:
-        # $ref: 'AbstractComponent'
+        # $ref: '#/components/schemas/AbstractComponent'
         - $ref: '../../components.yaml#/components/schemas/AbstractComponent'
         - type: object
           properties:
@@ -72,7 +72,7 @@ components:
                 name: offers
                 wrapped: true
               items:
-               #$ref: 'ExecutionSessionResponse'
+               #$ref: '#/components/schemas/ExecutionSessionResponse'
                 $ref: '../../components.yaml#/components/schemas/ExecutionSessionResponse'
                 xml:
                   name: execution

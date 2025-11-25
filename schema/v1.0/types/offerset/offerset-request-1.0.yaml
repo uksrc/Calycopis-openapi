@@ -54,12 +54,12 @@ components:
         executable:
           xml:
             name: executable
-         #$ref: 'AbstractExecutable'
+         #$ref: '#/components/schemas/AbstractExecutable'
           $ref: '../../components.yaml#/components/schemas/AbstractExecutable'
         resources:
           xml:
             name: resources
-         #$ref: 'ExecutionResourceList'
+         #$ref: '#/components/schemas/ExecutionResourceList'
           $ref: '../../components.yaml#/components/schemas/ExecutionResourceList'
         schedule:
           xml:
@@ -69,7 +69,7 @@ components:
             requested:
               xml:
                 name: requested
-             #$ref: 'ScheduleRequestBlock'
+             #$ref: '#/components/schemas/ScheduleRequestBlock'
               $ref: '../../components.yaml#/components/schemas/ScheduleRequestBlock'
 
 

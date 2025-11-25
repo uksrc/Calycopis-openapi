@@ -50,7 +50,7 @@ components:
         - type: object
           properties:
             skao:
-              $ref: 'SkaoDataResourceBlock'
+              $ref: '#/components/schemas/SkaoDataResourceBlock'
 
     SkaoDataResourceBlock:
       type: object
@@ -79,13 +79,13 @@ components:
           type: integer
           format: int64
         checksum:
-          $ref: 'SkaoChecksumItem'
+          $ref: '#/components/schemas/SkaoChecksumItem'
         replicas:
           description: >-
             A list of known replicas.
           type: array
           items:
-            $ref: 'SkaoReplicaItem'
+            $ref: '#/components/schemas/SkaoReplicaItem'
 
     SkaoChecksumItem:
       type: object
