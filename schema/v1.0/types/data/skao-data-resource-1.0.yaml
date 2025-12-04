@@ -41,7 +41,6 @@ components:
 
     SkaoDataResource:
       type: object
-      name:  SkaoDataResource
       title: SkaoDataResource
       description: >-
         Metadata describing a SKAO data resource in the data lake.
@@ -50,11 +49,10 @@ components:
         - type: object
           properties:
             skao:
-              $ref: 'SkaoDataResourceBlock'
+              $ref: '#/components/schemas/SkaoDataResourceBlock'
 
     SkaoDataResourceBlock:
       type: object
-      name:  SkaoDataResourceBlock
       title: SkaoDataResourceBlock
       description: >-
         A reusable block describing the metadata for a SKAO data resource.
@@ -79,17 +77,16 @@ components:
           type: integer
           format: int64
         checksum:
-          $ref: 'SkaoChecksumItem'
+          $ref: '#/components/schemas/SkaoChecksumItem'
         replicas:
           description: >-
             A list of known replicas.
           type: array
           items:
-            $ref: 'SkaoReplicaItem'
+            $ref: '#/components/schemas/SkaoReplicaItem'
 
     SkaoChecksumItem:
       type: object
-      name:  SkaoChecksumItem
       title: SkaoChecksumItem
       properties:
         type:
@@ -99,7 +96,6 @@ components:
 
     SkaoReplicaItem:
       type: object
-      name:  SkaoReplicaItem
       title: SkaoReplicaItem
       description: >-
         Metadata about a replica in an RSE.

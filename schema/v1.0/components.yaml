@@ -93,7 +93,7 @@ components:
           xml:
             name: options
           items:
-            $ref: 'AbstractOption'
+            $ref: '#/components/schemas/AbstractOption'
 
     AbstractComponent:
       description: >-
@@ -111,7 +111,7 @@ components:
         meta:
           description: >-
             The component metadata.
-          $ref: 'ComponentMetadata'
+          $ref: '#/components/schemas/ComponentMetadata'
 
     LifecyclePhase:
       description: >-
@@ -180,11 +180,11 @@ components:
       title: LifecycleSchedule
       properties:
         preparing:
-          $ref: 'LifecycleStartDurationInstant'
+          $ref: '#/components/schemas/LifecycleStartDurationInstant'
         available:
-          $ref: 'LifecycleStartDurationInterval'
+          $ref: '#/components/schemas/LifecycleStartDurationInterval'
         releasing:
-          $ref: 'LifecycleStartDurationInstant'
+          $ref: '#/components/schemas/LifecycleStartDurationInstant'
 
     LifecycleComponent:
       description: >-
@@ -197,13 +197,13 @@ components:
             The lifecycle phase.
           xml:
             name: phase
-          $ref: 'LifecyclePhase'
+          $ref: '#/components/schemas/LifecyclePhase'
         schedule:
           description: >-
             The lifecycle schedule.
           xml:
             name: schedule
-          $ref: 'LifecycleSchedule'
+          $ref: '#/components/schemas/LifecycleSchedule'
 
 # abstract-compute-resource.yaml
 
@@ -219,8 +219,8 @@ components:
         mapping:
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/compute/simple-compute-resource-1.0": './types/compute/simple-compute-resource-1.0.yaml#/components/schemas/SimpleComputeResource'
       allOf:
-        - $ref: 'AbstractComponent'
-        - $ref: 'LifecycleComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
+        - $ref: '#/components/schemas/LifecycleComponent'
 
 # abstract-volume-mount.yaml
 
@@ -236,7 +236,7 @@ components:
         mapping:
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/volume/simple-volume-mount-1.0": './types/volume/simple-volume-mount-1.0.yaml#/components/schemas/SimpleVolumeMount'
       allOf:
-        - $ref: 'AbstractComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
 
     AbstractVolumeMountList:
       description: >-
@@ -246,7 +246,7 @@ components:
       xml:
         name: volumes
       items:
-        $ref: 'AbstractVolumeMount'
+        $ref: '#/components/schemas/AbstractVolumeMount'
 
 # abstract-storage-resources.yaml
 
@@ -262,8 +262,8 @@ components:
         mapping:
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/storage/simple-storage-resource-1.0": './types/storage/simple-storage-resource-1.0.yaml#/components/schemas/SimpleStorageResource'
       allOf:
-        - $ref: 'AbstractComponent'
-        - $ref: 'LifecycleComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
+        - $ref: '#/components/schemas/LifecycleComponent'
         - type: object
           properties:
             data:
@@ -279,7 +279,7 @@ components:
       xml:
         name: storage
       items:
-        $ref: 'AbstractStorageResource'
+        $ref: '#/components/schemas/AbstractStorageResource'
 
 # abstract-data-resource.yaml
 
@@ -299,8 +299,8 @@ components:
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/data/ivoa-data-resource-1.0":   './types/data/ivoa-data-resource-1.0.yaml#/components/schemas/IvoaDataResource'
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/data/skao-data-resource-1.0":   './types/data/skao-data-resource-1.0.yaml#/components/schemas/SkaoDataResource'
       allOf:
-        - $ref: 'AbstractComponent'
-        - $ref: 'LifecycleComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
+        - $ref: '#/components/schemas/LifecycleComponent'
         - type: object
           properties:
             storage:
@@ -314,7 +314,7 @@ components:
       xml:
         name: data
       items:
-        $ref: 'AbstractDataResource'
+        $ref: '#/components/schemas/AbstractDataResource'
 
 # abstract-executable.yaml
 
@@ -331,8 +331,8 @@ components:
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/executable/singularity-container-1.0": './types/executable/singularity-container-1.0.yaml#/components/schemas/SingularityContainer'
           "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/executable/jupyter-notebook-1.0":      './types/executable/jupyter-notebook-1.0.yaml#/components/schemas/JupyterNotebook'
       allOf:
-        - $ref: 'AbstractComponent'
-        - $ref: 'LifecycleComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
+        - $ref: '#/components/schemas/LifecycleComponent'
 
 # update-options.yaml
 
@@ -373,7 +373,7 @@ components:
       type: object
       title: StringValueOption
       allOf:
-        - $ref: 'AbstractOption'
+        - $ref: '#/components/schemas/AbstractOption'
         - type: object
           properties:
             pattern:
@@ -390,7 +390,7 @@ components:
       required:
         - values
       allOf:
-        - $ref: 'AbstractOption'
+        - $ref: '#/components/schemas/AbstractOption'
         - type: object
           properties:
             values:
@@ -407,7 +407,7 @@ components:
       type: object
       title: IntegerValueOption
       allOf:
-        - $ref: 'AbstractOption'
+        - $ref: '#/components/schemas/AbstractOption'
         - type: object
           properties:
             min:
@@ -435,7 +435,7 @@ components:
       type: object
       title: IntegerDeltaOption
       allOf:
-        - $ref: 'AbstractOption'
+        - $ref: '#/components/schemas/AbstractOption'
         - type: object
           properties:
             min:
@@ -496,7 +496,7 @@ components:
       required:
         - value
       allOf:
-        - $ref: 'AbstractUpdate'
+        - $ref: '#/components/schemas/AbstractUpdate'
         - type: object
           properties:
             value:
@@ -512,7 +512,7 @@ components:
       required:
         - value
       allOf:
-        - $ref: 'AbstractUpdate'
+        - $ref: '#/components/schemas/AbstractUpdate'
         - type: object
           properties:
             value:
@@ -528,7 +528,7 @@ components:
       required:
         - value
       allOf:
-        - $ref: 'AbstractUpdate'
+        - $ref: '#/components/schemas/AbstractUpdate'
         - type: object
           properties:
             value:
@@ -550,7 +550,7 @@ components:
       required:
         - delta
       allOf:
-        - $ref: 'AbstractUpdate'
+        - $ref: '#/components/schemas/AbstractUpdate'
         - type: object
           properties:
             delta:
@@ -592,12 +592,12 @@ components:
       discriminator:
         propertyName: kind
         mapping:
-          "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/simple-execution-session-1.0":    'SimpleExecutionSession'
-          "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/scheduled-execution-session-1.0": 'ScheduledExecutionSession'
+          "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/simple-execution-session-1.0":    '#/components/schemas/SimpleExecutionSession'
+          "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/scheduled-execution-session-1.0": '#/components/schemas/ScheduledExecutionSession'
          #"https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/simple-execution-session-1.0":    './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
          #"https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/scheduled-execution-session-1.0": './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
       allOf:
-        - $ref: 'AbstractComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
 
     SimpleExecutionComponents:
       description: >-
@@ -606,15 +606,15 @@ components:
       title: SimpleExecutionComponents
       properties:
         executable:
-          $ref: 'AbstractExecutable'
+          $ref: '#/components/schemas/AbstractExecutable'
         compute:
-          $ref: 'AbstractComputeResource'
+          $ref: '#/components/schemas/AbstractComputeResource'
         storage:
-          $ref: 'AbstractStorageResourceList'
+          $ref: '#/components/schemas/AbstractStorageResourceList'
         volumes:
-          $ref: 'AbstractVolumeMountList'
+          $ref: '#/components/schemas/AbstractVolumeMountList'
         data:
-          $ref: 'AbstractDataResourceList'
+          $ref: '#/components/schemas/AbstractDataResourceList'
 
     SimpleExecutionSessionPhase:
       description: >-
@@ -676,7 +676,7 @@ components:
       xml:
         name: connector
       items:
-        $ref: 'SimpleSessionConnector'
+        $ref: '#/components/schemas/SimpleSessionConnector'
 
     SimpleExecutionSession:
       description: >-
@@ -686,11 +686,11 @@ components:
       xml:
         name: execution
       allOf:
-        - $ref: 'AbstractExecutionSession'
+        - $ref: '#/components/schemas/AbstractExecutionSession'
         - type: object
           properties:
             phase:
-              $ref: 'SimpleExecutionSessionPhase'
+              $ref: '#/components/schemas/SimpleExecutionSessionPhase'
             expires:
               description: >-
                 The date and time when this offer expires.
@@ -699,16 +699,15 @@ components:
                 name: expires
               type: string
               format: date-time
-        - $ref: 'SimpleExecutionComponents'
+        - $ref: '#/components/schemas/SimpleExecutionComponents'
         - type: object
           properties:
             connectors:
               description: >-
                 A list of connectors to interact with the session.
-              $ref: 'SimpleSessionConnectorList'
+              $ref: '#/components/schemas/SimpleSessionConnectorList'
     ScheduleDuration:
       type: object
-      name:  ScheduleDuration
       title: ScheduleDuration
       description: >-
         A schedule duration.
@@ -718,7 +717,6 @@ components:
 
     ScheduleStartDurationInstant:
       type: object
-      name:  ScheduleStartDurationInstant
       title: ScheduleStartDurationInstant
       description: >-
         A schedule instant and duration.
@@ -730,7 +728,6 @@ components:
 
     ScheduleStartDurationInterval:
       type: object
-      name:  ScheduleStartDurationInterval
       title: ScheduleStartDurationInterval
       description: >-
         A schedule interval and duration.
@@ -742,7 +739,6 @@ components:
 
     ScheduleDoneDurationInterval:
       type: object
-      name:  ScheduleDoneDurationInterval
       title: ScheduleDoneDurationInterval
       description: >-
         A schedule interval and duration.
@@ -754,30 +750,28 @@ components:
 
     ScheduledExecutionSchedule:
       type: object
-      name:  ScheduledExecutionSchedule
       title: ScheduledExecutionSchedule
       description: >-
         An Execution Session schedule.
       properties:
         preparing:
-          $ref: 'ScheduleStartDurationInstant'
+          $ref: '#/components/schemas/ScheduleStartDurationInstant'
         available:
-          $ref: 'ScheduleStartDurationInterval'
+          $ref: '#/components/schemas/ScheduleStartDurationInterval'
         releasing:
-          $ref: 'ScheduleStartDurationInstant'
+          $ref: '#/components/schemas/ScheduleStartDurationInstant'
 
     ScheduledExecutionSession:
       type: object
-      name:  ScheduledExecutionSession
       title: ScheduledExecutionSession
       description: >-
         A scheduled execution session.
       allOf:
-        - $ref: 'SimpleExecutionSession'
+        - $ref: '#/components/schemas/SimpleExecutionSession'
         - type: object
           properties:
             schedule:
-              $ref: 'ScheduledExecutionSchedule'
+              $ref: '#/components/schemas/ScheduledExecutionSchedule'
 
 # offersets.yaml
 
@@ -803,7 +797,7 @@ components:
       title: RequestedScheduleBlock
       properties:
         requested:
-          $ref: 'RequestedScheduleItem'
+          $ref: '#/components/schemas/RequestedScheduleItem'
 
     ExecutionRequestComponents:
       description: >-
@@ -812,15 +806,15 @@ components:
       title: ExecutionComponents
       properties:
         executable:
-          $ref: 'AbstractExecutable'
+          $ref: '#/components/schemas/AbstractExecutable'
         compute:
-          $ref: 'AbstractComputeResource'
+          $ref: '#/components/schemas/AbstractComputeResource'
         storage:
-          $ref: 'AbstractStorageResourceList'
+          $ref: '#/components/schemas/AbstractStorageResourceList'
         volumes:
-          $ref: 'AbstractVolumeMountList'
+          $ref: '#/components/schemas/AbstractVolumeMountList'
         data:
-          $ref: 'AbstractDataResourceList'
+          $ref: '#/components/schemas/AbstractDataResourceList'
 
     OfferSetRequest:
       description: >-
@@ -830,14 +824,14 @@ components:
       xml:
         name: offers-request
       allOf:
-        - $ref: 'ExecutionRequestComponents'
+        - $ref: '#/components/schemas/ExecutionRequestComponents'
        #- $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionComponents'
         - type: object
           properties:
             schedule:
               xml:
                 name: schedule
-              $ref: 'RequestedScheduleBlock'
+              $ref: '#/components/schemas/RequestedScheduleBlock'
 
     OfferSetResponse:
       description: >-
@@ -848,7 +842,7 @@ components:
       xml:
         name: offers-response
       allOf:
-        - $ref: 'AbstractComponent'
+        - $ref: '#/components/schemas/AbstractComponent'
         - type: object
           properties:
             result:
@@ -872,7 +866,7 @@ components:
                 name: offers
                 wrapped: true
               items:
-                $ref: 'AbstractExecutionSession'
+                $ref: '#/components/schemas/AbstractExecutionSession'
                 xml:
                   name: execution
 

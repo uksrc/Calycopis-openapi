@@ -41,7 +41,6 @@ components:
 
     SimpleStorageResource:
       type: object
-      name:  SimpleStorageResource
       title: SimpleStorageResource
       description: >-
         A simple storage resource.
@@ -51,7 +50,7 @@ components:
         - type: object
           properties:
             size:
-              $ref: 'SimpleStorageSize'
+              $ref: '#/components/schemas/SimpleStorageSize'
 
     SimpleStorageSize:
       description: >-
@@ -60,7 +59,6 @@ components:
         The maximum represents the maximum size that the excution can use.
         All values are given in multiples of 'GiB'.
       type: object
-      name:  SimpleStorageSize
       title: SimpleStorageSize
       properties:
         min:

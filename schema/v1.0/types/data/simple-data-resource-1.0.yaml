@@ -41,7 +41,6 @@ components:
 
     SimpleDataResource:
       type: object
-      name:  SimpleDataResource
       title: SimpleDataResource
       description: >-
           A simple downloadable data resource.

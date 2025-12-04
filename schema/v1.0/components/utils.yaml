@@ -90,7 +90,7 @@ components:
       type: object
       title: MinMaxIntegerUnits
       allOf:
-        - $ref: 'MinMaxInteger'
+        - $ref: '#/components/schemas/MinMaxInteger'
         - type: object
           properties:
             units:
@@ -115,7 +115,7 @@ components:
       type: object
       title: MinMaxLongUnits
       allOf:
-        - $ref: 'MinMaxLong'
+        - $ref: '#/components/schemas/MinMaxLong'
         - type: object
           properties:
             units:
@@ -140,7 +140,7 @@ components:
       type: object
       title: MinMaxFloatUnits
       allOf:
-        - $ref: 'MinMaxFloat'
+        - $ref: '#/components/schemas/MinMaxFloat'
         - type: object
           properties:
             units:
@@ -163,7 +163,7 @@ components:
       type: object
       title: MinMaxStringUnits
       allOf:
-        - $ref: 'MinMaxFloat'
+        - $ref: '#/components/schemas/MinMaxFloat'
         - type: object
           properties:
             units:
@@ -200,11 +200,11 @@ components:
       type: object
       title: MinMaxComputeInteger
       allOf:
-        - $ref: 'MinMaxInteger'
+        - $ref: '#/components/schemas/MinMaxInteger'
         - type: object
           properties:
             units:
-              $ref: 'ComputeUnitsEnum'
+              $ref: '#/components/schemas/ComputeUnitsEnum'
 
     MinMaxComputeLong:
       description: >-
@@ -212,11 +212,11 @@ components:
       type: object
       title: MinMaxComputeLong
       allOf:
-        - $ref: 'MinMaxLong'
+        - $ref: '#/components/schemas/MinMaxLong'
         - type: object
           properties:
             units:
-              $ref: 'ComputeUnitsEnum'
+              $ref: '#/components/schemas/ComputeUnitsEnum'
 
 
 

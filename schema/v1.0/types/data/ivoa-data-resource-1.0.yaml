@@ -41,7 +41,6 @@ components:
 
     IvoaDataResource:
       type: object
-      name:  IvoaDataResource
       title: IvoaDataResource
       description: >-
         Metadata describing an IVOA data resource.
@@ -50,11 +49,10 @@ components:
         - type: object
           properties:
             ivoa:
-              $ref: 'IvoaDataResourceBlock'
+              $ref: '#/components/schemas/IvoaDataResourceBlock'
 
     IvoaDataResourceBlock:
       type: object
-      name:  IvoaDataResourceBlock
       title: IvoaDataResourceBlock
       description: >-
         The IVOA metadata for the resource.
@@ -67,15 +65,14 @@ components:
         obscore:
           description: >-
             The ObsCore metadata about the resource.
-          $ref: 'IvoaObsCoreItem'
+          $ref: '#/components/schemas/IvoaObsCoreItem'
         datalink:
           description: >-
             The DataLink metadata about the resource.
-          $ref: 'IvoaDataLinkItem'
+          $ref: '#/components/schemas/IvoaDataLinkItem'
 
     IvoaObsCoreItem:
       type: object
-      name:  IvoaObsCoreItem
       title: IvoaObsCoreItem
       description: >-
         A row of ObsCore metadata about the resource.
@@ -101,7 +98,6 @@ components:
 
     IvoaDataLinkItem:
       type: object
-      name:  IvoaDataLinkItem
       title: IvoaDataLinkItem
       description: >-
         A row of DataLink metadata about the resource.

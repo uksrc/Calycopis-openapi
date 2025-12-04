@@ -127,13 +127,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'ExecutionSessionResponseFour'
+                $ref: '#/components/schemas/ExecutionSessionResponseFour'
             application/xml:
               schema:
-                $ref: 'ExecutionSessionResponseFour'
+                $ref: '#/components/schemas/ExecutionSessionResponseFour'
             application/yaml:
               schema:
-                $ref: 'ExecutionSessionResponseFour'
+                $ref: '#/components/schemas/ExecutionSessionResponseFour'
 
     post:
       operationId: ExecutionSessionPost
@@ -167,13 +167,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: 'ExecutionSessionResponseFour'
+                $ref: '#/components/schemas/ExecutionSessionResponseFour'
             application/xml:
               schema:
-                $ref: 'ExecutionSessionResponseFour'
+                $ref: '#/components/schemas/ExecutionSessionResponseFour'
             application/yaml:
               schema:
-                $ref: 'ExecutionSessionResponseFour'
+                $ref: '#/components/schemas/ExecutionSessionResponseFour'
 
 components:
   schemas:

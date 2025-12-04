@@ -41,7 +41,6 @@ components:
 
     DockerContainer:
       type: object
-      name:  DockerContainer
       title: DockerContainer
       description: >-
         Details for a Docker or OCI container executable.
@@ -53,7 +52,7 @@ components:
             image:
               description: >-
                 Details of the container image.
-              $ref: 'DockerImageSpec'
+              $ref: '#/components/schemas/DockerImageSpec'
             privileged:
               type: boolean
               default: false
@@ -72,7 +71,7 @@ components:
             network:
               description: >-
                 Details of the network access available to the container.
-              $ref: 'DockerNetworkSpec'
+              $ref: '#/components/schemas/DockerNetworkSpec'
 
     DockerImageSpec:
       description: >-
@@ -97,7 +96,7 @@ components:
             The digest is generated as a sha256 checksum when the image is built.
             The digest can be used to verify the contents of an image.
         platform:
-          $ref: 'DockerPlatformSpec'
+          $ref: '#/components/schemas/DockerPlatformSpec'
 
     DockerPlatformSpec:
       description: >-
@@ -132,7 +131,7 @@ components:
             An array of network ports to publish.
           type: array
           items:
-            $ref: 'DockerNetworkPort'
+            $ref: '#/components/schemas/DockerNetworkPort'
 
     DockerNetworkPort:
       description: >-
@@ -145,9 +144,9 @@ components:
           description: >-
             A flag to indicate whether this port should be listed in the access methods for the execution.
         internal:
-          $ref: 'DockerInternalPort'
+          $ref: '#/components/schemas/DockerInternalPort'
         external:
-          $ref: 'DockerExternalPort'
+          $ref: '#/components/schemas/DockerExternalPort'
         protocol:
           type: string
           description: >-
