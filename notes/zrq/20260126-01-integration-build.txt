@@ -266,26 +266,23 @@
 #[root@action-runner]
 
     #
-    # Update the schema and build version.
-    #
-
+    # Set the version properties.
     schemaversion=0.0.2
     buildversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
 
     pushd /trebula/java/spring/
 
-cat > build/build.properties << EOF
+        #
+        # Update the build properties.
+        mkdir build
+        cat > build/build.properties << EOF
 trebula.build.version=${buildversion}
 trebula.schema.version=${schemaversion}
 trebula.schema.file=/trebula/build/execution-broker-${schemaversion}.yaml
 EOF
 
-    popd
-
-    #
-    # Build the Java package.
-    pushd /trebula/java/spring/
-
+        #
+        # Build the Java package.
         ./mvnw clean install
 
     popd
@@ -300,5 +297,54 @@ EOF
     >   [INFO] Finished at: 2026-01-26T13:56:04Z
     >   [INFO] ------------------------------------------------------------------------
 
+
+# -----------------------------------------------------
+# Build the Java client application.
+#[root@action-runner]
+
+    #
+    # Set the version properties.
+    schemaversion=0.0.2
+    buildversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
+
+    pushd /trebula/java/client/
+
+        #
+        # Update the build properties.
+        mkdir build
+        cat > build/build.properties << EOF
+trebula.build.version=${buildversion}
+trebula.schema.version=${schemaversion}
+trebula.schema.file=/trebula/build/execution-broker-${schemaversion}.yaml
+EOF
+
+        #
+        # Build the Java package.
+        ./mvnw clean install
+
+    popd
+
+        #
+        # Lots of hacking around to get it to generate the right annotation.
+        # Default uses okhttp-gson, which does not support polymorphism.
+        # https://github.com/OpenAPITools/openapi-generator/issues/417#issuecomment-569830398
+        # https://stackoverflow.com/a/75379063
+        #
+
+    >   ....
+    >   ....
+    >   [INFO] --- install:3.1.2:install (default-install) @ calycopis-openapi-client ---
+    >   [INFO] Installing /trebula/java/client/pom.xml to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.pom
+    >   [INFO] Installing /trebula/java/client/target/calycopis-openapi-client-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.jar
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] BUILD SUCCESS
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] Total time:  12.702 s
+    >   [INFO] Finished at: 2026-01-26T19:22:41Z
+    >   [INFO] ------------------------------------------------------------------------
+
+    #
+    # Next steps are to build the webapp and test the clients.
+    # ....
 
 
