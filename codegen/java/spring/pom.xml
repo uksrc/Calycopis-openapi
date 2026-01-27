@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    |
+    | <meta:header>
+    |   <meta:licence>
+    |     Copyright (C) 2026 University of Manchester.
+    |
+    |     This information is free software: you can redistribute it and/or modify
+    |     it under the terms of the GNU General Public License as published by
+    |     the Free Software Foundation, either version 3 of the License, or
+    |     (at your option) any later version.
+    |
+    |     This information is distributed in the hope that it will be useful,
+    |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+    |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    |     GNU General Public License for more details.
+    |
+    |     You should have received a copy of the GNU General Public License
+    |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    |   </meta:licence>
+    | </meta:header>
+    |
+    +-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.4</version>
+		<relativePath/>
+	</parent>
+	<groupId>net.ivoa.calycopis</groupId>
+	<artifactId>calycopis-openapi-spring</artifactId>
+	<version>0.0.2</version>
+	<packaging>jar</packaging>
+	<name>Calycopis Spring Boot</name>
+	<description>IVOA ExecutionBroker Spring Boot classes generated from the OpenAPI schema</description>
+	<properties>
+		<java.version>21</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+        <!--+
+            | Spring dependencies.
+            | https://www.baeldung.com/java-openapi-generator-server#spring
+            +-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.8.0</version>
+        </dependency>
+
+        <!--+
+            | Jackson annotations.
+            +-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
+        <!--+
+            | https://mkyong.com/spring-boot/package-javax-validation-constraints-does-not-exist/
+            +-->
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>9.0.1.Final</version>
+        </dependency>
+
+        <!--+
+            | https://stackoverflow.com/a/78486709
+            | https://stackoverflow.com/a/76034931
+            +-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>4.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!--+
+            | Fix to get the test dependencies to load in Eclipse.
+            | These classes are referenced from the OpenAPI generated test classes.
+            +-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-test</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.13.4</version>
+        </dependency>
+
+	</dependencies>
+
+	<build>
+
+        <!--finalName>${project.artifactId}-${trebula.build.version}</finalName-->
+
+        <plugins>
+
+            <!--+
+                | Read the build properties during initialization phase.
+                | Stack Overflow - Maven, read version number from property file
+                | https://stackoverflow.com/questions/8541332/maven-read-version-number-from-property-file
+                | https://stackoverflow.com/a/13970763
+                +-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>build/build.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--+
+                | OpenAPI generator from the Spring documentation.
+                | https://www.baeldung.com/java-openapi-generator-server#plugin
+                |
+                | Exclude null values.
+                | @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                | Exclude null values and empty arrays.
+                | @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY)
+                +-->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.14.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <inputSpec>${trebula.schema.file}</inputSpec>
+                            <generatorName>spring</generatorName>
+                            <generateAliasAsModel>false</generateAliasAsModel>
+                            <apiPackage>net.ivoa.calycopis.openapi.api</apiPackage>
+                            <modelNamePrefix>Ivoa</modelNamePrefix>
+                            <modelPackage>net.ivoa.calycopis.openapi.model</modelPackage>
+                            <configOptions>
+                                <withXml>true</withXml>
+                                <delegatePattern>true</delegatePattern>
+                                <additionalModelTypeAnnotations>
+                                    @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY)
+                                </additionalModelTypeAnnotations>
+                                <dateLibrary>java8</dateLibrary>
+                            </configOptions>
+                            <!--+
+                                | Use specific date-time classes.
+                                | https://www.baeldung.com/openapi-map-date-types#use-other-standard-date-classes
+                                +-->
+                            <typeMappings>
+                                <typeMapping>DateTime=Instant</typeMapping>
+                                <typeMapping>Date=Date</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>Instant=java.time.Instant</importMapping>
+                                <importMapping>Date=java.util.Date</importMapping>
+                            </importMappings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+</project>

@@ -57,37 +57,35 @@ with openapi_client.ApiClient(configuration) as api_client:
     except ApiException as e:
         print("Exception when calling DefaultApi->execution_session_get: %s\n" % e)
 
---START--
-....
-....
-  File "/python/albert/client/openapi_client/models/execution_session_response.py", line 157, in from_dict
-    "schedule": ComponentSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/python/albert/client/openapi_client/models/component_schedule.py", line 92, in from_dict
-    "offered": OfferedScheduleBlock.from_dict(obj["offered"]) if obj.get("offered") is not None else None,
-               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
-  File "/python/albert/client/openapi_client/models/offered_schedule_block.py", line 97, in from_dict
-    "available": OfferedScheduleInterval.from_dict(obj["available"]) if obj.get("available") is not None else None,
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "/python/albert/client/openapi_client/models/offered_schedule_interval.py", line 104, in from_dict
-    _obj = cls.model_validate({
-        "duration": obj.get("duration"),
-        "start": obj.get("start")
-    })
-  File "/usr/local/lib/python3.13/site-packages/pydantic/main.py", line 705, in model_validate
-    return cls.__pydantic_validator__.validate_python(
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-        obj, strict=strict, from_attributes=from_attributes, context=context, by_alias=by_alias, by_name=by_name
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-pydantic_core._pydantic_core.ValidationError: 1 validation error for OfferedScheduleInterval
-start
-  Value error, must validate the regular expression
-    /^(\d{4}(?:-\d{2}){2}T\d{2}(?::\d{2}){2}(?>[^\/]+))\/(P(?=.)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?=.)(?:\d+H)?(?:\d+M)?(?:\d+S)?)?)$/
-    [type=value_error, input_value='2025-08-08T22:13:00Z', input_type=str]
-    For further information visit https://errors.pydantic.dev/2.11/v/value_error
---END--
+    >   ....
+    >   ....
+    >     File "/python/albert/client/openapi_client/models/execution_session_response.py", line 157, in from_dict
+    >       "schedule": ComponentSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
+    >                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+    >     File "/python/albert/client/openapi_client/models/component_schedule.py", line 92, in from_dict
+    >       "offered": OfferedScheduleBlock.from_dict(obj["offered"]) if obj.get("offered") is not None else None,
+    >                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+    >     File "/python/albert/client/openapi_client/models/offered_schedule_block.py", line 97, in from_dict
+    >       "available": OfferedScheduleInterval.from_dict(obj["available"]) if obj.get("available") is not None else None,
+    >                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+    >     File "/python/albert/client/openapi_client/models/offered_schedule_interval.py", line 104, in from_dict
+    >       _obj = cls.model_validate({
+    >           "duration": obj.get("duration"),
+    >           "start": obj.get("start")
+    >       })
+    >     File "/usr/local/lib/python3.13/site-packages/pydantic/main.py", line 705, in model_validate
+    >       return cls.__pydantic_validator__.validate_python(
+    >              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+    >           obj, strict=strict, from_attributes=from_attributes, context=context, by_alias=by_alias, by_name=by_name
+    >           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    >       )
+    >       ^
+    >   pydantic_core._pydantic_core.ValidationError: 1 validation error for OfferedScheduleInterval
+    >   start
+    >     Value error, must validate the regular expression
+    >       /^(\d{4}(?:-\d{2}){2}T\d{2}(?::\d{2}){2}(?>[^\/]+))\/(P(?=.)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?=.)(?:\d+H)?(?:\d+M)?(?:\d+S)?)?)$/
+    >       [type=value_error, input_value='2025-08-08T22:13:00Z', input_type=str]
+    >       For further information visit https://errors.pydantic.dev/2.11/v/value_error
 
     #
     # Looks like the date formatting is wrong.

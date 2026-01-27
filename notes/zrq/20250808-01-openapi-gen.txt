@@ -257,51 +257,49 @@
             'http://127.0.0.1:8082/offersets' \
         | yq '.'
 
---START--
-uuid: "57f4ec20-3206-4599-9f0a-e92265908f7c"
-name: "example-001"
-type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
-created: "2025-08-08T16:12:40.517249152Z"
-href: "http://127.0.0.1:8082/offersets/57f4ec20-3206-4599-9f0a-e92265908f7c"
-result: "YES"
-offers:
-  - uuid: "28e4ea25-4984-44e0-a92b-ec5a0d80174f"
-    name: "example-001-offer-0"
-    type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
-    created: "2025-08-08T16:12:40.86329987Z"
-    href: "http://127.0.0.1:8082/sessions/28e4ea25-4984-44e0-a92b-ec5a0d80174f"
-    phase: "OFFERED"
-    expires: "2025-08-08T21:12:40.517267275Z"
-    ....
-    ....
-  - uuid: "f033c448-4cb2-497b-9245-5b7cbf01760e"
-    name: "example-001-offer-1"
-    type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
-    created: "2025-08-08T16:12:40.874087299Z"
-    href: "http://127.0.0.1:8082/sessions/f033c448-4cb2-497b-9245-5b7cbf01760e"
-    phase: "OFFERED"
-    expires: "2025-08-08T21:12:40.517267275Z"
-    ....
-    ....
-  - uuid: "e4e3f633-604b-4dc9-a277-269c87de31be"
-    name: "example-001-offer-2"
-    type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
-    created: "2025-08-08T16:12:40.887005976Z"
-    href: "http://127.0.0.1:8082/sessions/e4e3f633-604b-4dc9-a277-269c87de31be"
-    phase: "OFFERED"
-    expires: "2025-08-08T21:12:40.517267275Z"
-    ....
-    ....
-  - uuid: "63175731-c561-4abc-a336-1ed56db2f085"
-    name: "example-001-offer-3"
-    type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
-    created: "2025-08-08T16:12:40.899409187Z"
-    href: "http://127.0.0.1:8082/sessions/63175731-c561-4abc-a336-1ed56db2f085"
-    phase: "OFFERED"
-    expires: "2025-08-08T21:12:40.517267275Z"
-    ....
-    ....
---END--
+    >   uuid: "57f4ec20-3206-4599-9f0a-e92265908f7c"
+    >   name: "example-001"
+    >   type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
+    >   created: "2025-08-08T16:12:40.517249152Z"
+    >   href: "http://127.0.0.1:8082/offersets/57f4ec20-3206-4599-9f0a-e92265908f7c"
+    >   result: "YES"
+    >   offers:
+    >     - uuid: "28e4ea25-4984-44e0-a92b-ec5a0d80174f"
+    >       name: "example-001-offer-0"
+    >       type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
+    >       created: "2025-08-08T16:12:40.86329987Z"
+    >       href: "http://127.0.0.1:8082/sessions/28e4ea25-4984-44e0-a92b-ec5a0d80174f"
+    >       phase: "OFFERED"
+    >       expires: "2025-08-08T21:12:40.517267275Z"
+    >       ....
+    >       ....
+    >     - uuid: "f033c448-4cb2-497b-9245-5b7cbf01760e"
+    >       name: "example-001-offer-1"
+    >       type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
+    >       created: "2025-08-08T16:12:40.874087299Z"
+    >       href: "http://127.0.0.1:8082/sessions/f033c448-4cb2-497b-9245-5b7cbf01760e"
+    >       phase: "OFFERED"
+    >       expires: "2025-08-08T21:12:40.517267275Z"
+    >       ....
+    >       ....
+    >     - uuid: "e4e3f633-604b-4dc9-a277-269c87de31be"
+    >       name: "example-001-offer-2"
+    >       type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
+    >       created: "2025-08-08T16:12:40.887005976Z"
+    >       href: "http://127.0.0.1:8082/sessions/e4e3f633-604b-4dc9-a277-269c87de31be"
+    >       phase: "OFFERED"
+    >       expires: "2025-08-08T21:12:40.517267275Z"
+    >       ....
+    >       ....
+    >     - uuid: "63175731-c561-4abc-a336-1ed56db2f085"
+    >       name: "example-001-offer-3"
+    >       type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
+    >       created: "2025-08-08T16:12:40.899409187Z"
+    >       href: "http://127.0.0.1:8082/sessions/63175731-c561-4abc-a336-1ed56db2f085"
+    >       phase: "OFFERED"
+    >       expires: "2025-08-08T21:12:40.517267275Z"
+    >       ....
+    >       ....
 
 
 # -----------------------------------------------------
@@ -328,28 +326,26 @@ offers:
 
             ls -al
 
---START--
-total 52
-drwxr-xr-x. 1 root root  404 Aug  8 14:13 .
-drwxr-xr-x. 1 root root   26 Aug  8 16:17 ..
-drwxr-xr-x. 1 root root   18 Aug  8 14:13 .github
--rw-r--r--. 1 root root  807 Aug  8 14:13 .gitignore
--rw-r--r--. 1 root root  713 Aug  8 14:13 .gitlab-ci.yml
-drwxr-xr-x. 1 root root   24 Aug  8 14:13 .openapi-generator
--rw-r--r--. 1 root root 1040 Aug  8 14:13 .openapi-generator-ignore
--rw-r--r--. 1 root root  431 Aug  8 14:13 .travis.yml
--rw-r--r--. 1 root root 6101 Aug  8 14:13 README.md
-drwxr-xr-x. 1 root root 2594 Aug  8 14:13 docs
--rw-r--r--. 1 root root 1830 Aug  8 14:13 git_push.sh
-drwxr-xr-x. 1 root root  184 Aug  8 14:13 openapi_client
--rw-r--r--. 1 root root 2482 Aug  8 14:13 pyproject.toml
--rw-r--r--. 1 root root   92 Aug  8 14:13 requirements.txt
--rw-r--r--. 1 root root   28 Aug  8 14:13 setup.cfg
--rw-r--r--. 1 root root 1271 Aug  8 14:13 setup.py
-drwxr-xr-x. 1 root root 3466 Aug  8 14:13 test
--rw-r--r--. 1 root root  112 Aug  8 14:13 test-requirements.txt
--rw-r--r--. 1 root root  150 Aug  8 14:13 tox.ini
---END--
+    >   total 52
+    >   drwxr-xr-x. 1 root root  404 Aug  8 14:13 .
+    >   drwxr-xr-x. 1 root root   26 Aug  8 16:17 ..
+    >   drwxr-xr-x. 1 root root   18 Aug  8 14:13 .github
+    >   -rw-r--r--. 1 root root  807 Aug  8 14:13 .gitignore
+    >   -rw-r--r--. 1 root root  713 Aug  8 14:13 .gitlab-ci.yml
+    >   drwxr-xr-x. 1 root root   24 Aug  8 14:13 .openapi-generator
+    >   -rw-r--r--. 1 root root 1040 Aug  8 14:13 .openapi-generator-ignore
+    >   -rw-r--r--. 1 root root  431 Aug  8 14:13 .travis.yml
+    >   -rw-r--r--. 1 root root 6101 Aug  8 14:13 README.md
+    >   drwxr-xr-x. 1 root root 2594 Aug  8 14:13 docs
+    >   -rw-r--r--. 1 root root 1830 Aug  8 14:13 git_push.sh
+    >   drwxr-xr-x. 1 root root  184 Aug  8 14:13 openapi_client
+    >   -rw-r--r--. 1 root root 2482 Aug  8 14:13 pyproject.toml
+    >   -rw-r--r--. 1 root root   92 Aug  8 14:13 requirements.txt
+    >   -rw-r--r--. 1 root root   28 Aug  8 14:13 setup.cfg
+    >   -rw-r--r--. 1 root root 1271 Aug  8 14:13 setup.py
+    >   drwxr-xr-x. 1 root root 3466 Aug  8 14:13 test
+    >   -rw-r--r--. 1 root root  112 Aug  8 14:13 test-requirements.txt
+    >   -rw-r--r--. 1 root root  150 Aug  8 14:13 tox.ini
 
         #
         # Install setup tools.
@@ -360,11 +356,9 @@ drwxr-xr-x. 1 root root 3466 Aug  8 14:13 test
         # Install the client library.
         python setup.py install
 
---START--
-configuration error: `project.license` must be valid exactly by one definition (0 matches found):
-....
-....
---END--
+    >   configuration error: `project.license` must be valid exactly by one definition (0 matches found):
+    >   ....
+    >   ....
 
         #
         # License in the generated toml file is not a valid SPDX code.
@@ -386,9 +380,7 @@ configuration error: `project.license` must be valid exactly by one definition (
             --file pyproject.toml \
             'project.license'
 
---START--
-'Creative Commons Attribution Share Alike 4.0 International'
---END--
+    >   'Creative Commons Attribution Share Alike 4.0 International'
 
 
         dasel put \
@@ -403,9 +395,7 @@ configuration error: `project.license` must be valid exactly by one definition (
             --file pyproject.toml \
             'project.license'
 
---START--
-'GPL-3.0-or-later'
---END--
+    >   'GPL-3.0-or-later'
 
 
         #
@@ -413,27 +403,25 @@ configuration error: `project.license` must be valid exactly by one definition (
         python setup.py install
 
 
---START--
-....
-....
-********************************************************************************
-Please avoid running ``setup.py`` directly.
-Instead, use pypa/build, pypa/installer or other
-standards-based tools.
-
-By 2025-Oct-31, you need to update your project and remove deprecated calls
-or your builds will no longer be supported.
-
-See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
-********************************************************************************
-....
-....
-byte-compiling /usr/local/lib/python3.13/site-packages/openapi_client/api/default_api.py to default_api.cpython-313.pyc
-byte-compiling /usr/local/lib/python3.13/site-packages/openapi_client/api/__init__.py to __init__.cpython-313.pyc
-running install_egg_info
-Copying openapi_client.egg-info to /usr/local/lib/python3.13/site-packages/openapi_client-1.0.0-py3.13.egg-info
-running install_scripts
---END--
+    >   ....
+    >   ....
+    >   ********************************************************************************
+    >   Please avoid running ``setup.py`` directly.
+    >   Instead, use pypa/build, pypa/installer or other
+    >   standards-based tools.
+    >   
+    >   By 2025-Oct-31, you need to update your project and remove deprecated calls
+    >   or your builds will no longer be supported.
+    >   
+    >   See https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html for details.
+    >   ********************************************************************************
+    >   ....
+    >   ....
+    >   byte-compiling /usr/local/lib/python3.13/site-packages/openapi_client/api/default_api.py to default_api.cpython-313.pyc
+    >   byte-compiling /usr/local/lib/python3.13/site-packages/openapi_client/api/__init__.py to __init__.cpython-313.pyc
+    >   running install_egg_info
+    >   Copying openapi_client.egg-info to /usr/local/lib/python3.13/site-packages/openapi_client-1.0.0-py3.13.egg-info
+    >   running install_scripts
 
         #
         # Shhesh .. this is just a Python library.
@@ -447,13 +435,11 @@ running install_scripts
 
 import openapi_client
 
---START--
-....
-....
-  File "/python/albert/client/openapi_client/api/default_api.py", line 15, in <module>
-    from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
-ModuleNotFoundError: No module named 'pydantic'
---END--
+    >   ....
+    >   ....
+    >     File "/python/albert/client/openapi_client/api/default_api.py", line 15, in <module>
+    >       from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
+    >   ModuleNotFoundError: No module named 'pydantic'
 
         #
         # OK, what if anything did the install actually acheive !?
@@ -462,12 +448,10 @@ ModuleNotFoundError: No module named 'pydantic'
 
         pip install -r requirements.txt
 
---START--
-....
-....
-Installing collected packages: urllib3, typing-extensions, six, annotated-types, typing-inspection, python_dateutil, pydantic-core, pydantic
-Successfully installed annotated-types-0.7.0 pydantic-2.11.7 pydantic-core-2.33.2 python_dateutil-2.9.0.post0 six-1.17.0 typing-extensions-4.14.1 typing-inspection-0.4.1 urllib3-2.5.0
---END--
+    >   ....
+    >   ....
+    >   Installing collected packages: urllib3, typing-extensions, six, annotated-types, typing-inspection, python_dateutil, pydantic-core, pydantic
+    >   Successfully installed annotated-types-0.7.0 pydantic-2.11.7 pydantic-core-2.33.2 python_dateutil-2.9.0.post0 six-1.17.0 typing-extensions-4.14.1 typing-inspection-0.4.1 urllib3-2.5.0
 
         python
 
@@ -492,37 +476,35 @@ with openapi_client.ApiClient(configuration) as api_client:
     except ApiException as e:
         print("Exception when calling DefaultApi->execution_session_get: %s\n" % e)
 
---START--
-....
-....
-  File "/python/albert/client/openapi_client/models/execution_session_response.py", line 157, in from_dict
-    "schedule": ComponentSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
-                ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
-  File "/python/albert/client/openapi_client/models/component_schedule.py", line 92, in from_dict
-    "offered": OfferedScheduleBlock.from_dict(obj["offered"]) if obj.get("offered") is not None else None,
-               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
-  File "/python/albert/client/openapi_client/models/offered_schedule_block.py", line 97, in from_dict
-    "available": OfferedScheduleInterval.from_dict(obj["available"]) if obj.get("available") is not None else None,
-                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
-  File "/python/albert/client/openapi_client/models/offered_schedule_interval.py", line 104, in from_dict
-    _obj = cls.model_validate({
-        "duration": obj.get("duration"),
-        "start": obj.get("start")
-    })
-  File "/usr/local/lib/python3.13/site-packages/pydantic/main.py", line 705, in model_validate
-    return cls.__pydantic_validator__.validate_python(
-           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-        obj, strict=strict, from_attributes=from_attributes, context=context, by_alias=by_alias, by_name=by_name
-        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    )
-    ^
-pydantic_core._pydantic_core.ValidationError: 1 validation error for OfferedScheduleInterval
-start
-  Value error, must validate the regular expression
-    /^(\d{4}(?:-\d{2}){2}T\d{2}(?::\d{2}){2}(?>[^\/]+))\/(P(?=.)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?=.)(?:\d+H)?(?:\d+M)?(?:\d+S)?)?)$/
-    [type=value_error, input_value='2025-08-08T22:13:00Z', input_type=str]
-    For further information visit https://errors.pydantic.dev/2.11/v/value_error
---END--
+    >   ....
+    >   ....
+    >     File "/python/albert/client/openapi_client/models/execution_session_response.py", line 157, in from_dict
+    >       "schedule": ComponentSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
+    >                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+    >     File "/python/albert/client/openapi_client/models/component_schedule.py", line 92, in from_dict
+    >       "offered": OfferedScheduleBlock.from_dict(obj["offered"]) if obj.get("offered") is not None else None,
+    >                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+    >     File "/python/albert/client/openapi_client/models/offered_schedule_block.py", line 97, in from_dict
+    >       "available": OfferedScheduleInterval.from_dict(obj["available"]) if obj.get("available") is not None else None,
+    >                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+    >     File "/python/albert/client/openapi_client/models/offered_schedule_interval.py", line 104, in from_dict
+    >       _obj = cls.model_validate({
+    >           "duration": obj.get("duration"),
+    >           "start": obj.get("start")
+    >       })
+    >     File "/usr/local/lib/python3.13/site-packages/pydantic/main.py", line 705, in model_validate
+    >       return cls.__pydantic_validator__.validate_python(
+    >              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+    >           obj, strict=strict, from_attributes=from_attributes, context=context, by_alias=by_alias, by_name=by_name
+    >           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    >       )
+    >       ^
+    >   pydantic_core._pydantic_core.ValidationError: 1 validation error for OfferedScheduleInterval
+    >   start
+    >     Value error, must validate the regular expression
+    >       /^(\d{4}(?:-\d{2}){2}T\d{2}(?::\d{2}){2}(?>[^\/]+))\/(P(?=.)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?=.)(?:\d+H)?(?:\d+M)?(?:\d+S)?)?)$/
+    >       [type=value_error, input_value='2025-08-08T22:13:00Z', input_type=str]
+    >       For further information visit https://errors.pydantic.dev/2.11/v/value_error
 
     #
     # Looks like the date formatting is wrong.

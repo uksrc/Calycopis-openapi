@@ -108,15 +108,13 @@
             "${source}/openapi.yaml" \
             "${target}/openapi-full.yaml"
 
---START--
-....
-....
-Inlining from discriminator mapping: IntegerValueUpdate
-Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
-Inlining from discriminator mapping: IntegerDeltaUpdate
-Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
-✅ All references processed and saved.
---END--
+    >   ....
+    >   ....
+    >   Inlining from discriminator mapping: IntegerValueUpdate
+    >   Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
+    >   Inlining from discriminator mapping: IntegerDeltaUpdate
+    >   Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
+    >   ✅ All references processed and saved.
 
 
 # -----------------------------------------------------
@@ -189,14 +187,12 @@ Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
             --input-spec "${source}/openapi-full.yaml" \
             --output     "${target}/client"
 
---START--
-....
-....
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/openapi_client/rest.py
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator-ignore
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/VERSION
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/FILES
---END--
+    >   ....
+    >   ....
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/openapi_client/rest.py
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator-ignore
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/VERSION
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/FILES
 
 
         dnf install -y \
@@ -244,91 +240,89 @@ except ApiException as e:
     print("Exception: %s\n" % e)
 
 
---START--
-....
-....
-OfferSetResponse(
-    uuid='93e71124-dd92-44f2-a805-86d707f4cd26',
-    name=None,
-    type='https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0',
-    created=datetime.datetime(
-        2025,8,11,10,7,53,191735,
-        tzinfo=TzInfo(UTC)
-        ),
-    messages=None,
-    href='http://127.0.0.1:8082/offersets/93e71124-dd92-44f2-a805-86d707f4cd26',
-    result='YES',
-    description=None,
-    offers=[
-        ExecutionSessionResponse(
-            uuid='80ff9fe0-2775-4929-92a6-21e0ed63904f',
-            name='null-offer-0',
-            type='https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0',
-            created=datetime.datetime(
-                2025,8,11,10,7,53,504911,
-                tzinfo=TzInfo(UTC)
-                ),
-            messages=None,
-            href='http://127.0.0.1:8082/sessions/80ff9fe0-2775-4929-92a6-21e0ed63904f',
-            schedule=ComponentSchedule(
-                offered=OfferedScheduleBlock(
-                    preparing=OfferedScheduleInstant(
-                        duration=None,
-                        start='2025-08-11T10:08:00Z'
-                        ),
-                    available=OfferedScheduleInterval(
-                        duration='PT4H',
-                        start='2025-08-11T10:08:00Z/PT0S'
-                        ),
-                    releasing=None
-                    ),
-                observed=None
-                ),
-            executable=JupyterNotebook(
-                uuid='b518ddcd-0528-495b-b906-8883f9825517',
-                name=None,
-                type='https://www.purl.org/ivoa.net/EB/schema/types/executable/jupyter-notebook-1.0',
-                created=datetime.datetime(
-                    2025,8,11,10,7,53,517947,
-                    tzinfo=TzInfo(UTC)
-                    ),
-                messages=None,
-                schedule=None,
-                access=None,
-                location='http://example.org'
-                ),
-            computer=SimpleComputeResource(
-                uuid='358182e5-ddc3-443a-b914-6a32cdca49dd',
-                name=None,
-                type='https://www.purl.org/ivoa.net/EB/schema/types/computer/simple-compute-resource-1.0',
-                created=None,
-                messages=None,
-                schedule=None,
-                cores=SimpleComputeCores(
-                    min=2,
-                    max=2
-                    ),
-                memory=SimpleComputeMemory(
-                    min=2,
-                    max=2
-                    ),
-                volumes=None
-                ),
-            storage=None,
-            volumes=None,
-            data=None,
-            phase=<ExecutionSessionPhase.OFFERED: 'OFFERED'>,
-            expires=datetime.datetime(
-                2025,8,11,15,7,53,191769,
-                tzinfo=TzInfo(UTC)
-                ),
-            options=None
-            ),
-        ....
-        ....
-        ]
-    )
---END--
+    >   ....
+    >   ....
+    >   OfferSetResponse(
+    >       uuid='93e71124-dd92-44f2-a805-86d707f4cd26',
+    >       name=None,
+    >       type='https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0',
+    >       created=datetime.datetime(
+    >           2025,8,11,10,7,53,191735,
+    >           tzinfo=TzInfo(UTC)
+    >           ),
+    >       messages=None,
+    >       href='http://127.0.0.1:8082/offersets/93e71124-dd92-44f2-a805-86d707f4cd26',
+    >       result='YES',
+    >       description=None,
+    >       offers=[
+    >           ExecutionSessionResponse(
+    >               uuid='80ff9fe0-2775-4929-92a6-21e0ed63904f',
+    >               name='null-offer-0',
+    >               type='https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0',
+    >               created=datetime.datetime(
+    >                   2025,8,11,10,7,53,504911,
+    >                   tzinfo=TzInfo(UTC)
+    >                   ),
+    >               messages=None,
+    >               href='http://127.0.0.1:8082/sessions/80ff9fe0-2775-4929-92a6-21e0ed63904f',
+    >               schedule=ComponentSchedule(
+    >                   offered=OfferedScheduleBlock(
+    >                       preparing=OfferedScheduleInstant(
+    >                           duration=None,
+    >                           start='2025-08-11T10:08:00Z'
+    >                           ),
+    >                       available=OfferedScheduleInterval(
+    >                           duration='PT4H',
+    >                           start='2025-08-11T10:08:00Z/PT0S'
+    >                           ),
+    >                       releasing=None
+    >                       ),
+    >                   observed=None
+    >                   ),
+    >               executable=JupyterNotebook(
+    >                   uuid='b518ddcd-0528-495b-b906-8883f9825517',
+    >                   name=None,
+    >                   type='https://www.purl.org/ivoa.net/EB/schema/types/executable/jupyter-notebook-1.0',
+    >                   created=datetime.datetime(
+    >                       2025,8,11,10,7,53,517947,
+    >                       tzinfo=TzInfo(UTC)
+    >                       ),
+    >                   messages=None,
+    >                   schedule=None,
+    >                   access=None,
+    >                   location='http://example.org'
+    >                   ),
+    >               computer=SimpleComputeResource(
+    >                   uuid='358182e5-ddc3-443a-b914-6a32cdca49dd',
+    >                   name=None,
+    >                   type='https://www.purl.org/ivoa.net/EB/schema/types/computer/simple-compute-resource-1.0',
+    >                   created=None,
+    >                   messages=None,
+    >                   schedule=None,
+    >                   cores=SimpleComputeCores(
+    >                       min=2,
+    >                       max=2
+    >                       ),
+    >                   memory=SimpleComputeMemory(
+    >                       min=2,
+    >                       max=2
+    >                       ),
+    >                   volumes=None
+    >                   ),
+    >               storage=None,
+    >               volumes=None,
+    >               data=None,
+    >               phase=<ExecutionSessionPhase.OFFERED: 'OFFERED'>,
+    >               expires=datetime.datetime(
+    >                   2025,8,11,15,7,53,191769,
+    >                   tzinfo=TzInfo(UTC)
+    >                   ),
+    >               options=None
+    >               ),
+    >           ....
+    >           ....
+    >           ]
+    >       )
 
     #
     # Yay - Python client can request offers from a Java server and process the response :-D

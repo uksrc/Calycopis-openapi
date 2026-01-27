@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    |
+    | <meta:header>
+    |   <meta:licence>
+    |     Copyright (C) 2026 University of Manchester.
+    |
+    |     This information is free software: you can redistribute it and/or modify
+    |     it under the terms of the GNU General Public License as published by
+    |     the Free Software Foundation, either version 3 of the License, or
+    |     (at your option) any later version.
+    |
+    |     This information is distributed in the hope that it will be useful,
+    |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+    |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    |     GNU General Public License for more details.
+    |
+    |     You should have received a copy of the GNU General Public License
+    |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    |   </meta:licence>
+    | </meta:header>
+    |
+    +-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<!--parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.4</version>
+		<relativePath/>
+	</parent-->
+	<groupId>net.ivoa.calycopis</groupId>
+	<artifactId>calycopis-openapi-client</artifactId>
+	<version>0.0.2</version>
+	<packaging>jar</packaging>
+	<name>Calycopis Java client</name>
+	<description>IVOA ExecutionBroker Java client classes generated from the OpenAPI schema</description>
+	<properties>
+		<java.version>21</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<dependencies>
+
+        <!--+
+            | Jackson annotations.
+            +-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openapitools</groupId>
+            <artifactId>jackson-databind-nullable</artifactId>
+            <version>0.2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
+            <version>2.19.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <!--+
+            | @Nullable annotation
+            +-->
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.annotation</groupId>
+            <artifactId>jakarta.annotation-api</artifactId>
+            <version>1.3.5</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+
+        <!--finalName>${project.artifactId}-${trebula.build.version}</finalName-->
+
+        <plugins>
+
+            <!--+
+                | Read the build properties during initialization phase.
+                | Stack Overflow - Maven, read version number from property file
+                | https://stackoverflow.com/questions/8541332/maven-read-version-number-from-property-file
+                | https://stackoverflow.com/a/13970763
+                +-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>properties-maven-plugin</artifactId>
+                <version>1.3.0</version>
+                <executions>
+                    <execution>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>read-project-properties</goal>
+                        </goals>
+                        <configuration>
+                            <files>
+                                <file>build/build.properties</file>
+                            </files>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--+
+                | OpenAPI generator from the Spring documentation.
+                | https://www.baeldung.com/java-openapi-generator-server#plugin
+                |
+                | Exclude null values.
+                | @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL)
+                | Exclude null values and empty arrays.
+                | @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY)
+                +-->
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.14.0</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <skipIfSpecIsUnchanged>true</skipIfSpecIsUnchanged>
+                            <inputSpec>${trebula.schema.file}</inputSpec>
+                            <generatorName>java</generatorName>
+                            <generateAliasAsModel>false</generateAliasAsModel>
+                            <apiPackage>net.ivoa.calycopis.openapi.api</apiPackage>
+                            <modelNamePrefix>Ivoa</modelNamePrefix>
+                            <modelPackage>net.ivoa.calycopis.openapi.model</modelPackage>
+                            <!--+
+                                | https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md#config-options
+                                +-->
+                            <configOptions>
+                                <withXml>true</withXml>
+                                <delegatePattern>true</delegatePattern>
+                                <!--+
+                                    | https://stackoverflow.com/a/75379063
+                                    | https://github.com/OpenAPITools/openapi-generator/issues/417#issuecomment-569830398
+                                    +-->
+                                <library>native</library>
+                                <!--legacyDiscriminatorBehavior>false</legacyDiscriminatorBehavior-->
+                                <additionalModelTypeAnnotations>
+                                    @com.fasterxml.jackson.annotation.JsonInclude(com.fasterxml.jackson.annotation.JsonInclude.Include.NON_EMPTY)
+                                </additionalModelTypeAnnotations>
+                                <dateLibrary>java8</dateLibrary>
+                            </configOptions>
+                            <!--+
+                                | Use specific date-time classes.
+                                | https://www.baeldung.com/openapi-map-date-types#use-other-standard-date-classes
+                                +-->
+                            <typeMappings>
+                                <typeMapping>DateTime=Instant</typeMapping>
+                                <typeMapping>Date=Date</typeMapping>
+                            </typeMappings>
+                            <importMappings>
+                                <importMapping>Instant=java.time.Instant</importMapping>
+                                <importMapping>Date=java.util.Date</importMapping>
+                            </importMappings>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+		</plugins>
+	</build>
+</project>

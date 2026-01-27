@@ -1,0 +1,348 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2026, Manchester (http://www.manchester.ac.uk/)
+#
+#     This information is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This information is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with this software. If not, see <http://www.gnu.org/licenses/>.
+#   </meta:licence>
+# </meta:header>
+#
+#zrq-notes-indent
+#
+# AIMetrics: []
+#
+
+    Target:
+
+        Automate the build process to generate Python and Java classes.
+
+    Result:
+
+        Work in progress ...
+
+
+# -----------------------------------------------------
+# Run a plain vanilla Ubuntu container (similar to the GitHub runner).
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
+#[user@desktop]
+
+    source "${HOME:?}/calycopis.env"
+    podman run \
+        --rm \
+        --tty \
+        --interactive \
+        --name action-runner \
+        --volume "${TREBULA_CODE}:/trebula:rw,z" \
+        --volume "${HOME}/.m2/repository:/root/.m2/repository:rw,z" \
+        ubuntu:24.04 \
+        bash
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Install NPN, Python, and Java to match the GitHub VM image.
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#language-and-runtime
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#java
+#[root@action-runner]
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt update
+
+    apt install -y \
+        python3.12 \
+        python3-venv \
+        pip
+
+    apt install -y \
+        openjdk-25-jdk
+
+
+# -----------------------------------------------------
+# Create our build and dist directories.
+#[root@action-runner]
+
+    #
+    # Set our target version.
+    schemaversion=0.0.2
+
+    #
+    # Check a directory exists.
+    checkexists()
+        {
+        local target=${1:?}
+
+        if [ ! -e "${target}" ]
+        then
+            mkdir \
+                --parents \
+                "${target}"
+        fi
+        }
+
+    checkexists \
+        /trebula/build
+
+
+# -----------------------------------------------------
+# Tried using the redocly bundle tool, but it had errors.
+# https://redocly.com/docs/cli/commands/bundle
+# See 20260122-01-integration-build.txt
+#[root@action-runner]
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Use our Isobeon toolkit to create a single YAML file.
+# https://github.com/ivoa/Calycopis-Isobeon
+#[root@action-runner]
+
+    git clone https://github.com/ivoa/Calycopis-Isobeon.git /isobeon
+
+    python3 -m venv \
+        /tmp/venv
+
+    /tmp/venv/bin/pip \
+        install \
+            --requirement /isobeon/requirements.txt
+
+    /tmp/venv/bin/python \
+        /isobeon/schema-processor.py \
+            "/trebula/schema/v1.0/execution-broker.yaml" \
+            "/trebula/build/execution-broker-${schemaversion}.yaml"
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Install the openapi code generator.
+#[root@action-runner]
+
+    generatorName=openapi-generator-cli
+    generatorVersion=7.18.0
+    generatorJarFile=${generatorName}-${generatorVersion}.jar
+    generatorPath=/opt/openapi-generator
+    generatorFullPath=${generatorPath}/${generatorJarFile}
+
+    checkexists \
+        "${generatorPath}"
+
+    if [ ! -e "${generatorFullPath}" ]
+    then
+
+        which wget &> /dev/null
+        if [ $? -ne 0 ]
+        then
+            apt install -y \
+                wget
+        fi
+
+        wget https://repo1.maven.org/maven2/org/openapitools/${generatorName}/${generatorVersion}/${generatorJarFile} \
+             --output-document "${generatorFullPath}"
+    fi
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Generate our Python client classes.
+# https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/python.md
+#[root@action-runner]
+
+    source=/trebula/build/execution-broker-${schemaversion}.yaml
+    target=/trebula/python/client/build
+
+    checkexists \
+        "${target}"
+
+    java -jar "${generatorFullPath}" \
+        generate \
+        --generator-name python \
+        --input-spec "${source}" \
+        --output     "${target}" \
+        --package-name "calycopis_openapi_client" \
+        --additional-properties "packageUrl=https://github.com/ivoa/Calycopis-schema" \
+        --additional-properties "packageVersion=${schemaversion}" \
+        --additional-properties "projectName=calycopis-openapi-client" \
+
+    >   ....
+    >   ....
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /trebula/python/client/build/.openapi-generator-ignore
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /trebula/python/client/build/.openapi-generator/VERSION
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /trebula/python/client/build/.openapi-generator/FILES
+
+
+# -----------------------------------------------------
+# Package our Python client classes.
+# https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools
+#[root@action-runner]
+
+    /tmp/venv/bin/pip \
+        install \
+            twine \
+            build
+
+    /tmp/venv/bin/python \
+        -m build \
+            "${target}"
+
+    >   ....
+    >   ....
+    >   adding 'calycopis_openapi_client-0.0.2.dist-info/top_level.txt'
+    >   adding 'calycopis_openapi_client-0.0.2.dist-info/RECORD'
+    >   removing build/bdist.linux-x86_64/wheel
+    >   Successfully built calycopis_openapi_client-0.0.2.tar.gz and calycopis_openapi_client-0.0.2-py3-none-any.whl
+
+
+    ls -al "${target}/dist"
+
+    >   ....
+    >   ....
+    >   -rw-r--r--. 1 root root 127339 Jan 26 13:09 calycopis_openapi_client-0.0.2-py3-none-any.whl
+    >   -rw-r--r--. 1 root root  56378 Jan 26 13:09 calycopis_openapi_client-0.0.2.tar.gz
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+
+    TODO
+    Create a script to build the Python FastAPI code.
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Create a Maven project to build the Spring server.
+
+    #
+    # Copy the Maven POM from our Calycopis broker project.
+    # /trebula/codegen/java/spring/pom.xml
+    #
+
+    cp Calycopis-broker/github-zrq/java/spring/spring-openapi/pom.xml \
+       Calycopis-schema/github-zrq/java/spring
+
+
+    #
+    # Copy the Maven wrapper properties from our Calycopis broker project.
+    # /trebula/codegen/java/spring/.mvn/.wrapper/maven-wrapper.properties
+    #
+
+    mkdir Calycopis-schema/github-zrq/java/spring/.mvn
+    mkdir Calycopis-schema/github-zrq/java/spring/.mvn/wrapper
+    cp Calycopis-broker/github-zrq/java/spring/spring-openapi/.mvn/wrapper/maven-wrapper.properties \
+       Calycopis-schema/github-zrq/java/spring/.mvn/wrapper
+
+
+# -----------------------------------------------------
+# Build the Spring Boot application.
+#[root@action-runner]
+
+    #
+    # Set the version properties.
+    schemaversion=0.0.2
+    buildversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
+
+    pushd /trebula/codegen/java/spring/
+
+        #
+        # Update the build properties.
+        mkdir build
+        cat > build/build.properties << EOF
+trebula.build.version=${buildversion}
+trebula.schema.version=${schemaversion}
+trebula.schema.file=/trebula/build/execution-broker-${schemaversion}.yaml
+EOF
+
+        #
+        # Build the Java package.
+        ./mvnw clean install
+
+    popd
+
+    >   ....
+    >   ....
+    >   [INFO] Installing /trebula/codegen/java/spring/target/calycopis-openapi-spring-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-spring/0.0.2-SNAPSHOT-20260126/calycopis-openapi-spring-0.0.2-SNAPSHOT-20260126.jar
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] BUILD SUCCESS
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] Total time:  11.569 s
+    >   [INFO] Finished at: 2026-01-26T13:56:04Z
+    >   [INFO] ------------------------------------------------------------------------
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Create a Maven project to build the Java client.
+#[root@action-runner]
+
+    #
+    # Copy the Maven POM and wrapper files from the Spring project ..
+    #
+
+# -----------------------------------------------------
+# Build the Java client application.
+#[root@action-runner]
+
+    #
+    # Set the version properties.
+    schemaversion=0.0.2
+    buildversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
+
+    pushd /trebula/codegen/java/client/
+
+        #
+        # Update the build properties.
+        mkdir build
+        cat > build/build.properties << EOF
+trebula.build.version=${buildversion}
+trebula.schema.version=${schemaversion}
+trebula.schema.file=/trebula/build/execution-broker-${schemaversion}.yaml
+EOF
+
+        #
+        # Build the Java package.
+        ./mvnw clean install
+
+    popd
+
+        #
+        # Lots of hacking around to get it to generate the right annotation.
+        # Default uses okhttp-gson, which does not support polymorphism.
+        # https://github.com/OpenAPITools/openapi-generator/issues/417#issuecomment-569830398
+        # https://stackoverflow.com/a/75379063
+        #
+
+    >   ....
+    >   ....
+    >   [INFO] --- install:3.1.2:install (default-install) @ calycopis-openapi-client ---
+    >   [INFO] Installing /trebula/codegen/java/client/pom.xml to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.pom
+    >   [INFO] Installing /trebula/codegen/java/client/target/calycopis-openapi-client-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.jar
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] BUILD SUCCESS
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] Total time:  12.702 s
+    >   [INFO] Finished at: 2026-01-26T19:22:41Z
+    >   [INFO] ------------------------------------------------------------------------
+
+    #
+    # Next steps are to build the webapp and test the clients.
+    # ....
+
+

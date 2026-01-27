@@ -166,22 +166,20 @@
             'http://127.0.0.1:8082/offersets' \
         | yq '.'
 
---START--
-uuid: "bddc727c-2ba2-430c-aec2-6ef654f47469"
-name: "example-001"
-type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
-created: "2025-08-09T19:21:27.501346277Z"
-href: "http://127.0.0.1:8082/offersets/bddc727c-2ba2-430c-aec2-6ef654f47469"
-result: "YES"
-offers:
-  - uuid: "812ceb1a-150f-43eb-a4b8-2ce77e0cf968"
-    name: "example-001-offer-0"
-    type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
-    created: "2025-08-09T19:21:27.796459366Z"
-    href: "http://127.0.0.1:8082/sessions/812ceb1a-150f-43eb-a4b8-2ce77e0cf968"
-    ....
-    ....
---END--
+    >   uuid: "bddc727c-2ba2-430c-aec2-6ef654f47469"
+    >   name: "example-001"
+    >   type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
+    >   created: "2025-08-09T19:21:27.501346277Z"
+    >   href: "http://127.0.0.1:8082/offersets/bddc727c-2ba2-430c-aec2-6ef654f47469"
+    >   result: "YES"
+    >   offers:
+    >     - uuid: "812ceb1a-150f-43eb-a4b8-2ce77e0cf968"
+    >       name: "example-001-offer-0"
+    >       type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
+    >       created: "2025-08-09T19:21:27.796459366Z"
+    >       href: "http://127.0.0.1:8082/sessions/812ceb1a-150f-43eb-a4b8-2ce77e0cf968"
+    >       ....
+    >       ....
 
 
 # -----------------------------------------------------
@@ -224,14 +222,12 @@ offers:
             --input-spec "${source}/openapi-full.yaml" \
             --output     "${target}/client"
 
---START--
-....
-....
-[main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/openapi_client/rest.py
-[main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/.openapi-generator-ignore
-[main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/.openapi-generator/VERSION
-[main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/.openapi-generator/FILES
---END--
+    >   ....
+    >   ....
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/openapi_client/rest.py
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/.openapi-generator-ignore
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/.openapi-generator/VERSION
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /python/albert/client/.openapi-generator/FILES
 
 
 # -----------------------------------------------------
@@ -291,15 +287,13 @@ with openapi_client.ApiClient(configuration) as api_client:
         print("Exception when calling DefaultApi->execution_session_get: %s\n" % e)
 
 
---START--
-....
-....
-File "/python/albert/client/openapi_client/models/offered_schedule_interval.py", line 50, in start_validate_regular_expression
-    if not re.match(r"^(?:(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2} ....
-....
-....
-raise source.error("missing ), unterminated subpattern", source.tell() - start)
---END--
+    >   ....
+    >   ....
+    >   File "/python/albert/client/openapi_client/models/offered_schedule_interval.py", line 50, in start_validate_regular_expression
+    >       if not re.match(r"^(?:(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2} ....
+    >   ....
+    >   ....
+    >   raise source.error("missing ), unterminated subpattern", source.tell() - start)
 
     #
     # Back to Chat GPT ... who seems to be guessing at this point.
@@ -385,26 +379,22 @@ raise source.error("missing ), unterminated subpattern", source.tell() - start)
 
         head "${target}/openapi-full.yaml"
 
---START--
-....
-....
-Inlining from discriminator mapping: IntegerValueUpdate
-Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
-Inlining from discriminator mapping: IntegerDeltaUpdate
-Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
-✅ All references processed and saved.
---END--
+    >   ....
+    >   ....
+    >   Inlining from discriminator mapping: IntegerValueUpdate
+    >   Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
+    >   Inlining from discriminator mapping: IntegerDeltaUpdate
+    >   Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
+    >   ✅ All references processed and saved.
 
---START--
-openapi: 3.1.0
-info:
-  title: IVOA ExecutionBroker
-  version: '1.0'
-  summary: IVOA ExecutionBroker interface
-  description: IVOA ExecutionBroker interface
-....
-....
---END--
+    >   openapi: 3.1.0
+    >   info:
+    >     title: IVOA ExecutionBroker
+    >     version: '1.0'
+    >     summary: IVOA ExecutionBroker interface
+    >     description: IVOA ExecutionBroker interface
+    >   ....
+    >   ....
 
 
 # -----------------------------------------------------
@@ -474,29 +464,27 @@ info:
             'http://127.0.0.1:8082/offersets' \
         | yq '.'
 
---START--
-uuid: "a614146c-2692-43d9-814a-d38bc0c0b809"
-name: "example-001"
-type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
-created: "2025-08-10T14:35:43.855194536Z"
-href: "http://127.0.0.1:8082/offersets/a614146c-2692-43d9-814a-d38bc0c0b809"
-result: "YES"
-offers:
-  - uuid: "7875bf36-19f0-4712-9714-1bee7eec1175"
-    name: "example-001-offer-0"
-    type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
-    created: "2025-08-10T14:35:44.166808455Z"
-    href: "http://127.0.0.1:8082/sessions/7875bf36-19f0-4712-9714-1bee7eec1175"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-10T14:36:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-10T14:36:00Z/PT0S"
-    ....
-    ....
---END--
+    >   uuid: "a614146c-2692-43d9-814a-d38bc0c0b809"
+    >   name: "example-001"
+    >   type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
+    >   created: "2025-08-10T14:35:43.855194536Z"
+    >   href: "http://127.0.0.1:8082/offersets/a614146c-2692-43d9-814a-d38bc0c0b809"
+    >   result: "YES"
+    >   offers:
+    >     - uuid: "7875bf36-19f0-4712-9714-1bee7eec1175"
+    >       name: "example-001-offer-0"
+    >       type: "https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0"
+    >       created: "2025-08-10T14:35:44.166808455Z"
+    >       href: "http://127.0.0.1:8082/sessions/7875bf36-19f0-4712-9714-1bee7eec1175"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-10T14:36:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-10T14:36:00Z/PT0S"
+    >       ....
+    >       ....
 
 
 # -----------------------------------------------------
@@ -540,14 +528,12 @@ offers:
             --input-spec "${source}/openapi-full.yaml" \
             --output     "${target}/client"
 
---START--
-....
-....
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/openapi_client/rest.py
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator-ignore
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/VERSION
-[main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/FILES
---END--
+    >   ....
+    >   ....
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/openapi_client/rest.py
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator-ignore
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/VERSION
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /calycopis/python/albert/client/.openapi-generator/FILES
 
 
 # -----------------------------------------------------
@@ -599,16 +585,14 @@ with openapi_client.ApiClient(configuration) as api_client:
     except ApiException as e:
         print("Exception when calling DefaultApi->execution_session_get: %s\n" % e)
 
---START--
-....
-....
-pydantic_core._pydantic_core.ValidationError: 1 validation error for OfferedScheduleInterval
-start
-  Value error, must validate the regular expression
-    /^(?:(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d(?:[:][0-5]\d(?:\.\d+)?)?(?:Z|[+\-](?:[01]\d|2[0-3]):[0-5]\d)?)?)\/(?:(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d(?:[:][0-5]\d(?:\.\d+)?)?(?:Z|[+\-](?:[01]\d|2[0-3]):[0-5]\d)?)?)|(?:P\d+W|P(?=\d|T)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?))|(?:(?:P\d+W|P(?=\d|T)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?))\/(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d(?:[:][0-5]\d(?:\.\d+)?)?(?:Z|[+\-](?:[01]\d|2[0-3]):[0-5]\d)?)?))$/
-  [type=value_error, input_value='2025-08-10T14:13:00Z', input_type=str]
-    For further information visit https://errors.pydantic.dev/2.11/v/value_error
---END--
+    >   ....
+    >   ....
+    >   pydantic_core._pydantic_core.ValidationError: 1 validation error for OfferedScheduleInterval
+    >   start
+    >     Value error, must validate the regular expression
+    >       /^(?:(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d(?:[:][0-5]\d(?:\.\d+)?)?(?:Z|[+\-](?:[01]\d|2[0-3]):[0-5]\d)?)?)\/(?:(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d(?:[:][0-5]\d(?:\.\d+)?)?(?:Z|[+\-](?:[01]\d|2[0-3]):[0-5]\d)?)?)|(?:P\d+W|P(?=\d|T)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?))|(?:(?:P\d+W|P(?=\d|T)(?:\d+Y)?(?:\d+M)?(?:\d+D)?(?:T(?:\d+H)?(?:\d+M)?(?:\d+(?:\.\d+)?S)?)?))\/(?:\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])(?:T(?:[01]\d|2[0-3]):[0-5]\d(?:[:][0-5]\d(?:\.\d+)?)?(?:Z|[+\-](?:[01]\d|2[0-3]):[0-5]\d)?)?))$/
+    >     [type=value_error, input_value='2025-08-10T14:13:00Z', input_type=str]
+    >       For further information visit https://errors.pydantic.dev/2.11/v/value_error
 
     #
     # This time it is our Java code that is wrong.
@@ -684,51 +668,49 @@ with openapi_client.ApiClient(configuration) as api_client:
     except ApiException as e:
         print("Exception when calling DefaultApi->execution_session_get: %s\n" % e)
 
---START--
-ExecutionSessionResponse(
-    uuid='7875bf36-19f0-4712-9714-1bee7eec1175',
-    name='example-001-offer-0',
-    type='https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0',
-    created=datetime.datetime(2025, 8, 10, 14, 35, 44, 166808, tzinfo=TzInfo(UTC)),
-    messages=None,
-    href='http://127.0.0.1:8082/sessions/7875bf36-19f0-4712-9714-1bee7eec1175',
-    schedule=ComponentSchedule(
-        offered=OfferedScheduleBlock(
-            preparing=OfferedScheduleInstant(duration=None, start='2025-08-10T14:36:00Z'),
-            available=OfferedScheduleInterval(duration='PT2H', start='2025-08-10T14:36:00Z/PT0S'),
-            releasing=None
-            ),
-        observed=None
-        ),
-    executable=JupyterNotebook(
-        uuid='a172c827-e0bd-4f1a-912f-d29d4638c206',
-        name='example-001-executable',
-        type='https://www.purl.org/ivoa.net/EB/schema/types/executable/jupyter-notebook-1.0',
-        created=datetime.datetime(2025, 8, 10, 14, 35, 44, 177691, tzinfo=TzInfo(UTC)),
-        messages=None,
-        schedule=None,
-        access=None,
-        location='https://www.example.org/example-001.ipynb'
-        ),
-    computer=SimpleComputeResource(
-        uuid='86dc1028-3444-43fc-9d99-a5006c9c85aa',
-        name='example-001-computer',
-        type='https://www.purl.org/ivoa.net/EB/schema/types/computer/simple-compute-resource-1.0',
-        created=None,
-        messages=None,
-        schedule=None,
-        cores=SimpleComputeCores(min=10, max=10),
-        memory=SimpleComputeMemory(min=10, max=10),
-        volumes=None),
-    storage=None,
-    volumes=None,
-    data=None,
-    phase=<ExecutionSessionPhase.OFFERED: 'OFFERED'>,
-    expires=datetime.datetime(2025, 8, 10, 19, 35, 43, 855229, tzinfo=TzInfo(UTC)),
-    options=None
-    )
-    ....
---END--
+    >   ExecutionSessionResponse(
+    >       uuid='7875bf36-19f0-4712-9714-1bee7eec1175',
+    >       name='example-001-offer-0',
+    >       type='https://www.purl.org/ivoa.net/EB/schema/types/session/execution-session-response-1.0',
+    >       created=datetime.datetime(2025, 8, 10, 14, 35, 44, 166808, tzinfo=TzInfo(UTC)),
+    >       messages=None,
+    >       href='http://127.0.0.1:8082/sessions/7875bf36-19f0-4712-9714-1bee7eec1175',
+    >       schedule=ComponentSchedule(
+    >           offered=OfferedScheduleBlock(
+    >               preparing=OfferedScheduleInstant(duration=None, start='2025-08-10T14:36:00Z'),
+    >               available=OfferedScheduleInterval(duration='PT2H', start='2025-08-10T14:36:00Z/PT0S'),
+    >               releasing=None
+    >               ),
+    >           observed=None
+    >           ),
+    >       executable=JupyterNotebook(
+    >           uuid='a172c827-e0bd-4f1a-912f-d29d4638c206',
+    >           name='example-001-executable',
+    >           type='https://www.purl.org/ivoa.net/EB/schema/types/executable/jupyter-notebook-1.0',
+    >           created=datetime.datetime(2025, 8, 10, 14, 35, 44, 177691, tzinfo=TzInfo(UTC)),
+    >           messages=None,
+    >           schedule=None,
+    >           access=None,
+    >           location='https://www.example.org/example-001.ipynb'
+    >           ),
+    >       computer=SimpleComputeResource(
+    >           uuid='86dc1028-3444-43fc-9d99-a5006c9c85aa',
+    >           name='example-001-computer',
+    >           type='https://www.purl.org/ivoa.net/EB/schema/types/computer/simple-compute-resource-1.0',
+    >           created=None,
+    >           messages=None,
+    >           schedule=None,
+    >           cores=SimpleComputeCores(min=10, max=10),
+    >           memory=SimpleComputeMemory(min=10, max=10),
+    >           volumes=None),
+    >       storage=None,
+    >       volumes=None,
+    >       data=None,
+    >       phase=<ExecutionSessionPhase.OFFERED: 'OFFERED'>,
+    >       expires=datetime.datetime(2025, 8, 10, 19, 35, 43, 855229, tzinfo=TzInfo(UTC)),
+    >       options=None
+    >       )
+    >       ....
 
     #
     # Yay - we have a Python client handling a response from a Java service.

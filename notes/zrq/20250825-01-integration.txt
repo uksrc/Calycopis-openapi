@@ -220,15 +220,13 @@
         "/trebula/schema/Calycopis-broker.yaml" \
         "/trebula/target/Calycopis-broker-full.yaml"
 
---START--
-....
-....
-Inlining from discriminator mapping: IntegerValueUpdate
-Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
-Inlining from discriminator mapping: IntegerDeltaUpdate
-Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
-✅ All references processed and saved.
---END--
+    >   ....
+    >   ....
+    >   Inlining from discriminator mapping: IntegerValueUpdate
+    >   Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
+    >   Inlining from discriminator mapping: IntegerDeltaUpdate
+    >   Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
+    >   ✅ All references processed and saved.
 
 
 # -----------------------------------------------------
@@ -279,16 +277,14 @@ Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
 
     pushd /calycopis/java/spring/spring-openapi ; ./mvnw clean install ; popd
 
---START--
-....
-....
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  10.956 s
-[INFO] Finished at: 2025-08-26T05:22:51Z
-[INFO] ------------------------------------------------------------------------
---END--
+    >   ....
+    >   ....
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] BUILD SUCCESS
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] Total time:  10.956 s
+    >   [INFO] Finished at: 2025-08-26T05:22:51Z
+    >   [INFO] ------------------------------------------------------------------------
 
 
 # -----------------------------------------------------
@@ -327,16 +323,14 @@ Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
 
     pushd /calycopis/java/spring/spring-webapp ; ./mvnw clean install ; popd
 
---START--
-....
-....
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  9.854 s
-[INFO] Finished at: 2025-08-26T05:23:30Z
-[INFO] ------------------------------------------------------------------------
---END--
+    >   ....
+    >   ....
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] BUILD SUCCESS
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] Total time:  9.854 s
+    >   [INFO] Finished at: 2025-08-26T05:23:30Z
+    >   [INFO] ------------------------------------------------------------------------
 
 
 # -----------------------------------------------------
@@ -366,13 +360,11 @@ Expanding short $ref: 'AbstractUpdate' → '#/components/schemas/AbstractUpdate'
 
     podman images
 
---START--
-REPOSITORY                              TAG               IMAGE ID      CREATED         SIZE
-localhost/calycopis/calycopis-broker    2025.08.26        08525fee5243  1 second ago    525 MB
-localhost/calycopis/calycopis-broker    latest            08525fee5243  1 second ago    525 MB
-....
-....
---END--
+    >   REPOSITORY                              TAG               IMAGE ID      CREATED         SIZE
+    >   localhost/calycopis/calycopis-broker    2025.08.26        08525fee5243  1 second ago    525 MB
+    >   localhost/calycopis/calycopis-broker    latest            08525fee5243  1 second ago    525 MB
+    >   ....
+    >   ....
 
 
 # -----------------------------------------------------
@@ -449,48 +441,46 @@ localhost/calycopis/calycopis-broker    latest            08525fee5243  1 second
             ]
         '
 
---START--
-- session:
-    name: "example-001-offer-0"
-    created: "2025-08-26T05:50:56.880088483Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T05:51:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T05:51:00Z/PT0S"
-- session:
-    name: "example-001-offer-1"
-    created: "2025-08-26T05:50:56.894612687Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T07:51:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T07:51:00Z/PT0S"
-- session:
-    name: "example-001-offer-2"
-    created: "2025-08-26T05:50:56.908914699Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T09:51:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T09:51:00Z/PT0S"
-- session:
-    name: "example-001-offer-3"
-    created: "2025-08-26T05:50:56.926880514Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T11:51:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T11:51:00Z/PT0S"
---END--
+    >   - session:
+    >       name: "example-001-offer-0"
+    >       created: "2025-08-26T05:50:56.880088483Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T05:51:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T05:51:00Z/PT0S"
+    >   - session:
+    >       name: "example-001-offer-1"
+    >       created: "2025-08-26T05:50:56.894612687Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T07:51:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T07:51:00Z/PT0S"
+    >   - session:
+    >       name: "example-001-offer-2"
+    >       created: "2025-08-26T05:50:56.908914699Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T09:51:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T09:51:00Z/PT0S"
+    >   - session:
+    >       name: "example-001-offer-3"
+    >       created: "2025-08-26T05:50:56.926880514Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T11:51:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T11:51:00Z/PT0S"
 
 
     curl \
@@ -513,48 +503,46 @@ localhost/calycopis/calycopis-broker    latest            08525fee5243  1 second
             ]
         '
 
---START--
-- session:
-    name: "example-001-offer-0"
-    created: "2025-08-26T05:51:23.049744775Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T05:52:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T05:52:00Z/PT0S"
-- session:
-    name: "example-001-offer-1"
-    created: "2025-08-26T05:51:23.060055364Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T07:52:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T07:52:00Z/PT0S"
-- session:
-    name: "example-001-offer-2"
-    created: "2025-08-26T05:51:23.069386135Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T09:52:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T09:52:00Z/PT0S"
-- session:
-    name: "example-001-offer-3"
-    created: "2025-08-26T05:51:23.080564825Z"
-    schedule:
-      offered:
-        preparing:
-          start: "2025-08-26T11:52:00Z"
-        available:
-          duration: "PT2H"
-          start: "2025-08-26T11:52:00Z/PT0S"
---END--
+    >   - session:
+    >       name: "example-001-offer-0"
+    >       created: "2025-08-26T05:51:23.049744775Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T05:52:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T05:52:00Z/PT0S"
+    >   - session:
+    >       name: "example-001-offer-1"
+    >       created: "2025-08-26T05:51:23.060055364Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T07:52:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T07:52:00Z/PT0S"
+    >   - session:
+    >       name: "example-001-offer-2"
+    >       created: "2025-08-26T05:51:23.069386135Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T09:52:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T09:52:00Z/PT0S"
+    >   - session:
+    >       name: "example-001-offer-3"
+    >       created: "2025-08-26T05:51:23.080564825Z"
+    >       schedule:
+    >         offered:
+    >           preparing:
+    >             start: "2025-08-26T11:52:00Z"
+    >           available:
+    >             duration: "PT2H"
+    >             start: "2025-08-26T11:52:00Z/PT0S"
 
 # -----------------------------------------------------
 
@@ -589,13 +577,11 @@ localhost/calycopis/calycopis-broker    latest            08525fee5243  1 second
         'http://[2001:8b0:be72:d4eb:a60:6eff:fe71:3a24]:8000/offersets' \
     | yq '.'
 
---START--
-curl: (7) Failed to connect to 127.0.0.1 port 8000 after 0 ms: Could not connect to server
-....
-curl: (7) Failed to connect to 10.1.0.2 port 8000 after 0 ms: Could not connect to server
-....
-curl: (7) Failed to connect to 2001:8b0:be72:d4eb:a60:6eff:fe71:3a24 port 8000 after 0 ms: Could not connect to server
---END--
+    >   curl: (7) Failed to connect to 127.0.0.1 port 8000 after 0 ms: Could not connect to server
+    >   ....
+    >   curl: (7) Failed to connect to 10.1.0.2 port 8000 after 0 ms: Could not connect to server
+    >   ....
+    >   curl: (7) Failed to connect to 2001:8b0:be72:d4eb:a60:6eff:fe71:3a24 port 8000 after 0 ms: Could not connect to server
 
     #
     # So .. no.
@@ -642,14 +628,12 @@ curl: (7) Failed to connect to 2001:8b0:be72:d4eb:a60:6eff:fe71:3a24 port 8000 a
             'http://127.0.0.1:8000/offersets' \
         | yq '. | omit(["offers"])'
 
---START--
-uuid: "78c2e3dd-9081-47c2-8b79-9c7a050d02df"
-name: "example-001"
-type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
-created: "2025-08-26T16:00:31.13600713Z"
-href: "http://127.0.0.1:8000/offersets/78c2e3dd-9081-47c2-8b79-9c7a050d02df"
-result: "YES"
---END--
+    >   uuid: "78c2e3dd-9081-47c2-8b79-9c7a050d02df"
+    >   name: "example-001"
+    >   type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
+    >   created: "2025-08-26T16:00:31.13600713Z"
+    >   href: "http://127.0.0.1:8000/offersets/78c2e3dd-9081-47c2-8b79-9c7a050d02df"
+    >   result: "YES"
 
 
         curl \
@@ -661,14 +645,12 @@ result: "YES"
             'http://10.1.0.2:8000/offersets' \
         | yq '. | omit(["offers"])'
 
---START--
-uuid: "e52160dc-5f19-4851-825d-76d228c36cab"
-name: "example-001"
-type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
-created: "2025-08-26T16:00:45.754374596Z"
-href: "http://10.1.0.2:8000/offersets/e52160dc-5f19-4851-825d-76d228c36cab"
-result: "YES"
---END--
+    >   uuid: "e52160dc-5f19-4851-825d-76d228c36cab"
+    >   name: "example-001"
+    >   type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
+    >   created: "2025-08-26T16:00:45.754374596Z"
+    >   href: "http://10.1.0.2:8000/offersets/e52160dc-5f19-4851-825d-76d228c36cab"
+    >   result: "YES"
 
 
         curl \
@@ -680,14 +662,12 @@ result: "YES"
             'http://[2001:8b0:be72:d4eb:a60:6eff:fe71:3a24]:8000/offersets' \
         | yq '. | omit(["offers"])'
 
---START--
-uuid: "87747a23-16c1-40c3-a0a0-4d20f2796aae"
-name: "example-001"
-type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
-created: "2025-08-26T16:01:01.914307465Z"
-href: "http://[2001:8b0:be72:d4eb:a60:6eff:fe71:3a24]:8000/offersets/87747a23-16c1-40c3-a0a0-4d20f2796aae"
-result: "YES"
---END--
+    >   uuid: "87747a23-16c1-40c3-a0a0-4d20f2796aae"
+    >   name: "example-001"
+    >   type: "https://www.purl.org/ivoa.net/EB/schema/types/offerset/offerset-response-1.0"
+    >   created: "2025-08-26T16:01:01.914307465Z"
+    >   href: "http://[2001:8b0:be72:d4eb:a60:6eff:fe71:3a24]:8000/offersets/87747a23-16c1-40c3-a0a0-4d20f2796aae"
+    >   result: "YES"
 
 
 # -----------------------------------------------------
