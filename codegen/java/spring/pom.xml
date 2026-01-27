@@ -35,9 +35,12 @@
 	<version>0.0.2</version>
 	<packaging>jar</packaging>
 	<name>Calycopis Spring Boot</name>
-	<description>IVOA ExecutionBroker Spring Boot implementation</description>
+	<description>IVOA ExecutionBroker Spring Boot classes generated from the OpenAPI schema</description>
 	<properties>
 		<java.version>21</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
         <!--+
@@ -130,7 +133,7 @@
 
 	<build>
 
-        <finalName>${project.artifactId}-${trebula.build.version}</finalName>
+        <!--finalName>${project.artifactId}-${trebula.build.version}</finalName-->
 
         <plugins>
 

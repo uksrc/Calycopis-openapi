@@ -70,9 +70,6 @@
     apt install -y \
         openjdk-25-jdk
 
-    apt install -y \
-        npm
-
 
 # -----------------------------------------------------
 # Create our build and dist directories.
@@ -81,7 +78,6 @@
     #
     # Set our target version.
     schemaversion=0.0.2
-    javaversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
 
     #
     # Check a directory exists.
@@ -232,18 +228,11 @@
 
 # -----------------------------------------------------
 # -----------------------------------------------------
-
-    TODO
-    Create a Maven project to build the Java client.
-
-
-# -----------------------------------------------------
-# -----------------------------------------------------
 # Create a Maven project to build the Spring server.
 
     #
     # Copy the Maven POM from our Calycopis broker project.
-    # /trebula/java/spring/pom.xml
+    # /trebula/codegen/java/spring/pom.xml
     #
 
     cp Calycopis-broker/github-zrq/java/spring/spring-openapi/pom.xml \
@@ -252,7 +241,7 @@
 
     #
     # Copy the Maven wrapper properties from our Calycopis broker project.
-    # /trebula/java/spring/.mvn/.wrapper/maven-wrapper.properties
+    # /trebula/codegen/java/spring/.mvn/.wrapper/maven-wrapper.properties
     #
 
     mkdir Calycopis-schema/github-zrq/java/spring/.mvn
@@ -270,7 +259,7 @@
     schemaversion=0.0.2
     buildversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
 
-    pushd /trebula/java/spring/
+    pushd /trebula/codegen/java/spring/
 
         #
         # Update the build properties.
@@ -289,7 +278,7 @@ EOF
 
     >   ....
     >   ....
-    >   [INFO] Installing /trebula/java/spring/target/calycopis-openapi-spring-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-spring/0.0.2-SNAPSHOT-20260126/calycopis-openapi-spring-0.0.2-SNAPSHOT-20260126.jar
+    >   [INFO] Installing /trebula/codegen/java/spring/target/calycopis-openapi-spring-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-spring/0.0.2-SNAPSHOT-20260126/calycopis-openapi-spring-0.0.2-SNAPSHOT-20260126.jar
     >   [INFO] ------------------------------------------------------------------------
     >   [INFO] BUILD SUCCESS
     >   [INFO] ------------------------------------------------------------------------
@@ -297,6 +286,15 @@ EOF
     >   [INFO] Finished at: 2026-01-26T13:56:04Z
     >   [INFO] ------------------------------------------------------------------------
 
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Create a Maven project to build the Java client.
+#[root@action-runner]
+
+    #
+    # Copy the Maven POM and wrapper files from the Spring project ..
+    #
 
 # -----------------------------------------------------
 # Build the Java client application.
@@ -307,7 +305,7 @@ EOF
     schemaversion=0.0.2
     buildversion=${schemaversion:?}-SNAPSHOT-$(date '+%Y%m%d')
 
-    pushd /trebula/java/client/
+    pushd /trebula/codegen/java/client/
 
         #
         # Update the build properties.
@@ -334,8 +332,8 @@ EOF
     >   ....
     >   ....
     >   [INFO] --- install:3.1.2:install (default-install) @ calycopis-openapi-client ---
-    >   [INFO] Installing /trebula/java/client/pom.xml to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.pom
-    >   [INFO] Installing /trebula/java/client/target/calycopis-openapi-client-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.jar
+    >   [INFO] Installing /trebula/codegen/java/client/pom.xml to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.pom
+    >   [INFO] Installing /trebula/codegen/java/client/target/calycopis-openapi-client-0.0.2-SNAPSHOT-20260126.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/0.0.2/calycopis-openapi-client-0.0.2.jar
     >   [INFO] ------------------------------------------------------------------------
     >   [INFO] BUILD SUCCESS
     >   [INFO] ------------------------------------------------------------------------
