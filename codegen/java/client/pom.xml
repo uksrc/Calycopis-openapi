@@ -24,15 +24,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<!--parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.4</version>
-		<relativePath/>
-	</parent-->
 	<groupId>net.ivoa.calycopis</groupId>
 	<artifactId>calycopis-openapi-client</artifactId>
-	<version>0.0.2</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Calycopis Java client</name>
 	<description>IVOA ExecutionBroker Java client classes generated from the OpenAPI schema</description>

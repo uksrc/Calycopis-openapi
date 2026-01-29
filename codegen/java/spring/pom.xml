@@ -32,7 +32,7 @@
 	</parent>
 	<groupId>net.ivoa.calycopis</groupId>
 	<artifactId>calycopis-openapi-spring</artifactId>
-	<version>0.0.2</version>
+	<version>1.0.2-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Calycopis Spring Boot</name>
 	<description>IVOA ExecutionBroker Spring Boot classes generated from the OpenAPI schema</description>
