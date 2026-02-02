@@ -44,6 +44,11 @@ jobs:
         with:
           yaml-file: config.yaml
 
+      - name: Check the config
+        run: |
+          echo "schemasource  [${{ env.schemasource }}]"
+          echo "schemaversion [${{ env.schemaversion }}]"
+
       # https://github.com/actions/checkout
       - name: Checkout the schema project
         uses: actions/checkout@v4
@@ -53,6 +58,8 @@ jobs:
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
         uses: actions/setup-python@v6
+          with:
+            python-version: '3.14'
 
       # https://github.com/marketplace/actions/python-dependency-installation
       - name: Install Python dependencies
