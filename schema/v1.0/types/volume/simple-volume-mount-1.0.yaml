@@ -62,18 +62,18 @@ components:
                 - READWRITE
             cardinality:
               description: >
-                If cardinality is set to INSTANCE, then this volume-mount will mount a single resource at the location set by path.
-                If cardinality is set to CONTAINER, then this volume-mount will create a directory in the target file system,
-                at the location set by path, and mount the resources within that directory.
+                If cardinality is set to SINGLE, then this volume-mount will mount a single resource at the location set by the path.
+                If cardinality is set to CONTAINER, then this volume-mount will create a directory at the location set by the path,
+                and mount the resources within that directory.
               type: string
               enum:
-                - INSTANCE
+                - SINGLE
                 - CONTAINER
             resources:
               description: >
-                A list of the data resources in this volume mount.
-                If cardinality is set to INSTANCE then this list should only contain one resource.
-                If cardinality is set to INSTANCE and this list has more than one resource, it should fail validation.
+                A list of the data resources to mount in this volume.
+                If cardinality is set to SINGLE then this list should only contain one resource.
+                If cardinality is set to SINGLE and this list has more than one resource, then it should fail validation.
                 If cardinality is set to CONTAINER then this list may contain more than one resource.
               type: array
               items:
