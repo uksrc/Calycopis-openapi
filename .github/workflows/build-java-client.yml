@@ -40,7 +40,15 @@ jobs:
     permissions:
       contents: read
 
+    env:
+      schemasource:  schema/v1.0/execution-broker.yaml
+      schemaversion: 1.0.2
+
     steps:
+
+      # https://github.com/marketplace/actions/yaml-file-reader
+      #- name: Read the project config
+      #  uses:
 
       # https://github.com/actions/checkout
       - name: Checkout the schema project
@@ -51,8 +59,6 @@ jobs:
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
         uses: actions/setup-python@v6
-        with:
-          python-version: '3.13'
 
       # https://github.com/marketplace/actions/python-dependency-installation
       - name: Install Python dependencies
@@ -74,13 +80,13 @@ jobs:
         run: |
           python \
             isobeon/schema-processor.py \
-              schema/v1.0/execution-broker.yaml \
-              build/execution-broker-1.0.2.yaml
+              ${{ env.schemasource }} \
+              build/execution-broker-${{ env.schemaversion }}.yaml
 
       - name: Check result exists
         uses: andstor/file-existence-action@v3
         with:
           fail:  true
-          files: build/execution-broker-1.0.2.yaml
+          files: build/execution-broker-${{ env.schemaversion }}.yaml
 
 
