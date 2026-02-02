@@ -35,6 +35,10 @@ jobs:
     env:
       schemasource:  schema/v1.0/execution-broker.yaml
       schemaversion: 1.0.2
+      schematarget: build/execution-broker-${{env.schemaversion}}.yaml
+
+      openapiGeneratorName:     'openapi-generator-cli'
+      openapiGeneratorVersion:  '7.18.0'
 
     steps:
 
@@ -55,6 +59,11 @@ jobs:
         with:
           submodules: 'true'
 
+      - name: Create the top level build directory
+        run: |
+          mkdir --parents \
+            build
+
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
         uses: actions/setup-python@v6
@@ -71,26 +80,64 @@ jobs:
       # - name Read build settings from a YAML file ...
       #   uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
 
-      - name: Create build directory
-        run: |
-          mkdir --parents \
-            build
-
-      # ....
       - name: Run the schema processor
         run: |
           python \
             isobeon/schema-processor.py \
               ${{env.schemasource}} \
-              build/execution-broker-${{env.schemaversion}}.yaml
+              ${{env.schematarget}}
 
       - name: Check result content
         run: |
-          head build/execution-broker-${{env.schemaversion}}.yaml
+          head ${{env.schematarget}}
 
       - name: Check result content
         run: |
-          tail build/execution-broker-${{env.schemaversion}}.yaml
+          tail ${{env.schematarget}}
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Download the openapi-generator
+        id: download-openapi-generator
+        uses: clausnz/github-action-download-maven-artifact@master
+        with:
+          url: 'https://repo1.maven.org'
+          repository: 'maven2'
+          groupId: 'org,openapitools'
+          artifactId: 'openapi-generator-cli'
+          version:    '${{env.openapiGeneratorVersion}}'
+          extension:  'jar'
+
+      - name: Check file path
+        run: |
+          echo "File has been downloaded to ${{ steps.openapi-generator.outputs.file }}"
+
+      - name: Create the Python build directory
+        run: |
+          mkdir --parents \
+            python/client/build
+
+      - name: Generate the Python client
+        run: |
+          java -jar "${{steps.openapi-generator.outputs.file}}" \
+            generate \
+            --generator-name python \
+            --input-spec "${{env.schematarget}}" \
+            --output     "python/client/build" \
+            --package-name "calycopis_openapi_client" \
+            --additional-properties "packageUrl=https://github.com/ivoa/Calycopis-schema" \
+            --additional-properties "packageVersion=${{schemaversion}}" \
+            --additional-properties "projectName=calycopis-openapi-client"
+
+      - name: Check the result
+        run: |
+          ls -al python/client/build
+
+
 
 
 
