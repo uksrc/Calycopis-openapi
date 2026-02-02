@@ -1,0 +1,585 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2026, Manchester (http://www.manchester.ac.uk/)
+#
+#     This information is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This information is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with this software. If not, see <http://www.gnu.org/licenses/>.
+#   </meta:licence>
+# </meta:header>
+#
+#zrq-notes-indent
+#
+# AIMetrics: []
+#
+
+    Target:
+
+        Tidy up loose ends and make it suitable for 1.0
+
+
+    Result:
+
+        Work in progress ...
+
+    Issues:
+
+        Needed to tweak Podman config to load localhost images.
+        https://github.com/containers/podman/discussions/23638#discussioncomment-10396814
+
+
+
+        Issue #13 - Move volume mounts into SimpleCompute
+        https://github.com/ivoa/Calycopis-schema/issues/13
+            - probably not, adds complexity
+
+        Issue #60 - Add benchmarks
+        https://github.com/ivoa/Calycopis-schema/issues/60
+
+        Issue #61 - Add gpu accelerators back in
+        https://github.com/ivoa/Calycopis-schema/issues/61
+
+
+
+        Issue #46 - Revisit AbstractExecutionSession, SimpleExecutionSession and ScheduledExecutionSession
+        https://github.com/ivoa/Calycopis-schema/issues/46
+
+        Issue #47 - Change ExecutionSession and Session to just Execution
+        https://github.com/ivoa/Calycopis-schema/issues/47
+
+        Issue #33 - Change the names of the request/response classes
+        https://github.com/ivoa/Calycopis-schema/issues/33
+        + fix the hacky temp name
+
+
+
+
+        Issue #40 - Expand SessionConnector
+        https://github.com/ivoa/Calycopis-schema/issues/40
+
+        Issue #48 - Component endpoints
+        https://github.com/ivoa/Calycopis-schema/issues/48
+
+
+
+        Issue #28 - Use the full `xyz.yaml` name in type discriminators.
+        https://github.com/ivoa/Calycopis-schema/issues/28
+        + remove the symlinks
+        + fix the purls
+
+
+        Issue #9 - Extend DockerContainer platform properties to match OCI Image Index Specification
+        https://github.com/ivoa/Calycopis-schema/issues/9
+
+
+        Issue #35 - Create AbstractSession and AbstractOfferset
+        https://github.com/ivoa/Calycopis-schema/issues/35
+            Is this worth the effort now ?
+            Only it it 'just works' out of the box.
+
+        Issue #36 - Create BaseMeta, ComponentMeta, SessionMeta and OffesetMeta
+        https://github.com/ivoa/Calycopis-schema/issues/36
+            Is there a specific need for this now ?
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Create new branches.
+#[user@desktop]
+
+    branchname=gardening
+    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+    popd
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${CALYCOPIS_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+    popd
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Run a plain vanilla Ubuntu container (similar to the GitHub runner).
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md
+#[user@desktop]
+
+    source "${HOME:?}/calycopis.env"
+    podman run \
+        --rm \
+        --tty \
+        --interactive \
+        --name action-runner \
+        --volume "${ISOBEON_CODE}:/isobeon:rw,z" \
+        --volume "${TREBULA_CODE}:/trebula:rw,z" \
+        --volume "${CALYCOPIS_CODE}:/calycopis:rw,z" \
+        --volume "${HOME}/.m2/repository:/root/.m2/repository:rw,z" \
+        ubuntu:24.04 \
+        bash
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Install Git, Python, and Java to match the GitHub VM image.
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#language-and-runtime
+# https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#java
+#[root@action-runner]
+
+    export DEBIAN_FRONTEND=noninteractive
+
+    apt update
+
+    apt install -y \
+        git \
+        wget
+
+    apt install -y \
+        python3.12 \
+        python3-venv \
+        pip
+
+    apt install -y \
+        openjdk-25-jdk
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Check our build version.
+#[root@action-runner]
+
+    cat /trebula/project.properties
+
+    >   schemapath=v1.0
+    >   schemaversion=1.0.2
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# The following steps would be included in the GitHub CI workflows for the Calycopis-schema project.
+# https://github.com/ivoa/Calycopis-schema
+# -----------------------------------------------------
+# Use our Isobeon toolkit to create a single YAML file.
+# https://github.com/ivoa/Calycopis-Isobeon
+#[root@action-runner]
+
+    source /trebula/project.properties
+
+    #
+    # Skip the clone because we mounted from local disk.
+    # git clone https://github.com/ivoa/Calycopis-Isobeon.git /isobeon
+
+    python3 -m venv \
+        /tmp/venv
+
+    /tmp/venv/bin/pip \
+        install \
+            --requirement /isobeon/requirements.txt
+
+    rm -rf \
+        /trebula/build
+    mkdir --parents \
+        /trebula/build
+
+    /tmp/venv/bin/python \
+        /isobeon/schema-processor.py \
+            "/trebula/schema/${schemapath:?}/execution-broker.yaml" \
+            "/trebula/build/execution-broker-${schemaversion:?}.yaml"
+
+    >   ....
+    >   ....
+    >   Inlining from discriminator mapping: IntegerValueUpdate
+    >   Inlining from discriminator mapping: IntegerDeltaUpdate
+    >   ✅ All references processed and saved.
+
+
+# -----------------------------------------------------
+# Install the openapi code generator.
+#[root@action-runner]
+
+    generatorName=openapi-generator-cli
+    generatorVersion=7.18.0
+    generatorJarFile=${generatorName}-${generatorVersion}.jar
+    generatorPath=/opt/openapi-generator
+    generatorFullPath=${generatorPath}/${generatorJarFile}
+
+    mkdir --parents \
+        "${generatorPath}"
+
+    if [ ! -e "${generatorFullPath}" ]
+    then
+
+        which wget &> /dev/null
+        if [ $? -ne 0 ]
+        then
+            apt install -y \
+                wget
+        fi
+
+        wget https://repo1.maven.org/maven2/org/openapitools/${generatorName}/${generatorVersion}/${generatorJarFile} \
+             --output-document "${generatorFullPath}"
+    fi
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Generate our Python client classes.
+# https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/python.md
+#[root@action-runner]
+
+    source /trebula/project.properties
+
+    schemafile=/trebula/build/execution-broker-${schemaversion:?}.yaml
+    buildpath=/trebula/python/client/build
+
+    rm -rf \
+        "${buildpath:?}"
+    mkdir --parents \
+        "${buildpath:?}"
+
+    java -jar "${generatorFullPath}" \
+        generate \
+        --generator-name python \
+        --input-spec "${schemafile:?}" \
+        --output     "${buildpath:?}" \
+        --package-name "calycopis_openapi_client" \
+        --additional-properties "packageUrl=https://github.com/ivoa/Calycopis-schema" \
+        --additional-properties "packageVersion=${schemaversion:?}" \
+        --additional-properties "projectName=calycopis-openapi-client"
+
+    >   ....
+    >   ....
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /trebula/python/client/build/.openapi-generator/VERSION
+    >   [main] INFO  o.o.codegen.TemplateManager - writing file /trebula/python/client/build/.openapi-generator/FILES
+
+
+# -----------------------------------------------------
+# Package our Python client classes.
+# https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools
+#[root@action-runner]
+
+    /tmp/venv/bin/pip \
+        install \
+            twine \
+            build
+
+    /tmp/venv/bin/python \
+        -m build \
+            "${buildpath:?}"
+
+    >   ....
+    >   ....
+    >   adding 'calycopis_openapi_client-1.0.2.dist-info/top_level.txt'
+    >   adding 'calycopis_openapi_client-1.0.2.dist-info/RECORD'
+    >   removing build/bdist.linux-x86_64/wheel
+    >   Successfully built calycopis_openapi_client-1.0.2.tar.gz and calycopis_openapi_client-1.0.2-py3-none-any.whl
+
+
+    ls -al "${buildpath:?}/dist"
+
+    >   ....
+    >   ....
+    >   -rw-r--r--. 1 root root 127332 Feb  1 15:51 calycopis_openapi_client-1.0.2-py3-none-any.whl
+    >   -rw-r--r--. 1 root root  56373 Feb  1 15:51 calycopis_openapi_client-1.0.2.tar.gz
+
+
+# -----------------------------------------------------
+# Build and package our Java client.
+#[root@action-runner]
+
+    source /trebula/project.properties
+
+    pushd /trebula/codegen/java/client/
+
+        #
+        # Update the build properties.
+        rm -rf build
+        mkdir --parents build
+        cat > build/build.properties << EOF
+trebula.schema.file=/trebula/build/execution-broker-${schemaversion:?}.yaml
+EOF
+
+        #
+        # Build and install the Java package.
+        ./mvnw clean install
+
+    popd
+
+    >   ....
+    >   ....
+    >   [INFO] --- jar:3.4.1:jar (default-jar) @ calycopis-openapi-client ---
+    >   [INFO] Building jar: /trebula/codegen/java/client/target/calycopis-openapi-client-1.0.2-SNAPSHOT.jar
+    >   [INFO]
+    >   [INFO] --- install:3.1.2:install (default-install) @ calycopis-openapi-client ---
+    >   [INFO] Installing /trebula/codegen/java/client/pom.xml to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/1.0.2-SNAPSHOT/calycopis-openapi-client-1.0.2-SNAPSHOT.pom
+    >   [INFO] Installing /trebula/codegen/java/client/target/calycopis-openapi-client-1.0.2-SNAPSHOT.jar to /root/.m2/repository/net/ivoa/calycopis/calycopis-openapi-client/1.0.2-SNAPSHOT/calycopis-openapi-client-1.0.2-SNAPSHOT.jar
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] BUILD SUCCESS
+    >   [INFO] ------------------------------------------------------------------------
+    >   [INFO] Total time:  10.686 s
+    >   [INFO] Finished at: 2026-02-01T15:53:54Z
+    >   [INFO] ------------------------------------------------------------------------
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Drop back to the original build environment to do the rest ...
+# -----------------------------------------------------
+# Run our containers in a Podman Pod.
+#[user@desktop]
+
+    podman pod create \
+        --replace \
+        --name calycopis-pod
+
+    podman run \
+        --rm \
+        --detach \
+        --replace \
+        --name postgresql \
+        --pod calycopis-pod \
+        --expose 5432 \
+        --env "POSTGRES_DB=calycopis" \
+        --env "POSTGRES_USER=albert" \
+        --env "POSTGRES_PASSWORD=UVai0wie-wa9Eed4g" \
+        docker.io/library/postgres:latest
+
+    >   ....
+    >   ....
+
+
+    source "${HOME:?}/calycopis.env"
+    podman run \
+        --rm \
+        --tty \
+        --interactive \
+        --pod calycopis-pod \
+        --expose 8082 \
+        --name calycopis-dev \
+        --volume "${TREBULA_CODE}:/trebula:rw,z" \
+        --volume "${ISOBEON_CODE}:/isobeon:rw,z" \
+        --volume "${CALYCOPIS_CODE}:/calycopis:rw,z" \
+        --volume "${HOME}/.m2/repository:/root/.m2/repository:rw,z" \
+        ghcr.io/ivoa/calycopis/developer-tools:2025.08.12 \
+        bash
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# Build and run the Java service.
+#[root@calycopis-dev]
+
+    pushd /calycopis/java  ; ./mvnw clean spring-boot:run ; popd
+
+    >   ....
+    >   ....
+
+
+# -----------------------------------------------------
+# -----------------------------------------------------
+# Connect via another terminal to run some tests ..
+#[user@desktop]
+
+    podman exec \
+        --tty \
+        --interactive \
+        calycopis-dev \
+            bash
+
+
+# -----------------------------------------------------
+# Basic curl test just to check it works.
+#[root@calycopis-dev]
+
+    pushd "$(mktemp --directory)"
+
+    cat > "001-offerset-request.yaml" << EOF
+executable:
+  kind: https://www.purl.org/ivoa.net/EB/schema/v1.0/types/executable/docker-container-1.0
+  image:
+    locations:
+      - "ghcr.io/ivoa/oligia-webtop:ubuntu-2022.01.13"
+    digest: sha256:5d22a47f43b2b5efc433554092de724bd6c3cf01d2c74038f6569770a5dd5245
+schedule:
+  requested:
+    duration: PT1H
+EOF
+
+    cat > "003-accept-00-request.yaml" << EOF
+kind: uri:enum-value-update
+path: phase
+value: ACCEPTED
+EOF
+
+
+    endpoint=http://127.0.0.1:8082
+
+    #
+    # Request a new offerset and accept the first one.
+    createaccept()
+        {
+        echo "create --------"
+        curl \
+            --silent \
+            --show-error \
+            --header 'Content-Type: application/yaml' \
+            --data-binary "@001-offerset-request.yaml" \
+            --header 'Accept: application/yaml' \
+            "${endpoint:?}/offersets" \
+        > "002-offerset-response.yaml" \
+
+        echo "accept --------"
+        sessionurl=$(
+            yq '.offers[0].meta.url' '002-offerset-response.yaml'
+            )
+        curl \
+            --silent \
+            --show-error \
+            --header 'Content-Type: application/yaml' \
+            --data-binary "@003-accept-00-request.yaml" \
+            --header 'Accept: application/yaml' \
+            "${sessionurl}" \
+        | tee "004-accept-00-response.yaml" \
+        | yq '.'
+        }
+
+    peekstatus()
+        {
+        echo "peek --------"
+        sessionurl=$(
+            yq '.offers[0].meta.url' '002-offerset-response.yaml'
+            )
+
+        curl \
+            --silent \
+            --show-error \
+            --header 'Accept: application/yaml' \
+            "${sessionurl}" \
+        | tee "005-status-00-response.yaml" \
+        | yq '
+            {
+            "phase": .phase,
+            "executable": {
+                "phase": .executable.phase
+                },
+            "compute": {
+                "phase": .compute.phase
+                }
+            }
+            '
+        }
+
+    createaccept
+
+    >   create --------
+    >   accept --------
+    >   kind: "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/session/scheduled-execution-session-1.0"
+    >   meta:
+    >     uuid: "27dca8cd-cc7f-45ab-932c-c65dcda38adc"
+    >     name: "no-name-offer-0"
+    >     url: "http://127.0.0.1:8082/sessions/27dca8cd-cc7f-45ab-932c-c65dcda38adc"
+    >     created: "2026-02-01T17:48:02.515527Z"
+    >   executable:
+    >     kind: "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/executable/docker-container-1.0"
+    >     meta:
+    >       uuid: "8cda2b85-df3e-4e49-a317-6b426ca647f7"
+    >       url: "http://127.0.0.1:8082/executables/8cda2b85-df3e-4e49-a317-6b426ca647f7"
+    >       created: "2026-02-01T17:48:02.528832Z"
+    >     phase: "INITIALIZING"
+    >     schedule:
+    >       preparing:
+    >         duration: "PT45S"
+    >       available:
+    >         start: "1970-01-01T00:00:45Z/PT0S"
+    >       releasing:
+    >         duration: "PT1S"
+    >     privileged: false
+    >   compute:
+    >     kind: "https://www.purl.org/ivoa.net/EB/schema/v1.0/types/compute/simple-compute-resource-1.0"
+    >     meta:
+    >       uuid: "bf84ccbf-4074-4811-bb5f-dfafafb0f824"
+    >       name: "Default compute resource"
+    >       url: "http://127.0.0.1:8082/compute/bf84ccbf-4074-4811-bb5f-dfafafb0f824"
+    >       created: "2026-02-01T17:48:02.541653Z"
+    >     phase: "INITIALIZING"
+    >     schedule:
+    >       preparing:
+    >         start: "2026-02-01T17:49:45Z"
+    >         duration: "PT15S"
+    >       available:
+    >         start: "2026-02-01T17:50:00Z/PT0S"
+    >         duration: "PT2H"
+    >       releasing:
+    >         start: "2026-02-01T19:50:05Z"
+    >         duration: "PT10S"
+    >     cores:
+    >       min: 2
+    >       max: 2
+    >     memory:
+    >       min: 2
+    >       max: 2
+    >   phase: "ACCEPTED"
+    >   expires: "2026-02-01T17:53:02.483706Z"
+
+
+    peekstatus
+
+    >   peek --------
+    >   phase: "ACCEPTED"
+    >   executable:
+    >     phase: "INITIALIZING"
+    >   compute:
+    >     phase: "INITIALIZING"
+
+    >   peek --------
+    >   phase: "ACCEPTED"
+    >   executable:
+    >     phase: "INITIALIZING"
+    >   compute:
+    >     phase: "INITIALIZING"
+
+    >   peek --------
+    >   phase: "PREPARING"
+    >   executable:
+    >     phase: "AVAILABLE"
+    >   compute:
+    >     phase: "WAITING"
+
+    >   peek --------
+    >   phase: "AVAILABLE"
+    >   executable:
+    >     phase: "AVAILABLE"
+    >   compute:
+    >     phase: "AVAILABLE"
+
+
+
+
