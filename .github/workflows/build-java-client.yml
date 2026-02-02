@@ -81,22 +81,16 @@ jobs:
         run: |
           python \
             isobeon/schema-processor.py \
-              ${{schemasource}} \
-              build/execution-broker-${{schemaversion}}.yaml
-
-      - name: Check result exists
-        uses: andstor/file-existence-action@v3
-        with:
-          fail:  true
-          files: build/execution-broker-${{schemaversion}}.yaml
+              ${{env.schemasource}} \
+              build/execution-broker-${{env.schemaversion}}.yaml
 
       - name: Check result content
         run: |
-          head build/execution-broker-${{schemaversion}}.yaml
+          head build/execution-broker-${{env.schemaversion}}.yaml
 
       - name: Check result content
         run: |
-          tail build/execution-broker-${{schemaversion}}.yaml
+          tail build/execution-broker-${{env.schemaversion}}.yaml
 
 
 
