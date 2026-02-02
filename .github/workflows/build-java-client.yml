@@ -35,7 +35,7 @@ jobs:
     env:
       schemasource:  'schema/v1.0/execution-broker.yaml'
       schemaversion: '1.0.2'
-      schematarget:  'build/execution-broker-${{env.schemaversion}}.yaml'
+      schematarget:  'build/execution-broker-1.0.2.yaml'
 
       openapiGeneratorName:    'openapi-generator-cli'
       openapiGeneratorVersion: '7.18.0'
