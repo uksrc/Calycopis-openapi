@@ -1,7 +1,7 @@
 #
 # <meta:header>
 #   <meta:licence>
-#     Copyright (c) 2024, Manchester University (http://www.manchester.ac.uk/)
+#     Copyright (c) 2026, Manchester University (http://www.manchester.ac.uk/)
 #
 #     This work is made available under the Creative Commons
 #     Attribution-ShareAlike 4.0 International licence.
@@ -11,17 +11,9 @@
 #   </meta:licence>
 # </meta:header>
 #
-# AIMetrics: [
-#     {
-#     "name": "ChatGPT",
-#     "contribution": {
-#       "value": 5,
-#       "units": "%"
-#       }
-#     }
-#   ]
+# AIMetrics: []
 #
-# This workflow build the Java client libraries.
+# A GitHub workflow to build and publish the Java client libraries.
 #
 
 name: Java client CI using Maven
@@ -34,21 +26,23 @@ on:
 
 jobs:
 
-  build-client:
+  build-java-client:
 
     runs-on: ubuntu-latest
     permissions:
       contents: read
 
-    env:
-      schemasource:  schema/v1.0/execution-broker.yaml
-      schemaversion: 1.0.2
+#   env:
+#     schemasource:  schema/v1.0/execution-broker.yaml
+#     schemaversion: 1.0.2
 
     steps:
 
       # https://github.com/marketplace/actions/yaml-file-reader
-      #- name: Read the project config
-      #  uses:
+      - name: Read the project config
+        uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
+        with:
+          yaml-file: config.yaml
 
       # https://github.com/actions/checkout
       - name: Checkout the schema project
@@ -88,5 +82,14 @@ jobs:
         with:
           fail:  true
           files: build/execution-broker-${{ env.schemaversion }}.yaml
+
+      - name: Check result content
+        run: |
+          head build/execution-broker-${{ env.schemaversion }}.yaml
+
+      - name: Check result content
+        run: |
+          tail build/execution-broker-${{ env.schemaversion }}.yaml
+
 
 
