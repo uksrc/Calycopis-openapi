@@ -202,13 +202,83 @@ jobs:
       - name: Upload the distribution tar file
         uses: actions/upload-artifact@v4
         with:
-          name: 'calycopis-client-targz'
+          name: 'calycopis-python-client-targz'
           path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}.tar.gz'
 
       - name: Upload the distribution wheel
         uses: actions/upload-artifact@v4
         with:
-          name: 'calycopis-client-wheel'
+          name: 'calycopis-python-client-wheel'
           path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}-py3-none-any.whl'
+
+
+  build-java-client:
+
+    needs: build-combined-schema
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      schemapath:    'v1.0'
+      schemaversion: '1.0.2'
+
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+#     # https://github.com/marketplace/actions/yaml-file-reader
+#     - name: Read the project config
+#       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
+#       with:
+#         yaml-file: config.yaml
+
+      - name: Check the config
+        run: |
+          echo "schemapath    [${{env.schemapath}}]"
+          echo "schemaversion [${{env.schemaversion}}]"
+
+      - name: Create the schema build directory
+        run: |
+          mkdir --parents \
+            'schema/build/'
+
+      - name: Download the schema result
+        uses: actions/download-artifact@v4
+        with:
+          name: 'calycopis-schema'
+          path: 'schema/build/'
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      - name: Create properties file
+        run: |
+          pushd codegen/java/client
+cat > build.properties << EOF
+calycopis.schema.file=/trebula/schema/build/execution-broker-${{env.schemaversion}}.yaml
+EOF
+          popd
+
+      - name: Run the Maven build
+        run: |
+          pushd codegen/java/client
+            ./mvnw clean install
+          popd
+
+      - name: Upload the client JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-java-client'
+          path: 'codegen/java/client/target/calycopis-client-${{env.schemaversion}}jar'
 
 
