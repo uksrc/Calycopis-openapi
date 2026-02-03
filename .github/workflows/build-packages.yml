@@ -148,13 +148,13 @@ jobs:
       - name: Upload the distribution tar file
         uses: actions/upload-artifact@v4
         with:
-          name: 'calycopis-python-client-targz'
+          name: 'calycopis-client-targz'
           path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}.tar.gz'
 
       - name: Upload the distribution wheel
         uses: actions/upload-artifact@v4
         with:
-          name: 'calycopis-python-client-wheel'
+          name: 'calycopis-client-wheel'
           path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}-py3-none-any.whl'
 
 
