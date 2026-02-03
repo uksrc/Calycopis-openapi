@@ -26,7 +26,7 @@ on:
 
 jobs:
 
-  build-java-client:
+  build-combined-schema:
 
     runs-on: ubuntu-latest
     permissions:
@@ -42,6 +42,12 @@ jobs:
 
     steps:
 
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
 #     # https://github.com/marketplace/actions/yaml-file-reader
 #     - name: Read the project config
 #       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
@@ -52,12 +58,6 @@ jobs:
         run: |
           echo "schemapath    [${{env.schemapath}}]"
           echo "schemaversion [${{env.schemaversion}}]"
-
-      # https://github.com/actions/checkout
-      - name: Checkout the schema project
-        uses: actions/checkout@v4
-        with:
-          submodules: 'true'
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
@@ -90,6 +90,58 @@ jobs:
       - name: Check result content
         run: |
           tail 'schema/build/execution-broker-${{env.schemaversion}}.yaml'
+
+      - name: Upload the schema file
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-combined-schema'
+          path: 'schema/build/'
+
+  build-python-client:
+
+    needs: build-combined-schema
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    env:
+      schemapath:    'v1.0'
+      schemaversion: '1.0.2'
+
+      openapiGeneratorName:    'openapi-generator-cli'
+      openapiGeneratorVersion: '7.18.0'
+
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+
+#     # https://github.com/marketplace/actions/yaml-file-reader
+#     - name: Read the project config
+#       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
+#       with:
+#         yaml-file: config.yaml
+
+      - name: Check the config
+        run: |
+          echo "schemapath    [${{env.schemapath}}]"
+          echo "schemaversion [${{env.schemaversion}}]"
+
+      - name: Create the schema build directory
+        run: |
+          mkdir --parents \
+            'schema/build/'
+
+      - name: Download the schema result
+        uses: actions/download-artifact@v4
+        with:
+          name: 'calycopis-combined-schema'
+          path: 'schema/build/'
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -129,9 +181,11 @@ jobs:
             --additional-properties 'packageUrl=https://github.com/ivoa/Calycopis-schema' \
             --additional-properties 'packageVersion=${{env.schemaversion}}'
 
-#     - name: Check the result
-#       run: |
-#         ls -al python/client/build
+      # https://github.com/marketplace/actions/setup-python
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
 
       - name: Install Python build tools
         uses: BSFishy/pip-action@v1
