@@ -253,7 +253,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: 'calycopis-schema'
-          path: 'schema/build/'
+          path: '/tmp'
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -265,9 +265,12 @@ jobs:
         run: |
           pushd codegen/java/client
           cat > build.properties << EOF
-          calycopis.schema.file=schema/build/execution-broker-${{env.schemaversion}}.yaml
+          calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           EOF
           popd
+
+      # Save/restore the cache
+      # https://github.com/marketplace/actions/maven-cache
 
       - name: Run the Maven build
         run: |
