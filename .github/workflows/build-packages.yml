@@ -265,7 +265,7 @@ jobs:
         run: |
           pushd codegen/java/client
           cat > build.properties << EOF
-          calycopis.schema.file=/trebula/schema/build/execution-broker-${{env.schemaversion}}.yaml
+          calycopis.schema.file=schema/build/execution-broker-${{env.schemaversion}}.yaml
           EOF
           popd
 
