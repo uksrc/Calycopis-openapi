@@ -13,10 +13,10 @@
 #
 # AIMetrics: []
 #
-# A GitHub workflow to build and publish the Java client libraries.
+# A GitHub workflow to build and publish libraries from the schema.
 #
 
-name: Calycopis Python client
+name: Calycopis builder
 
 on:
   push:
@@ -34,9 +34,8 @@ jobs:
       packages: write
 
     env:
-      schemasource:  'schema/v1.0/execution-broker.yaml'
+      schemapath:    'v1.0'
       schemaversion: '1.0.2'
-      schematarget:  'build/execution-broker-1.0.2.yaml'
 
       openapiGeneratorName:    'openapi-generator-cli'
       openapiGeneratorVersion: '7.18.0'
@@ -51,7 +50,7 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemasource  [${{env.schemasource}}]"
+          echo "schemapath    [${{env.schemapath}}]"
           echo "schemaversion [${{env.schemaversion}}]"
 
       # https://github.com/actions/checkout
@@ -59,11 +58,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-
-      - name: Create the top level build directory
-        run: |
-          mkdir --parents \
-            build
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
@@ -77,24 +71,25 @@ jobs:
         with:
           path: isobeon/requirements.txt
 
-      # https://github.com/marketplace/actions/yaml-file-reader
-      # - name Read build settings from a YAML file ...
-      #   uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
+      - name: Create the schema build directory
+        run: |
+          mkdir --parents \
+            schema/build
 
       - name: Run the schema processor
         run: |
           python \
             isobeon/schema-processor.py \
-              ${{env.schemasource}} \
-              ${{env.schematarget}}
+              'schema/${{schemapath}}/execution-broker.yaml' \
+              'schema/build/execution-broker-${{schemaversion}}.yaml'
 
       - name: Check result content
         run: |
-          head ${{env.schematarget}}
+          head 'schema/build/execution-broker-${{schemaversion}}.yaml'
 
       - name: Check result content
         run: |
-          tail ${{env.schematarget}}
+          tail 'schema/build/execution-broker-${{schemaversion}}.yaml'
 
       - name: Setup Java
         uses: actions/setup-java@v2
@@ -127,12 +122,12 @@ jobs:
           java -jar '${{steps.download-openapi-generator.outputs.file}}' \
             generate \
             --generator-name python \
-            --input-spec '${{env.schematarget}}' \
-            --output     'python/client/build' \
-            --package-name 'calycopis_openapi_client' \
+            --input-spec 'schema/build/execution-broker-${{schemaversion}}.yaml' \
+            --output     'codegen/python/client/build' \
+            --additional-properties 'projectName=calycopis-client' \
+            --additional-properties 'packageName=calycopis_client' \
             --additional-properties 'packageUrl=https://github.com/ivoa/Calycopis-schema' \
-            --additional-properties 'packageVersion=${{env.schemaversion}}' \
-            --additional-properties 'projectName=calycopis-openapi-client'
+            --additional-properties 'packageVersion=${{env.schemaversion}}'
 
 #     - name: Check the result
 #       run: |
@@ -148,26 +143,18 @@ jobs:
       - name: Build the Python distribution
         run: |
           python -m build \
-            'python/client/build'
+            'codegen/python/client/build'
 
-#     - name: Upload the distribution tar file
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: 'calycopis-python-client-targz'
-#         path: 'python/client/build/dist/calycopis_openapi_client-${{env.schemaversion}}.tar.gz'
-#
-#     - name: Upload the distribution wheel
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: 'calycopis-python-client-wheel'
-#         path: 'python/client/build/dist/calycopis_openapi_client-${{env.schemaversion}}-py3-none-any.whl'
+      - name: Upload the distribution tar file
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-python-client-targz'
+          path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}.tar.gz'
 
-      - name: Publish our Python package
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          python -m twine \
-            upload \
-              --repository-url https://api.github.com/orgs/Zarquan/packages/pypi/upload \
-              python/client/build/dist/*
+      - name: Upload the distribution wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-python-client-wheel'
+          path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}-py3-none-any.whl'
+
 
