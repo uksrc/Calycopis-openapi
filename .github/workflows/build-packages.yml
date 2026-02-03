@@ -115,14 +115,14 @@ jobs:
       - name: Create the Python build directory
         run: |
           mkdir --parents \
-            'python/client/build'
+            'codegen/python/client/build'
 
       - name: Generate the Python client
         run: |
           java -jar '${{steps.download-openapi-generator.outputs.file}}' \
             generate \
             --generator-name python \
-            --input-spec 'schema/build/execution-broker-${{schemaversion}}.yaml' \
+            --input-spec 'schema/build/execution-broker-${{env.schemaversion}}.yaml' \
             --output     'codegen/python/client/build' \
             --additional-properties 'projectName=calycopis-client' \
             --additional-properties 'packageName=calycopis_client' \
