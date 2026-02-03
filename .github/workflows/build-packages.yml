@@ -80,16 +80,16 @@ jobs:
         run: |
           python \
             isobeon/schema-processor.py \
-              'schema/${{schemapath}}/execution-broker.yaml' \
-              'schema/build/execution-broker-${{schemaversion}}.yaml'
+              'schema/${{env.schemapath}}/execution-broker.yaml' \
+              'schema/build/execution-broker-${{env.schemaversion}}.yaml'
 
       - name: Check result content
         run: |
-          head 'schema/build/execution-broker-${{schemaversion}}.yaml'
+          head 'schema/build/execution-broker-${{env.schemaversion}}.yaml'
 
       - name: Check result content
         run: |
-          tail 'schema/build/execution-broker-${{schemaversion}}.yaml'
+          tail 'schema/build/execution-broker-${{env.schemaversion}}.yaml'
 
       - name: Setup Java
         uses: actions/setup-java@v2
