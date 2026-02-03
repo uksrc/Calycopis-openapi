@@ -264,9 +264,9 @@ jobs:
       - name: Create properties file
         run: |
           pushd codegen/java/client
-cat > build.properties << EOF
-calycopis.schema.file=/trebula/schema/build/execution-broker-${{env.schemaversion}}.yaml
-EOF
+          cat > build.properties << EOF
+          calycopis.schema.file=/trebula/schema/build/execution-broker-${{env.schemaversion}}.yaml
+          EOF
           popd
 
       - name: Run the Maven build
