@@ -272,7 +272,7 @@ jobs:
       - name: Run the Maven build
         run: |
           pushd codegen/java/client
-            ./mvnw clean install
+            ./mvnw --batch-mode install
           popd
 
       - name: Upload the client JAR
