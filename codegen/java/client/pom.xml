@@ -43,7 +43,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Maven repository</name>
-            <url>https://maven.pkg.github.com/Zarquan/Calycopis-schema</url>
+            <url>https://maven.pkg.github.com/ivoa/Calycopis-schema</url>
         </repository>
     </distributionManagement>
 

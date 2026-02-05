@@ -96,8 +96,9 @@
     #
     # Yay - we have a package.
     # https://github.com/Zarquan/Calycopis-schema/packages/2841940
-    # We needed to set the GitHub organization to my personal account because we are puching to my fork.
+    # We needed to set the GitHub organization to my personal account because we are pushing to my fork.
     #
-    #
+
+
 
 
