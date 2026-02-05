@@ -1,0 +1,104 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2026, Manchester (http://www.manchester.ac.uk/)
+#
+#     This information is free software: you can redistribute it and/or modify
+#     it under the terms of the GNU General Public License as published by
+#     the Free Software Foundation, either version 3 of the License, or
+#     (at your option) any later version.
+#
+#     This information is distributed in the hope that it will be useful,
+#     but WITHOUT ANY WARRANTY; without even the implied warranty of
+#     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#     GNU General Public License for more details.
+#
+#     You should have received a copy of the GNU General Public License
+#     along with this software. If not, see <http://www.gnu.org/licenses/>.
+#   </meta:licence>
+# </meta:header>
+#
+#zrq-notes-indent
+#
+# AIMetrics: []
+#
+
+    Target:
+
+        Continue work on the GitHub workflows.
+
+    Result:
+
+        Work in progress ...
+
+# -----------------------------------------------------
+# Create new branches.
+#[user@desktop]
+
+    branchname=github-workflows
+    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+    popd
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${CALYCOPIS_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+    popd
+
+--START--
+....
+....
+--END--
+
+    #
+    # Add the GitHub Maven repo as our repository.
+    #
+
+--START--
+....
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Maven repository</name>
+            <url>https://maven.pkg.github.com/Zarquan/Calycopis-schema</url>
+        </repository>
+    </distributionManagement>
+....
+--END--
+
+    #
+    # Add a step to publish our Java jar files as GitHub packages.
+    #
+
+--START--
+....
+      - name: Publish the JAR to the GitHub repository.
+        run: |
+          pushd codegen/java/client
+            ./mvnw --batch-mode deploy
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+....
+--END--
+
+    #
+    # Yay - we have a package.
+    # https://github.com/Zarquan/Calycopis-schema/packages/2841940
+    # We needed to set the GitHub organization to my personal account because we are pushing to my fork.
+    #
+
+
+
+

@@ -21,7 +21,7 @@ name: Calycopis builder
 on:
   push:
     #branches: [ "main" ]
-  pull_request:
+  #pull_request:
     #branches: [ "main" ]
 
 jobs:
@@ -205,7 +205,6 @@ jobs:
           name: 'calycopis-python-client'
           path: 'codegen/python/client/build/dist/calycopis_client-${{env.schemaversion}}-py3-none-any.whl'
 
-
   build-java-client:
 
     needs: build-combined-schema
@@ -285,11 +284,20 @@ jobs:
 #       with:
 #         step: save
 
-      - name: Upload the client JAR
+      - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-java-client'
           path: 'codegen/java/client/target/calycopis-client-${{env.schemaversion}}-SNAPSHOT.jar'
+
+      - name: Publish the JAR to the GitHub Maven repository.
+        if: ${{ github.repository == 'ivoa/Calycopis-schema' }}
+        run: |
+          pushd codegen/java/client
+            ./mvnw --batch-mode deploy
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-java-spring:
 
@@ -370,10 +378,18 @@ jobs:
 #       with:
 #         step: save
 
-      - name: Upload the client JAR
+      - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-java-spring'
           path: 'codegen/java/spring/target/calycopis-spring-${{env.schemaversion}}-SNAPSHOT.jar'
 
+      - name: Publish the JAR to the GitHub Maven repository.
+        if: ${{ github.repository == 'ivoa/Calycopis-schema' }}
+        run: |
+          pushd codegen/java/spring
+            ./mvnw --batch-mode deploy
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
