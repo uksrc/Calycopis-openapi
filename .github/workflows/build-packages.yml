@@ -290,7 +290,7 @@ jobs:
           name: 'calycopis-java-client'
           path: 'codegen/java/client/target/calycopis-client-${{env.schemaversion}}-SNAPSHOT.jar'
 
-      - name: Publish the JAR to the GitHub repository.
+      - name: Publish the JAR to the GitHub Maven repository.
         run: |
           pushd codegen/java/client
             ./mvnw --batch-mode deploy
@@ -377,10 +377,17 @@ jobs:
 #       with:
 #         step: save
 
-      - name: Upload the client JAR
+      - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-java-spring'
           path: 'codegen/java/spring/target/calycopis-spring-${{env.schemaversion}}-SNAPSHOT.jar'
 
+      - name: Publish the JAR to the GitHub Maven repository.
+        run: |
+          pushd codegen/java/client
+            ./mvnw --batch-mode deploy
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -62,11 +62,42 @@
 --END--
 
     #
+    # Add the GitHub Maven repo as our repository.
+    #
+
+--START--
+....
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub Maven repository</name>
+            <url>https://maven.pkg.github.com/Zarquan/Calycopis-schema</url>
+        </repository>
+    </distributionManagement>
+....
+--END--
+
+    #
     # Add a step to publish our Java jar files as GitHub packages.
     #
 
+--START--
+....
+      - name: Publish the JAR to the GitHub repository.
+        run: |
+          pushd codegen/java/client
+            ./mvnw --batch-mode deploy
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+....
+--END--
 
-
-
+    #
+    # Yay - we have a package.
+    # https://github.com/Zarquan/Calycopis-schema/packages/2841940
+    # We needed to set the GitHub organization to my personal account because we are puching to my fork.
+    #
+    #
 
 
