@@ -291,6 +291,7 @@ jobs:
           path: 'codegen/java/client/target/calycopis-client-${{env.schemaversion}}-SNAPSHOT.jar'
 
       - name: Publish the JAR to the GitHub Maven repository.
+        if: ${{ github.repository == 'ivoa/Calycopis-schema' }}
         run: |
           pushd codegen/java/client
             ./mvnw --batch-mode deploy
