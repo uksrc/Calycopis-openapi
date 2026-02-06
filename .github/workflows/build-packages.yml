@@ -26,9 +26,9 @@ name: Calycopis builder
 
 env:
   schemapath: 'v1.0'
-  schemaversion: '1.0.2'
-  javabuildversion: '1.0.2-SNAPSHOT'
-  pythonbuildversion: '1.0.2'
+  schemaversion: '1.0.3'
+  javabuildversion: '1.0.3-SNAPSHOT'
+  pythonbuildversion: '1.0.3'
 
   openapiGeneratorName: 'openapi-generator-cli'
   openapiGeneratorVersion: '7.18.0'
