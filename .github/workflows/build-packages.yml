@@ -11,7 +11,13 @@
 #   </meta:licence>
 # </meta:header>
 #
-# AIMetrics: []
+# AIMetrics: [
+#       {
+#       name: chatgpt
+#       contrib: 1%
+#       link: https://chatgpt.com/share/6985cb44-51bc-8008-9259-cb9ff4530da5
+#       }
+#     ]
 #
 # A GitHub workflow to build and publish libraries from the schema.
 #
@@ -19,12 +25,12 @@
 name: Calycopis builder
 
 env:
-  schemapath:    'v1.0'
+  schemapath: 'v1.0'
   schemaversion: '1.0.2'
-  javajarversion: '1.0.2-SNAPSHOT'
-  pywheelversion: '1.0.2'
+  javabuildversion: '1.0.2-SNAPSHOT'
+  pythonbuildversion: '1.0.2'
 
-  openapiGeneratorName:    'openapi-generator-cli'
+  openapiGeneratorName: 'openapi-generator-cli'
   openapiGeneratorVersion: '7.18.0'
 
 on:
@@ -141,9 +147,9 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemapath     [${{env.schemapath}}]"
-          echo "schemaversion  [${{env.schemaversion}}]"
-          echo "pywheelversion [${{env.pywheelversion}}]"
+          echo "schemapath         [${{env.schemapath}}]"
+          echo "schemaversion      [${{env.schemaversion}}]"
+          echo "pythonbuildversion [${{env.pythonbuildversion}}]"
 
       - name: Create the schema build directory
         run: |
@@ -192,7 +198,7 @@ jobs:
             --additional-properties 'projectName=calycopis-client' \
             --additional-properties 'packageName=calycopis_client' \
             --additional-properties 'packageUrl=https://github.com/ivoa/Calycopis-schema' \
-            --additional-properties 'packageVersion=${{env.pywheelversion}}'
+            --additional-properties 'packageVersion=${{env.pythonbuildversion}}'
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
@@ -216,7 +222,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-python-client'
-          path: 'codegen/python/client/build/dist/calycopis_client-${{env.pywheelversion}}-py3-none-any.whl'
+          path: 'codegen/python/client/build/dist/calycopis_client-${{env.pythonbuildversion}}-py3-none-any.whl'
 
   build-java-client:
 
@@ -247,9 +253,9 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemapath     [${{env.schemapath}}]"
-          echo "schemaversion  [${{env.schemaversion}}]"
-          echo "javajarversion [${{env.javajarversion}}]"
+          echo "schemapath       [${{env.schemapath}}]"
+          echo "schemaversion    [${{env.schemaversion}}]"
+          echo "javabuildversion [${{env.javabuildversion}}]"
 
       - name: Download the schema result
         uses: actions/download-artifact@v4
@@ -268,7 +274,7 @@ jobs:
           pushd codegen/java/client
           cat > build.properties << EOF
           calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          calycopis.jar.version=${{env.javajarversion}}
+          calycopis.build.version=${{env.javabuildversion}}
           EOF
           popd
 
@@ -303,7 +309,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-java-client'
-          path: 'codegen/java/client/target/calycopis-client-${{env.javajarversion}}-SNAPSHOT.jar'
+          path: 'codegen/java/client/target/calycopis-client-${{env.javabuildversion}}-SNAPSHOT.jar'
 
       - name: Publish the JAR to the GitHub Maven repository.
         if: ${{ github.repository == 'ivoa/Calycopis-schema' }}
@@ -343,9 +349,9 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemapath     [${{env.schemapath}}]"
-          echo "schemaversion  [${{env.schemaversion}}]"
-          echo "javajarversion [${{env.javajarversion}}]"
+          echo "schemapath       [${{env.schemapath}}]"
+          echo "schemaversion    [${{env.schemaversion}}]"
+          echo "javabuildversion [${{env.javabuildversion}}"
 
       - name: Download the schema result
         uses: actions/download-artifact@v4
@@ -364,8 +370,7 @@ jobs:
           pushd codegen/java/spring
           cat > build.properties << EOF
           calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          calycopis.build.version=${{env.jarversion}}
-          calycopis.jar.version=${{env.javajarversion}}
+          calycopis.build.version=${{env.javabuildversion}}
           EOF
           popd
 
@@ -400,7 +405,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-java-spring'
-          path: 'codegen/java/spring/target/calycopis-spring-${{env.javajarversion}}.jar'
+          path: 'codegen/java/spring/target/calycopis-spring-${{env.javabuildversion}}.jar'
 
       - name: Publish the JAR to the GitHub Maven repository.
         if: ${{ github.repository == 'ivoa/Calycopis-schema' }}

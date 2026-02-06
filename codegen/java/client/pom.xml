@@ -26,7 +26,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.ivoa.calycopis</groupId>
 	<artifactId>calycopis-client</artifactId>
-	<version>1.0.2-SNAPSHOT</version>
+	<version>${calycopis.build.version}</version>
 	<packaging>jar</packaging>
 	<name>Calycopis Java client</name>
 	<description>IVOA ExecutionBroker Java client generated from the OpenAPI schema</description>
