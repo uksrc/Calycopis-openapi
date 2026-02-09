@@ -99,6 +99,25 @@
     # We needed to set the GitHub organization to my personal account because we are pushing to my fork.
     #
 
+    #
+    # My repository has 2 packages.
+    # https://github.com/Zarquan/Calycopis-schema/packages/2841974
+    # https://github.com/Zarquan/Calycopis-schema/packages/2841940
+    # POM version is set to 1.0.2-SNAPSHOT
+    # Jar files have a date and time stamp in them
+    # calycopis-spring-1.0.2-20260205.153555-1.jar
+    #
+
+    #
+    # Ivoa organization has 2 packages.
+    # https://github.com/ivoa/Calycopis-schema/packages/2842152
+    # https://github.com/ivoa/Calycopis-schema/packages/2842153
+    # POM version is set to \$\{calycopis.build.version\}
+    # Jar files have an unresolved variable in their names
+    # calycopis-spring-%24%7Bcalycopis.build.version%7D.jar
+    # calycopis-spring-${calycopis.build.version}.jar
+    #
+
 
 
 
