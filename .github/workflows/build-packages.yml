@@ -297,7 +297,7 @@ jobs:
 
       - name: Check the GitHub event action
         run: |
-            echo "GitHub action [${{github.event.action}}]"
+            echo "GitHub action [${{github.event_name}}]"
 
       - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
