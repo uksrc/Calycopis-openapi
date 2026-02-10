@@ -55,7 +55,7 @@ status code: 401, reason phrase: Unauthorized (401)
 # -----------------------------------------------------
 
     branchname=github-workflows
-    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}
+    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}-01
 
     source "${HOME:?}/calycopis.env"
     pushd "${TREBULA_CODE:?}"
@@ -72,6 +72,47 @@ status code: 401, reason phrase: Unauthorized (401)
 
     popd
 
+
+# -----------------------------------------------------
+
+    #
+    # Guess - checking the commits for a pull request that worked and the one that failed.
+    # The only change is to the repo id.
+    #
+
+--START--
+....
+    <repository>
+-       <id>github</id>
++       <id>github-ivoa</id>
+        <name>IVOA packages on GitHub</name>
+        <url>https://maven.pkg.github.com/ivoa/Calycopis-schema</url>
+    </repository>
+....
+--END--
+
+    #
+    # Change it back and see ...
+    #
+
+    branchname=github-workflows
+    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}-02
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+        git add codegen/java/client/pom.xml
+        git add notes/zrq/20260210-01-github-workflows.txt
+
+        git commit -m "Guessing ...."
+
+        git push --set-upstream origin "${newbranch:?}"
+
+    popd
 
 
 
