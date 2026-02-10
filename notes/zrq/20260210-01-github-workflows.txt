@@ -149,6 +149,7 @@ status code: 401, reason phrase: Unauthorized (401)
         # Edit the spring pom.
         # Edit the workflow to add some debug.
 
+        git add .github/workflows/build-packages.yml
         git add codegen/java/spring/pom.xml
         git add notes/zrq/20260210-01-github-workflows.txt
 
@@ -158,10 +159,10 @@ status code: 401, reason phrase: Unauthorized (401)
 
     popd
 
-
-
-
-
+    #
+    # Create and merge a pull request on GitHub ....
+    # ... and it works.
+    #
 
     source "${HOME:?}/calycopis.env"
     pushd "${TREBULA_CODE:?}"
@@ -177,4 +178,71 @@ status code: 401, reason phrase: Unauthorized (401)
         git checkout -d "${newbranch:?}"
 
     popd
+
+    #
+    # The repository id in the POM Needs to match the
+    # server id created by the actions/setup-java step.
+    #
+
+    pom.xml
+        <repository>
+            <id>github</id>
+            <name>IVOA packages on GitHub</name>
+            <url>https://maven.pkg.github.com/ivoa/Calycopis-schema</url>
+        </repository>
+
+    settings.xml
+        <server>
+          <id>github</id>
+          <username>${env.GITHUB_ACTOR}</username>
+          <password>${env.GITHUB_TOKEN}</password>
+        </server>
+
+    #
+    # Last round to tidy things up ...
+    #
+
+    branchname=github-workflows
+    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}-04
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+        # Edit the notes ...
+
+        git add notes/zrq/20260210-01-github-workflows.txt
+
+        git commit -m "Guessing ...."
+
+        git push --set-upstream origin "${newbranch:?}"
+
+    popd
+
+    #
+    # Create and merge a pull request on GitHub ....
+    # ... and it works.
+    #
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git fetch upstream
+
+        git merge upstream/main
+
+        git push
+
+        git checkout -d "${newbranch:?}"
+
+    popd
+
+
+
+
 
