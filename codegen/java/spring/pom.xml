@@ -48,13 +48,14 @@
 
     <distributionManagement>
         <repository>
-            <id>github-ivoa</id>
+            <id>github</id>
             <name>IVOA packages on GitHub</name>
             <url>https://maven.pkg.github.com/ivoa/Calycopis-schema</url>
         </repository>
     </distributionManagement>
 
 	<dependencies>
+
         <!--+
             | Spring dependencies.
             | https://www.baeldung.com/java-openapi-generator-server#spring
