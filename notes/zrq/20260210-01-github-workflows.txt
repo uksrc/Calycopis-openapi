@@ -114,7 +114,67 @@ status code: 401, reason phrase: Unauthorized (401)
 
     popd
 
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git fetch upstream
+
+        git merge upstream/main
+
+        git push
+
+        git branch -d "${newbranch:?}"
+
+    popd
+
+    #
+    # Yep,
+    # client deploy worked with id=github
+    # spring deploy failed with id=github-ivoa
+    #
+
+
+    branchname=github-workflows
+    newbranch=$(date '+%Y%m%d')-zrq-${branchname:?}-03
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git checkout -b "${newbranch:?}"
+
+        # Edit the spring pom.
+        # Edit the workflow to add some debug.
+
+        git add codegen/java/spring/pom.xml
+        git add notes/zrq/20260210-01-github-workflows.txt
+
+        git commit -m "Guessing ...."
+
+        git push --set-upstream origin "${newbranch:?}"
+
+    popd
 
 
 
+
+
+
+    source "${HOME:?}/calycopis.env"
+    pushd "${TREBULA_CODE:?}"
+
+        git checkout main
+
+        git fetch upstream
+
+        git merge upstream/main
+
+        git push
+
+        git checkout -d "${newbranch:?}"
+
+    popd
 
