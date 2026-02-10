@@ -27,8 +27,6 @@ name: Calycopis builder
 env:
   schemapath: 'v1.0'
   schemaversion: '1.0.3'
-# javabuildversion: '1.0.3-SNAPSHOT'
-# pythonbuildversion: '1.0.3'
 
   openapiGeneratorName: 'openapi-generator-cli'
   openapiGeneratorVersion: '7.18.0'
@@ -130,8 +128,8 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemapath         [${{env.schemapath}}]"
-          echo "schemaversion      [${{env.schemaversion}}]"
+          echo "schemapath    [${{env.schemapath}}]"
+          echo "schemaversion [${{env.schemaversion}}]"
 
       - name: Create the schema build directory
         run: |
@@ -227,8 +225,8 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemapath       [${{env.schemapath}}]"
-          echo "schemaversion    [${{env.schemaversion}}]"
+          echo "schemapath    [${{env.schemapath}}]"
+          echo "schemaversion [${{env.schemaversion}}]"
 
       - name: Download the schema result
         uses: actions/download-artifact@v4
@@ -242,19 +240,13 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
-      - name: Create properties file
+      - name: Create our properties file
         run: |
           pushd codegen/java/client
           cat > build.properties << EOF
           calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           EOF
           popd
-
-#     # https://github.com/marketplace/actions/maven-cache
-#     - name: Restore our Maven cache
-#       uses: skjolber/maven-cache-github-action@v3.1.1
-#       with:
-#         step: restore
 
       # https://github.com/actions/cache/blob/main/examples.md#java---maven
       - name: Cache our Maven dependencies
@@ -270,12 +262,6 @@ jobs:
           pushd codegen/java/client
             ./mvnw --batch-mode install
           popd
-
-#     # https://github.com/marketplace/actions/maven-cache
-#     - name: Save our Maven cache
-#       uses: skjolber/maven-cache-github-action@v3.1.1
-#       with:
-#         step: save
 
       - name: Get the Maven POM version
         run: |
@@ -339,8 +325,8 @@ jobs:
 
       - name: Check the config
         run: |
-          echo "schemapath       [${{env.schemapath}}]"
-          echo "schemaversion    [${{env.schemaversion}}]"
+          echo "schemapath    [${{env.schemapath}}]"
+          echo "schemaversion [${{env.schemaversion}}]"
 
       - name: Download the schema result
         uses: actions/download-artifact@v4
@@ -354,19 +340,13 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
-      - name: Create properties file
+      - name: Create our properties file
         run: |
           pushd codegen/java/spring
           cat > build.properties << EOF
           calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           EOF
           popd
-
-#     # https://github.com/marketplace/actions/maven-cache
-#     - name: Restore our Maven cache
-#       uses: skjolber/maven-cache-github-action@v3.1.1
-#       with:
-#         step: restore
 
       # https://github.com/actions/cache/blob/main/examples.md#java---maven
       - name: Cache our Maven dependencies
@@ -382,12 +362,6 @@ jobs:
           pushd codegen/java/spring
             ./mvnw --batch-mode install
           popd
-
-#     # https://github.com/marketplace/actions/maven-cache
-#     - name: Save our Maven cache
-#       uses: skjolber/maven-cache-github-action@v3.1.1
-#       with:
-#         step: save
 
       - name: Get the Maven POM version
         run: |
