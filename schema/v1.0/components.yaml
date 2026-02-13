@@ -851,7 +851,8 @@ components:
                 If service is able to handle the request, then the `result` will be `YES`
                 and the `offers` block should contain one or more offers.
                 If service is not able to handle the request, the `result` will be `NO`
-                and the `messages` block should contain one or more reasons explaining why.
+                and the `messages` block should contain one or more messages explaining
+                why the request was rejected.
               type: string
               enum:
                 - "YES"
@@ -870,5 +871,11 @@ components:
                 xml:
                   name: execution
 
-
+    SessionResponse:
+      description: >-
+        The response to a request for a session details.
+      type: object
+      title: SessionResponse
+      allOf:
+        - $ref: '#/components/schemas/AbstractExecutionSession'
 

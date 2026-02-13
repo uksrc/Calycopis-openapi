@@ -30,7 +30,8 @@ info:
   description: >-
     IVOA ExecutionBroker interface
   contact:
-    name: Dave Morris
+    name:  Dave Morris
+    email: openapi.dev@dm92.uk
     url: https://github.com/Zarquan
   license:
     name: Creative Commons Attribution Share Alike 4.0 International
@@ -127,13 +128,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExecutionSessionResponseFour'
+                $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ExecutionSessionResponseFour'
+                $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
             application/yaml:
               schema:
-                $ref: '#/components/schemas/ExecutionSessionResponseFour'
+                $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
 
     post:
       operationId: ExecutionSessionPost
@@ -167,47 +168,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExecutionSessionResponseFour'
+                $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
             application/xml:
               schema:
-                $ref: '#/components/schemas/ExecutionSessionResponseFour'
+                $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
             application/yaml:
               schema:
-                $ref: '#/components/schemas/ExecutionSessionResponseFour'
+                $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
 
-components:
-  schemas:
 
-#   ExecutionSessionResponseOne:
-#     description: >-
-#       Container class for execution session responses.
-#     type: object
-#     title: ExecutionSessionResponseOne
-#     $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
 
-#   ExecutionSessionResponseTwo:
-#     description: >-
-#       Container class for execution session responses.
-#     type: object
-#     title: ExecutionSessionResponseTwo
-#     allOf:
-#       - $ref: './components.yaml#/components/schemas/AbstractExecutionSession'
-
-#   ExecutionSessionResponseThree:
-#     description: >-
-#       Container class for execution session responses.
-#     type: object
-#     title: ExecutionSessionResponseThree
-#     oneOf:
-#      - $ref: './types/session/simple-execution-session-1.0.yaml#/components/schemas/SimpleExecutionSession'
-#      - $ref: './types/session/scheduled-execution-session-1.0.yaml#/components/schemas/ScheduledExecutionSession'
-
-    ExecutionSessionResponseFour:
-      description: >-
-        Container class for ExecutionSession responses.
-      type: object
-      title: ExecutionSessionResponseFour
-      oneOf:
-       - $ref: './components.yaml#/components/schemas/SimpleExecutionSession'
-       - $ref: './components.yaml#/components/schemas/ScheduledExecutionSession'
 
