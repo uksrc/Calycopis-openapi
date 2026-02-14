@@ -706,6 +706,7 @@ components:
               description: >-
                 A list of connectors to interact with the session.
               $ref: '#/components/schemas/SimpleSessionConnectorList'
+
     ScheduleDuration:
       type: object
       title: ScheduleDuration

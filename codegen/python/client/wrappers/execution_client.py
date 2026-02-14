@@ -86,18 +86,18 @@ class ExecutionBrokerClient:
         self,
         offer_set_request: OfferSetRequest,
         follow_redirect: bool = True,
-    ) -> Union[IvoaOfferSetResponse, UUID]:
+    ) -> Union[OfferSetResponse, UUID]:
         """
-        Submit an IvoaOfferSetRequest.
+        Submit an OfferSetRequest.
 
         Returns:
-            - IvoaOfferSetResponse if the server responds with 200.
+            - OfferSetResponse if the server responds with 200.
             - UUID of the offerset if the server responds with 303 and
               follow_redirect is False.
-            - IvoaOfferSetResponse loaded via GET /offersets/{uuid} if the server
+            - OfferSetResponse loaded via GET /offersets/{uuid} if the server
               responds with 303 and follow_redirect is True.
         """
-        resp: ApiResponse[IvoaOfferSetResponse] = self._api.offer_set_post_with_http_info(
+        resp: ApiResponse[OfferSetResponse] = self._api.offer_set_post_with_http_info(
             offer_set_request
         )
 
@@ -124,7 +124,7 @@ class ExecutionBrokerClient:
     def get_session(
         self,
         session_uuid: UUID,
-    ) -> IvoaAbstractExecutionSession:
+    ) -> AbstractExecutionSession:
         """
         Fetch an execution session by UUID.
         """
@@ -133,9 +133,9 @@ class ExecutionBrokerClient:
     def set_session_phase(
         self,
         session_uuid: UUID,
-        phase: IvoaSimpleExecutionSessionPhase,
+        phase: SimpleExecutionSessionPhase,
         path: str = "/phase",
-    ) -> IvoaAbstractExecutionSession:
+    ) -> AbstractExecutionSession:
         """
         Set the phase of a session via an EnumValueUpdate.
 
@@ -144,7 +144,7 @@ class ExecutionBrokerClient:
             phase: Target SimpleExecutionSessionPhase value.
             path: The JSON path to the phase field; default assumes '/phase'.
         """
-        update = IvoaEnumValueUpdate(
+        update = EnumValueUpdate(
             kind="uri:enum-value-update",
             path=path,
             value=phase.value,
@@ -158,10 +158,10 @@ class ExecutionBrokerClient:
     def wait_for_phase(
         self,
         session_uuid: UUID,
-        target_phases: Iterable[IvoaSimpleExecutionSessionPhase],
+        target_phases: Iterable[SimpleExecutionSessionPhase],
         timeout: float = 300.0,
         interval: float = 2.0,
-    ) -> IvoaAbstractExecutionSession:
+    ) -> AbstractExecutionSession:
         """
         Poll a session until its phase is in target_phases or timeout expires.
 
@@ -174,9 +174,9 @@ class ExecutionBrokerClient:
         Raises:
             TimeoutError: If the target phase is not reached in time.
         """
-        target_set: Set[IvoaSimpleExecutionSessionPhase] = set(target_phases)
+        target_set: Set[SimpleExecutionSessionPhase] = set(target_phases)
         deadline = datetime.utcnow() + timedelta(seconds=timeout)
-        last: Optional[IvoaAbstractExecutionSession] = None
+        last: Optional[AbstractExecutionSession] = None
 
         while datetime.utcnow() < deadline:
             last = self.get_session(session_uuid)
@@ -195,15 +195,15 @@ class ExecutionBrokerClient:
         session_uuid: UUID,
         timeout: float = 900.0,
         interval: float = 5.0,
-    ) -> IvoaAbstractExecutionSession:
+    ) -> AbstractExecutionSession:
         """
         Wait until the session reaches a terminal phase:
         COMPLETED, FAILED, or CANCELLED.
         """
         terminals = {
-            IvoaSimpleExecutionSessionPhase.COMPLETED,
-            IvoaSimpleExecutionSessionPhase.FAILED,
-            IvoaSimpleExecutionSessionPhase.CANCELLED,
+            SimpleExecutionSessionPhase.COMPLETED,
+            SimpleExecutionSessionPhase.FAILED,
+            SimpleExecutionSessionPhase.CANCELLED,
         }
         return self.wait_for_phase(
             session_uuid=session_uuid,
