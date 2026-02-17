@@ -44,10 +44,17 @@ components:
       title: SkaoDataResource
       description: >-
         Metadata describing a SKAO data resource in the data lake.
+        SkaoDataResource extends AbstractDataResource directly (as a sibling of
+        IvoaDataResource) rather than extending IvoaDataResource, to avoid a
+        recursive discriminator bug in the OpenAPI Python code generator.
+        The IvoaDataResourceBlock is included explicitly to preserve the same
+        JSON shape as if SkaoDataResource were a child of IvoaDataResource.
       allOf:
-        - $ref: './ivoa-data-resource-1.0.yaml#/components/schemas/IvoaDataResource'
+        - $ref: '../../components.yaml#/components/schemas/AbstractDataResource'
         - type: object
           properties:
+            ivoa:
+              $ref: './ivoa-data-resource-1.0.yaml#/components/schemas/IvoaDataResourceBlock'
             skao:
               $ref: '#/components/schemas/SkaoDataResourceBlock'
 
