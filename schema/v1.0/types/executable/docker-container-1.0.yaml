@@ -60,6 +60,10 @@ components:
                 Set the privileged flag on execution.
                 The default is `false`.
                 See https://docs.docker.com/reference/cli/docker/container/run/#privileged.
+            command:
+              type: string
+              description: >-
+                The command line arguments to pass to the container.
             entrypoint:
               type: string
               description: >-
