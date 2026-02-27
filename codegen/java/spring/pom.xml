@@ -44,6 +44,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <calycopis.package>net.ivoa.calycopis.spring</calycopis.package>
         <calycopis.model.prefix>Ivoa</calycopis.model.prefix>
+        <calycopis.schema.file>${project.basedir}/../../../schema/build/execution-broker-1.0.3.yaml</calycopis.schema.file>
 	</properties>
 
     <distributionManagement>
@@ -153,7 +154,6 @@
                 | Stack Overflow - Maven, read version number from property file
                 | https://stackoverflow.com/questions/8541332/maven-read-version-number-from-property-file
                 | https://stackoverflow.com/a/13970763
-                +-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
@@ -172,6 +172,7 @@
                     </execution>
                 </executions>
             </plugin>
+                +-->
 
             <!--+
                 | OpenAPI generator from the Spring documentation.

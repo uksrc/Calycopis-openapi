@@ -240,13 +240,13 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
-      - name: Create our properties file
-        run: |
-          pushd codegen/java/client
-          cat > build.properties << EOF
-          calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          EOF
-          popd
+#     - name: Create our properties file
+#       run: |
+#         pushd codegen/java/client
+#         cat > build.properties << EOF
+#         calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
+#         EOF
+#         popd
 
       # https://github.com/actions/cache/blob/main/examples.md#java---maven
       - name: Cache our Maven dependencies
@@ -260,7 +260,9 @@ jobs:
       - name: Run the Maven build
         run: |
           pushd codegen/java/client
-            ./mvnw --batch-mode install
+            ./mvnw --batch-mode \
+              install \
+                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           popd
 
       - name: Get the Maven POM version
@@ -344,13 +346,13 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
-      - name: Create our properties file
-        run: |
-          pushd codegen/java/spring
-          cat > build.properties << EOF
-          calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          EOF
-          popd
+#     - name: Create our properties file
+#       run: |
+#         pushd codegen/java/spring
+#         cat > build.properties << EOF
+#         calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
+#         EOF
+#         popd
 
       # https://github.com/actions/cache/blob/main/examples.md#java---maven
       - name: Cache our Maven dependencies
@@ -364,7 +366,9 @@ jobs:
       - name: Run the Maven build
         run: |
           pushd codegen/java/spring
-            ./mvnw --batch-mode install
+            ./mvnw --batch-mode \
+              install \
+                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           popd
 
       - name: Get the Maven POM version

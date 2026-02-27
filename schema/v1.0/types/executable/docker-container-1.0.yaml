@@ -61,13 +61,15 @@ components:
                 The default is `false`.
                 See https://docs.docker.com/reference/cli/docker/container/run/#privileged.
             command:
-              type: string
               description: >-
-                The command line arguments to pass to the container.
+                An array of command line arguments to pass to the container entrypoint.
+              type: array
+              items:
+                type: string
             entrypoint:
               type: string
               description: >-
-                Overwrite the default ENTRYPOINT of the image.
+                Overwrite the default ENTRYPOINT of the container.
             environment:
               description: >-
                 A name => value map of environment variables to pass to the container.

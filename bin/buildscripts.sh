@@ -16,31 +16,21 @@
 # A shell script to generate and build packages from the schema.
 #
 
-schemapath=v1.0
-schemaversion=1.0.3
+schemapath="v1.0"
+schemaversion="1.0.3"
 
-openapiGeneratorName=openapi-generator-cli
-openapiGeneratorVersion=7.18.0
-openapiGeneratorFileName=${openapiGeneratorName}-${openapiGeneratorVersion}.jar
-openapiGeneratorPath=/opt/openapi-generator
-openapiGeneratorFullPath=${openapiGeneratorPath}/${openapiGeneratorFileName}
-
-#
-# This script assumes that the schema project has been mounted
-# at /trebula in the container filesystem.
-#
-# This script assumes that the schema processor has been mounted
-# as a git submodule at /trebula/isobeon in the container filesystem.
-#
+openapiGeneratorName="openapi-generator-cli"
+openapiGeneratorVersion="7.18.0"
+openapiGeneratorFileName="${openapiGeneratorName}-${openapiGeneratorVersion}.jar"
+openapiGeneratorPath="/opt/openapi-generator"
+openapiGeneratorFullPath="${openapiGeneratorPath}/${openapiGeneratorFileName}"
 
 buildschema()
     {
     local clean=${1-false}
 
-    source /trebula/project.properties
-
-    local schemainput=/trebula/schema/${schemapath:?}/execution-broker.yaml
-    local schemaoutput=/trebula/schema/build/execution-broker-${schemaversion:?}.yaml
+    local schemainput="schema/${schemapath:?}/execution-broker.yaml"
+    local schemaoutput="schema/build/execution-broker-${schemaversion:?}.yaml"
 
     echo "Clean  [${clean}]"
     echo "Input  [${schemainput}]"
@@ -61,7 +51,7 @@ buildschema()
     if [ ! -e "${schemaoutput:?}" ]
     then
         python \
-            /trebula/isobeon/schema-processor.py \
+            "isobeon/schema-processor.py" \
                 "${schemainput:?}" \
                 "${schemaoutput}"
     fi
@@ -84,13 +74,12 @@ installgenerator()
 
 buildpythonclient()
     {
-    source /trebula/project.properties
 
     # buildschema
     # installgenerator
 
-    local schemafile=/trebula/schema/build/execution-broker-${schemaversion:?}.yaml
-    local buildpath=/trebula/codegen/python/client/build
+    local schemafile="schema/build/execution-broker-${schemaversion:?}.yaml"
+    local buildpath="codegen/python/client/build"
 
     rm -rf \
         "${buildpath:?}"
@@ -113,7 +102,7 @@ buildpythonclient()
 
     #
     # Add the extra wrappers
-    cp -r /trebula/codegen/python/client/wrappers \
+    cp -r "codegen/python/client/wrappers" \
         "${buildpath}/calycopis_client/wrappers"
 
     pip install \
@@ -128,37 +117,15 @@ buildpythonclient()
 
 buildjavaclient()
     {
-    source /trebula/project.properties
-
-    # buildschema
-
-    pushd /trebula/codegen/java/client/
-
-        cat > build.properties << EOF
-calycopis.schema.file=/trebula/schema/build/execution-broker-${schemaversion:?}.yaml
-EOF
-
+    pushd codegen/java/client/
         ./mvnw clean install
-
     popd
-
     }
 
 buildjavaspring()
     {
-    source /trebula/project.properties
-
-    # buildschema
-
-    pushd /trebula/codegen/java/spring/
-
-        cat > build.properties << EOF
-calycopis.schema.file=/trebula/schema/build/execution-broker-${schemaversion:?}.yaml
-EOF
-
+    pushd codegen/java/spring/
         ./mvnw clean install
-
     popd
-
     }
 
