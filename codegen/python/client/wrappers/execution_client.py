@@ -40,7 +40,7 @@ from uuid import UUID
 from calycopis_client import ApiClient, ApiResponse, Configuration
 from calycopis_client.api import DefaultApi
 from calycopis_client.models import (
-    OfferSetRequest,
+    ExecutionRequest,
     OfferSetResponse,
     AbstractExecutionSession,
     EnumValueUpdate,
@@ -84,11 +84,11 @@ class ExecutionBrokerClient:
 
     def submit_execution(
         self,
-        offer_set_request: OfferSetRequest,
+        offer_set_request: ExecutionRequest,
         follow_redirect: bool = True,
     ) -> Union[OfferSetResponse, UUID]:
         """
-        Submit an OfferSetRequest.
+        Submit an ExecutionRequest.
 
         Returns:
             - OfferSetResponse if the server responds with 200.
@@ -149,7 +149,7 @@ class ExecutionBrokerClient:
             path=path,
             value=phase.value,
         )
-        return self._api.execution_session_post(session_uuid, update)
+        return self._api.execution_update_post(session_uuid, update)
 
     # ------------------------------------------------------------------
     # Polling helpers
