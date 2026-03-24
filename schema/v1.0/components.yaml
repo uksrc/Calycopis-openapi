@@ -817,11 +817,11 @@ components:
         data:
           $ref: '#/components/schemas/AbstractDataResourceList'
 
-    OfferSetRequest:
+    ExecutionRequest:
       description: >-
         A request for a set of offers for an execution.
       type: object
-      title: OfferSetRequest
+      title: ExecutionRequest
       xml:
         name: offers-request
       allOf:
@@ -872,11 +872,4 @@ components:
                 xml:
                   name: execution
 
-    SessionResponse:
-      description: >-
-        The response to a request for a session details.
-      type: object
-      title: SessionResponse
-      allOf:
-        - $ref: '#/components/schemas/AbstractExecutionSession'
 
