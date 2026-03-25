@@ -20,13 +20,26 @@
     |   </meta:licence>
     | </meta:header>
     |
+    | AIMetrics: [
+    |     {
+    |     "timestamp": "2026-03-25T12:00:00",
+    |     "name": "Cursor CLI",
+    |     "version": "2026.02.13-41ac335",
+    |     "model": "Claude 4.6 Opus (Thinking)",
+    |     "contribution": {
+    |       "value": 1,
+    |       "units": "%"
+    |       }
+    |     }
+    |   ]
+    |
     +-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.ivoa.calycopis</groupId>
 	<artifactId>calycopis-client</artifactId>
-	<version>1.0.3-SNAPSHOT</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Calycopis Java client</name>
 	<description>IVOA ExecutionBroker Java client generated from the OpenAPI schema</description>
@@ -38,7 +51,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <calycopis.package>net.ivoa.calycopis.client</calycopis.package>
         <calycopis.model.prefix>Ivoa</calycopis.model.prefix>
-        <calycopis.schema.file>${project.basedir}/../../../schema/build/execution-broker-1.0.3.yaml</calycopis.schema.file>
+        <calycopis.schema.file>${project.basedir}/../../../schema/build/execution-broker-1.0.4.yaml</calycopis.schema.file>
 	</properties>
 
     <distributionManagement>

@@ -11,13 +11,24 @@
 #   </meta:licence>
 # </meta:header>
 #
-# AIMetrics: []
+# AIMetrics: [
+#     {
+#     "timestamp": "2026-03-25T12:00:00",
+#     "name": "Cursor CLI",
+#     "version": "2026.02.13-41ac335",
+#     "model": "Claude 4.6 Opus (Thinking)",
+#     "contribution": {
+#       "value": 1,
+#       "units": "%"
+#       }
+#     }
+#   ]
 #
 # A shell script to generate and build packages from the schema.
 #
 
 schemapath="v1.0"
-schemaversion="1.0.3"
+schemaversion="1.0.4"
 
 openapiGeneratorName="openapi-generator-cli"
 openapiGeneratorVersion="7.18.0"

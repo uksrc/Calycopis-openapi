@@ -1,7 +1,7 @@
 #
 # <meta:header>
 #   <meta:licence>
-#     Copyright (c) 2024, Manchester University (http://www.manchester.ac.uk/)
+#     Copyright (c) 2026, Manchester University (http://www.manchester.ac.uk/)
 #
 #     This work is made available under the Creative Commons
 #     Attribution-ShareAlike 4.0 International licence.
@@ -16,6 +16,16 @@
 #     "name": "ChatGPT",
 #     "contribution": {
 #       "value": 5,
+#       "units": "%"
+#       }
+#     },
+#     {
+#     "timestamp": "2026-03-25T12:00:00",
+#     "name": "Cursor CLI",
+#     "version": "2026.02.13-41ac335",
+#     "model": "Claude 4.6 Opus (Thinking)",
+#     "contribution": {
+#       "value": 1,
 #       "units": "%"
 #       }
 #     }
@@ -601,7 +611,7 @@ components:
 
     SimpleExecutionComponents:
       description: >-
-        The combination of an executable and the compute, storage, volumes, and data resources it needs.
+        The combination of an executable and the compute, storage, and data resources it needs.
       type: object
       title: SimpleExecutionComponents
       properties:
@@ -611,8 +621,6 @@ components:
           $ref: '#/components/schemas/AbstractComputeResource'
         storage:
           $ref: '#/components/schemas/AbstractStorageResourceList'
-        volumes:
-          $ref: '#/components/schemas/AbstractVolumeMountList'
         data:
           $ref: '#/components/schemas/AbstractDataResourceList'
 
@@ -802,7 +810,7 @@ components:
 
     ExecutionRequestComponents:
       description: >-
-        The combination of an executable and the compute, storage, volumes, and data resources it needs.
+        The combination of an executable and the compute, storage, and data resources it needs.
       type: object
       title: ExecutionComponents
       properties:
@@ -812,8 +820,6 @@ components:
           $ref: '#/components/schemas/AbstractComputeResource'
         storage:
           $ref: '#/components/schemas/AbstractStorageResourceList'
-        volumes:
-          $ref: '#/components/schemas/AbstractVolumeMountList'
         data:
           $ref: '#/components/schemas/AbstractDataResourceList'
 

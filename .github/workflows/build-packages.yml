@@ -16,8 +16,18 @@
 #       name: chatgpt
 #       contrib: 1%
 #       link: https://chatgpt.com/share/6985cb44-51bc-8008-9259-cb9ff4530da5
+#       },
+#     {
+#     "timestamp": "2026-03-25T12:00:00",
+#     "name": "Cursor CLI",
+#     "version": "2026.02.13-41ac335",
+#     "model": "Claude 4.6 Opus (Thinking)",
+#     "contribution": {
+#       "value": 1,
+#       "units": "%"
 #       }
-#     ]
+#     }
+#   ]
 #
 # A GitHub workflow to build and publish libraries from the schema.
 #
@@ -26,7 +36,7 @@ name: Calycopis builder
 
 env:
   schemapath: 'v1.0'
-  schemaversion: '1.0.3'
+  schemaversion: '1.0.4'
 
   openapiGeneratorName: 'openapi-generator-cli'
   openapiGeneratorVersion: '7.18.0'

@@ -1,7 +1,7 @@
 #
 # <meta:header>
 #   <meta:licence>
-#     Copyright (c) 2025, Manchester University (http://www.manchester.ac.uk/)
+#     Copyright (c) 2026, Manchester University (http://www.manchester.ac.uk/)
 #
 #     This work is made available under the Creative Commons
 #     Attribution-ShareAlike 4.0 International licence.
@@ -14,6 +14,16 @@
 # AIMetrics: [
 #     {
 #     "name": "ChatGPT",
+#     "contribution": {
+#       "value": 5,
+#       "units": "%"
+#       }
+#     },
+#     {
+#     "timestamp": "2026-03-25T12:00:00",
+#     "name": "Cursor CLI",
+#     "version": "2026.02.13-41ac335",
+#     "model": "Claude 4.6 Opus (Thinking)",
 #     "contribution": {
 #       "value": 5,
 #       "units": "%"
@@ -53,12 +63,7 @@ components:
             memory:
               $ref: '#/components/schemas/SimpleComputeMemory'
             volumes:
-              description: >-
-                A list of volumes to mount in the compute resource filesystem.
-              type: array
-              items:
-                type: string
-#               $ref: '#/components/schemas/SimpleVolumeMount'
+              $ref: '../../components.yaml#/components/schemas/AbstractVolumeMountList'
 
     SimpleComputeCores:
       description: >-
