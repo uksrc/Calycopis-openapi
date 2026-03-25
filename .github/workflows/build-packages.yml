@@ -311,7 +311,9 @@ jobs:
         if: ${{ (github.repository == 'ivoa/Calycopis-schema') && (github.event_name == 'push') }}
         run: |
           pushd codegen/java/client
-            ./mvnw --batch-mode deploy
+            ./mvnw --batch-mode \
+              deploy \
+                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           popd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -417,7 +419,9 @@ jobs:
         if: ${{ (github.repository == 'ivoa/Calycopis-schema') && (github.event_name == 'push') }}
         run: |
           pushd codegen/java/spring
-            ./mvnw --batch-mode deploy
+            ./mvnw --batch-mode \
+              deploy \
+                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           popd
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
