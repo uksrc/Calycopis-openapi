@@ -118,6 +118,44 @@ class ExecutionBrokerClient:
         )
 
     # ------------------------------------------------------------------
+    # Direct execution helpers
+    # ------------------------------------------------------------------
+
+    def direct_execute(
+        self,
+        execution_request: ExecutionRequest,
+    ) -> AbstractExecutionSession:
+        """
+        Submit a direct execution request (POST /sessions).
+
+        The server responds with 303 and a Location header pointing
+        to the created session.  This method follows the redirect
+        and returns the session.
+
+        Returns:
+            AbstractExecutionSession for the newly created session.
+        """
+        resp: ApiResponse = self._api.direct_execution_post_with_http_info(
+            execution_request
+        )
+
+        if resp.status_code == 303:
+            location = resp.headers.get("Location") if resp.headers else None
+            if not location:
+                raise RuntimeError(
+                    "303 response from direct_execution_post without Location header"
+                )
+            session_uuid = UUID(location.rsplit("/", 1)[-1])
+            return self.get_session(session_uuid)
+
+        if resp.status_code == 200:
+            return resp.data
+
+        raise RuntimeError(
+            f"Unexpected status code from direct_execution_post: {resp.status_code}"
+        )
+
+    # ------------------------------------------------------------------
     # Session helpers
     # ------------------------------------------------------------------
 
