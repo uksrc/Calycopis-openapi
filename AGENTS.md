@@ -57,7 +57,7 @@ pip install -r isobeon/requirements.txt
 ### Step 2: Process the schema
 
 The `buildschema` function runs the isobeon pre-processor to merge the multi-file
-schema into a single YAML file at `schema/build/execution-broker-1.0.5.yaml`.
+schema into a single YAML file at `schema/build/execution-broker-1.0.6.yaml`.
 
 ```
 buildschema
@@ -69,7 +69,7 @@ This is equivalent to:
 mkdir -p schema/build
 python isobeon/schema-processor.py \
     schema/v1.0/execution-broker.yaml \
-    schema/build/execution-broker-1.0.5.yaml
+    schema/build/execution-broker-1.0.6.yaml
 ```
 
 Pass `true` to clean the build directory first:
@@ -100,7 +100,7 @@ wget \
 
 The `buildjavaspring` function builds and installs the `calycopis-schema-spring` Maven
 artifact into the local Maven repository. The Calycopis-broker project depends on
-this artifact (`net.ivoa.calycopis:calycopis-schema-spring:1.0.5-SNAPSHOT`).
+this artifact (`net.ivoa.calycopis:calycopis-schema-spring:1.0.6-SNAPSHOT`).
 
 The Maven POM uses the `openapi-generator-maven-plugin` to generate classes from
 the processed schema at build time, so Step 2 must be completed first.
@@ -156,12 +156,12 @@ mkdir -p codegen/python/client/build
 java -jar /opt/openapi-generator/openapi-generator-cli-7.22.0.jar \
     generate \
     --generator-name python \
-    --input-spec schema/build/execution-broker-1.0.5.yaml \
+    --input-spec schema/build/execution-broker-1.0.6.yaml \
     --output codegen/python/client/build \
     --additional-properties "projectName=calycopis-schema-client" \
     --additional-properties "packageName=calycopis_schema_client" \
     --additional-properties "packageUrl=https://github.com/ivoa/Calycopis-schema" \
-    --additional-properties "packageVersion=1.0.5"
+    --additional-properties "packageVersion=1.0.6"
 
 cp -r codegen/python/client/wrappers \
     codegen/python/client/build/calycopis_schema_client/wrappers
@@ -195,13 +195,13 @@ pip install --editable codegen/python/client/build
 
 ## Schema version
 
-The current schema version is `1.0.5`. This version string appears in:
+The current schema version is `1.0.6`. This version string appears in:
 
 * `bin/buildscripts.sh` (`schemaversion` variable)
 * `project.properties`
-* The Maven POM files (`<version>1.0.5-SNAPSHOT</version>`)
+* The Maven POM files (`<version>1.0.6-SNAPSHOT</version>`)
 * The generated Python package (`packageVersion`)
-* The processed schema output filename (`execution-broker-1.0.5.yaml`)
+* The processed schema output filename (`execution-broker-1.0.6.yaml`)
 
 ## Code generation details
 
