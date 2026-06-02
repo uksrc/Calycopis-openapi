@@ -54,7 +54,7 @@ components:
         - type: object
           properties:
             ivoa:
-              $ref: './ivoa-data-resource-1.0.yaml#/components/schemas/IvoaDataResourceBlock'
+              $ref: './ivoa-data-resource.yaml#/components/schemas/IvoaDataResourceBlock'
             skao:
               $ref: '#/components/schemas/SkaoDataResourceBlock'
 
