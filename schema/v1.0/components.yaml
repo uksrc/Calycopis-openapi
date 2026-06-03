@@ -28,6 +28,16 @@
 #       "value": 1,
 #       "units": "%"
 #       }
+#     },
+#     {
+#     "timestamp": "2026-06-03T01:33:00",
+#     "name": "Cursor CLI",
+#     "version": "2026.02.13-41ac335",
+#     "model": "Claude 4.6 Opus (Thinking)",
+#     "contribution": {
+#       "value": 5,
+#       "units": "%"
+#       }
 #     }
 #   ]
 #
@@ -122,6 +132,14 @@ components:
           description: >-
             The component metadata.
           $ref: '#/components/schemas/ComponentMetadata'
+        costs:
+          description: >-
+            A list of costs associated with this component.
+          $ref: './kinds/costs/abstract-cost-item.yaml#/components/schemas/AbstractCostItemList'
+        metrics:
+          description: >-
+            A list of metrics associated with this component.
+          $ref: './kinds/metrics/abstract-metric-item.yaml#/components/schemas/AbstractMetricItemList'
 
     LifecyclePhase:
       description: >-
@@ -843,6 +861,14 @@ components:
               xml:
                 name: schedule
               $ref: '#/components/schemas/RequestedScheduleBlock'
+            costs:
+              description: >-
+                A list of cost constraints for this request.
+              $ref: './kinds/costs/abstract-cost-item.yaml#/components/schemas/AbstractCostItemList'
+            metrics:
+              description: >-
+                A list of metric requirements for this request.
+              $ref: './kinds/metrics/abstract-metric-item.yaml#/components/schemas/AbstractMetricItemList'
 
     OfferSetResponse:
       description: >-
