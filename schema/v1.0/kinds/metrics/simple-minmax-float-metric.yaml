@@ -1,0 +1,66 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2026, Manchester University (http://www.manchester.ac.uk/)
+#
+#     This work is made available under the Creative Commons
+#     Attribution-ShareAlike 4.0 International licence.
+#
+#     For details of the licence terms see:
+#     https://creativecommons.org/licenses/by-sa/4.0/
+#   </meta:licence>
+# </meta:header>
+#
+# AIMetrics: [
+#     {
+#     "timestamp": "2026-06-03T01:33:00",
+#     "name": "Cursor CLI",
+#     "version": "2026.02.13-41ac335",
+#     "model": "Claude 4.6 Opus (Thinking)",
+#     "contribution": {
+#       "value": 100,
+#       "units": "%"
+#       }
+#     }
+#   ]
+#
+
+openapi: 3.1.0
+info:
+  title: IVOA ExecutionBroker simple min/max float metric
+  version: "1.0"
+  summary: IVOA ExecutionBroker simple min/max float metric
+  description: >-
+    OpenAPI schema for a simple min/max float metric in IVOA ExecutionBroker
+  contact:
+    name: Dave Morris
+    url: https://github.com/Zarquan
+  license:
+    name: Creative Commons Attribution Share Alike 4.0 International
+    identifier: CC-BY-SA-4.0
+
+components:
+  schemas:
+
+    SimpleMinMaxFloatMetric:
+      description: >-
+        A basic numeric minimum and maximum value for a metric.
+        Both values are optional.
+        The client can use this kind of metric to specify the minimum performance they require,
+        and the service can quote the minimum and maximum performance that the platform can provide.
+      type: object
+      title: SimpleMinMaxFloatMetric
+      allOf:
+        - $ref: './abstract-metric-item.yaml#/components/schemas/AbstractMetricItem'
+        - type: object
+          properties:
+            min:
+              description: >-
+                The minimum metric value.
+              type: number
+              format: float
+            max:
+              description: >-
+                The maximum metric value.
+              type: number
+              format: float
