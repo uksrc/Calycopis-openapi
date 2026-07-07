@@ -65,7 +65,7 @@
         <repository>
             <id>github</id>
             <name>IVOA packages on GitHub</name>
-            <url>https://maven.pkg.github.com/ivoa/Calycopis-schema</url>
+            <url>https://maven.pkg.github.com/ivoa/Calycopis-openapi</url>
         </repository>
     </distributionManagement>
 
