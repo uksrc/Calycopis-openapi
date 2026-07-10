@@ -42,6 +42,7 @@ env:
   openapiGeneratorVersion: '7.22.0'
 
 on:
+  workflow_dispatch:
   push:
     #branches: [ "main" ]
   pull_request:
@@ -63,12 +64,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-
-#     # https://github.com/marketplace/actions/yaml-file-reader
-#     - name: Read the project config
-#       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
-#       with:
-#         yaml-file: config.yaml
 
       - name: Check the config
         run: |
@@ -129,12 +124,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: 'true'
-
-#     # https://github.com/marketplace/actions/yaml-file-reader
-#     - name: Read the project config
-#       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
-#       with:
-#         yaml-file: config.yaml
 
       - name: Check the config
         run: |
@@ -227,12 +216,6 @@ jobs:
         with:
           submodules: 'true'
 
-#     # https://github.com/marketplace/actions/yaml-file-reader
-#     - name: Read the project config
-#       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
-#       with:
-#         yaml-file: config.yaml
-
       - name: Check the config
         run: |
           echo "schemapath    [${{env.schemapath}}]"
@@ -301,18 +284,42 @@ jobs:
         run: |
             cat ~/.m2/settings.xml
 
+      - name: Install our own Maven settings
+        run: |
+            mkdir -p ~/.m2
+            cp -f codegen/java/settings.xml \
+                  ~/.m2/settings.xml
+
+      - name: Check our Maven settings
+        run: |
+            cat ~/.m2/settings.xml
+
       - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-schema-java-client'
           path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
 
-      - name: Publish the JAR to the GitHub Maven repository.
-        if: ${{ (github.repository == 'ivoa/Calycopis-schema') && (github.event_name == 'push') }}
+      - name: Publish the JAR to the UKSRC Nexus repository.
+        if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') }}
         run: |
           pushd codegen/java/client
             ./mvnw --batch-mode \
               deploy \
+                -Puksrc-profile \
+                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
+          popd
+        env:
+          UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
+          UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
+
+      - name: Publish the JAR to the IVOA GitHub repository.
+        if: ${{ (github.repository == 'ivoa/Calycopis-openapi') && (github.event_name == 'push') }}
+        run: |
+          pushd codegen/java/client
+            ./mvnw --batch-mode \
+              deploy \
+                -Pivoa-profile \
                 -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           popd
         env:
@@ -335,12 +342,6 @@ jobs:
         with:
           submodules: 'true'
 
-#     # https://github.com/marketplace/actions/yaml-file-reader
-#     - name: Read the project config
-#       uses: MangalAnkur/DevOpsPlanet-read-yaml-file@v1
-#       with:
-#         yaml-file: config.yaml
-
       - name: Check the config
         run: |
           echo "schemapath    [${{env.schemapath}}]"
@@ -357,14 +358,6 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '25'
-
-#     - name: Create our properties file
-#       run: |
-#         pushd codegen/java/spring
-#         cat > build.properties << EOF
-#         calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-#         EOF
-#         popd
 
       # https://github.com/actions/cache/blob/main/examples.md#java---maven
       - name: Cache our Maven dependencies
@@ -385,7 +378,7 @@ jobs:
 
       - name: Get the Maven POM version
         run: |
-          pushd codegen/java/client
+          pushd codegen/java/spring
             echo "pomversion=$(
                 ./mvnw \
                     -q \
@@ -409,13 +402,36 @@ jobs:
         run: |
             cat ~/.m2/settings.xml
 
+      - name: Install our own Maven settings
+        run: |
+            mkdir -p ~/.m2
+            cp -f codegen/java/settings.xml \
+                  ~/.m2/settings.xml
+
+      - name: Check our Maven settings
+        run: |
+            cat ~/.m2/settings.xml
+
       - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-schema-java-spring'
           path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.pomversion}}.jar'
 
-      - name: Publish the JAR to the GitHub package repository.
+      - name: Publish the JAR to the UKSRC Nexus repository.
+        if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') }}
+        run: |
+          pushd codegen/java/client
+            ./mvnw --batch-mode \
+              deploy \
+                -Puksrc-profile \
+                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
+          popd
+        env:
+          UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
+          UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
+
+      - name: Publish the JAR to the IVOA GitHub repository.
         if: ${{ (github.repository == 'ivoa/Calycopis-openapi') && (github.event_name == 'push') }}
         run: |
           pushd codegen/java/spring
