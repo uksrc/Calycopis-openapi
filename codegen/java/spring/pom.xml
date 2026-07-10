@@ -61,35 +61,6 @@
         <openapi.generator.version>7.22.0</openapi.generator.version>
 	</properties>
 
-    <!--+
-        |
-    <distributionManagement>
-
-        <repository>
-            <id>github</id>
-            <name>IVOA-github-repository</name>
-            <url>https://maven.pkg.github.com/ivoa/Calycopis-openapi</url>
-        </repository>
-
-        <snapshotRepository>
-            <name>IVOA-github-snapshots</name>
-            <url>https://maven.pkg.github.com/ivoa/Calycopis-openapi</url>
-        </snapshotRepository>
-
-        <repository>
-            <id>UKSRC-nexus-repository</id>
-            <url>https://repo.dev.uksrc.org/repository/maven-releases/</url>
-        </repository>
-
-        <snapshotRepository>
-            <id>UKSRC-nexus-snapshots</id>
-            <url>https://repo.dev.uksrc.org/repository/maven-snapshots/</url>
-        </snapshotRepository>
-
-    </distributionManagement>
-        |
-        +-->
-
 	<dependencies>
 
         <!--+
