@@ -334,7 +334,7 @@ jobs:
             github.repository == 'ivoa/Calycopis-openapi' &&
             github.event_name == 'push' &&
             github.ref_name == 'main'
-          run: |
+        run: |
           pushd codegen/java/client
             ./mvnw --batch-mode \
               deploy \
