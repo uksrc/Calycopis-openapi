@@ -301,7 +301,7 @@ jobs:
           path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
 
       - name: Publish the JAR to the UKSRC Nexus repository.
-        if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') }}
+        if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') && (github.branch == 'main') }}
         run: |
           pushd codegen/java/client
             ./mvnw --batch-mode \
@@ -314,7 +314,7 @@ jobs:
           UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
 
       - name: Publish the JAR to the IVOA GitHub repository.
-        if: ${{ (github.repository == 'ivoa/Calycopis-openapi') && (github.event_name == 'push') }}
+        if: ${{ (github.repository == 'ivoa/Calycopis-openapi') && (github.event_name == 'push') && (github.branch == 'main') }}
         run: |
           pushd codegen/java/client
             ./mvnw --batch-mode \
@@ -419,7 +419,7 @@ jobs:
           path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.pomversion}}.jar'
 
       - name: Publish the JAR to the UKSRC Nexus repository.
-        if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') }}
+        if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') && (github.branch == 'main') }}
         run: |
           pushd codegen/java/spring
             ./mvnw --batch-mode \
@@ -432,7 +432,7 @@ jobs:
           UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
 
       - name: Publish the JAR to the IVOA GitHub repository.
-        if: ${{ (github.repository == 'ivoa/Calycopis-openapi') && (github.event_name == 'push') }}
+        if: ${{ (github.repository == 'ivoa/Calycopis-openapi') && (github.event_name == 'push') && (github.branch == 'main') }}
         run: |
           pushd codegen/java/spring
             ./mvnw --batch-mode \
