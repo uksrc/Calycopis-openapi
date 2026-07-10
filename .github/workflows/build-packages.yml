@@ -13,20 +13,33 @@
 #
 # AIMetrics: [
 #       {
-#       name: chatgpt
-#       contrib: 1%
-#       link: https://chatgpt.com/share/6985cb44-51bc-8008-9259-cb9ff4530da5
+#       "name": "chatgpt",
+#       "link": "https://chatgpt.com/share/6985cb44-51bc-8008-9259-cb9ff4530da5",
+#       "contribution": {
+#           "value": 1,
+#           "units": "%"
+#           }
 #       },
-#     {
-#     "timestamp": "2026-03-25T12:00:00",
-#     "name": "Cursor CLI",
-#     "version": "2026.02.13-41ac335",
-#     "model": "Claude 4.6 Opus (Thinking)",
-#     "contribution": {
-#       "value": 1,
-#       "units": "%"
+#       {
+#       "timestamp": "2026-03-25T12:00:00",
+#       "name": "Cursor CLI",
+#       "version": "2026.02.13-41ac335",
+#       "model": "Claude 4.6 Opus (Thinking)",
+#       "contribution": {
+#           "value": 1,
+#           "units": "%"
+#           }
+#       },
+#       {
+#       "timestamp": "2026-07-10",
+#       "name": "chatgpt"
+#       "link": "https://chatgpt.com/share/6a5124bf-6a34-83eb-aedc-2f92d5fd7b70"
+#       "version": "2026.02.13-41ac335",
+#       "contribution": {
+#           "value": 1,
+#           "units": "%"
+#           }
 #       }
-#     }
 #   ]
 #
 # A GitHub workflow to build and publish libraries from the schema.
@@ -104,7 +117,7 @@ jobs:
         run: |
           tail 'schema/build/execution-broker-${{env.schemaversion}}.yaml'
 
-      - name: Upload the schema file
+      - name: Upload the schema file as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-schema-schema'
@@ -246,14 +259,6 @@ jobs:
           distribution: 'temurin'
           java-version: '25'
 
-#     - name: Create our properties file
-#       run: |
-#         pushd codegen/java/client
-#         cat > build.properties << EOF
-#         calycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-#         EOF
-#         popd
-
       # https://github.com/actions/cache/blob/main/examples.md#java---maven
       - name: Cache our Maven dependencies
         uses: actions/cache@v5
@@ -285,17 +290,11 @@ jobs:
                 >> "$GITHUB_ENV"
           popd
 
-      - name: Check the Maven POM version
-        run: |
-            echo "POM version [${{env.pomversion}}]"
-
-      - name: Check the GitHub event action
-        run: |
-            echo "GitHub action [${{github.event_name}}]"
-
-      - name: Check our Maven settings
-        run: |
-            cat ~/.m2/settings.xml
+      - name: Upload the JAR as a GitHub artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-schema-java-client'
+          path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
 
       - name: Install our own Maven settings
         run: |
@@ -306,12 +305,6 @@ jobs:
       - name: Check our Maven settings
         run: |
             cat ~/.m2/settings.xml
-
-      - name: Upload the JAR as a GitHub artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'calycopis-schema-java-client'
-          path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
 
       - name: Publish the JAR to the UKSRC Nexus repository.
         if: >
@@ -409,17 +402,11 @@ jobs:
                 >> "$GITHUB_ENV"
           popd
 
-      - name: Check the Maven POM version
-        run: |
-            echo "POM version [${{env.pomversion}}]"
-
-      - name: Check the GitHub event action
-        run: |
-            echo "GitHub action [${{github.event_name}}]"
-
-      - name: Check our Maven settings
-        run: |
-            cat ~/.m2/settings.xml
+      - name: Upload the JAR as a GitHub artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-schema-java-spring'
+          path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.pomversion}}.jar'
 
       - name: Install our own Maven settings
         run: |
@@ -430,12 +417,6 @@ jobs:
       - name: Check our Maven settings
         run: |
             cat ~/.m2/settings.xml
-
-      - name: Upload the JAR as a GitHub artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'calycopis-schema-java-spring'
-          path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.pomversion}}.jar'
 
       - name: Publish the JAR to the UKSRC Nexus repository.
         if: >

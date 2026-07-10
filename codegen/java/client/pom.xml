@@ -55,18 +55,6 @@
         <openapi.generator.version>7.22.0</openapi.generator.version>
 	</properties>
 
-    <!--+
-        |
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>IVOA packages on GitHub</name>
-            <url>https://maven.pkg.github.com/ivoa/Calycopis-schema</url>
-        </repository>
-    </distributionManagement>
-        |
-        +-->
-
 	<dependencies>
 
         <!--+
