@@ -421,7 +421,7 @@ jobs:
       - name: Publish the JAR to the UKSRC Nexus repository.
         if: ${{ (github.repository == 'uksrc/Calycopis-openapi') && (github.event_name == 'push') }}
         run: |
-          pushd codegen/java/client
+          pushd codegen/java/spring
             ./mvnw --batch-mode \
               deploy \
                 -Puksrc-profile \
@@ -437,6 +437,7 @@ jobs:
           pushd codegen/java/spring
             ./mvnw --batch-mode \
               deploy \
+                -Pivoa-profile \
                 -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
           popd
         env:
