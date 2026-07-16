@@ -27,8 +27,68 @@
 # A shell script to generate and build packages from the schema.
 #
 
-schemapath="v1.0"
-schemaversion="1.0.6"
+basepath=$(
+    realpath $(dirname "$0")
+    )
+
+schemapath=$(
+    yq '.schema.path' "${basepath:?}/config.yaml"
+    )
+
+schemaversion=$(
+    yq '.schema.version // ""' "${basepath:?}/config.yaml"
+    )
+
+schemafile="${basepath:?}/build/execution-broker-${schemaversion:?}.yaml"
+
+pythonversion()
+    {
+    local pythonversion="${schemaversion:?}"
+
+    local pythonbuild=$(
+        yq '.python.build // ""' "${basepath:?}/config.yaml"
+        )
+
+    if [ -n "${pythonbuild}" ]
+    then
+        pythonversion="${pythonversion:?}.${pythonbuild:?}"
+    fi
+
+    local pythonstamp=$(
+        yq '.python.stamp // ""' "${basepath:?}/config.yaml"
+        )
+
+    if [ -n "${pythonstamp}" ]
+    then
+        local pythondate=$(date "+${pythonstamp:?}")
+        pythonversion="${pythonversion:?}+${pythondate:?}"
+    fi
+
+    echo "${pythonversion}"
+    }
+
+javaversion()
+    {
+    local javaversion="${schemaversion:?}"
+
+    local javabuild=$(
+        yq '.java.build // ""' "${basepath:?}/config.yaml"
+        )
+
+    if [ -n "${javabuild}" ]
+    then
+        javaversion="${javaversion:?}-${javabuild:?}"
+    fi
+
+    echo "${javaversion}"
+    }
+
+echo "basepath [${basepath}]"
+echo "schemapath [${schemapath}]"
+echo "schemaversion [${schemaversion}]"
+echo "schemafile [${schemafile}]"
+echo "pythonversion [$(pythonversion)]"
+echo "javaversion [$(javaversion)]"
 
 openapiGeneratorName="openapi-generator-cli"
 openapiGeneratorVersion="7.22.0"
@@ -40,31 +100,30 @@ buildschema()
     {
     local clean=${1-false}
 
-    local schemainput="schema/${schemapath:?}/execution-broker.yaml"
-    local schemaoutput="build/execution-broker-${schemaversion:?}.yaml"
+    local schemainput="${basepath:?}/schema/${schemapath:?}/execution-broker.yaml"
 
     echo "Clean  [${clean}]"
     echo "Input  [${schemainput}]"
-    echo "Output [${schemaoutput}]"
+    echo "Output [${schemafile}]"
 
     if [ ${clean} ]
     then
         rm -rf \
-            "$(dirname ${schemaoutput})"
+            "$(dirname ${schemafile:?})"
     fi
 
-    if [ ! -e "$(dirname ${schemaoutput})" ]
+    if [ ! -e "$(dirname ${schemafile:?})" ]
     then
         mkdir --parents \
-            "$(dirname ${schemaoutput})"
+            "$(dirname ${schemafile:?})"
     fi
 
-    if [ ! -e "${schemaoutput:?}" ]
+    if [ ! -e "${schemafile:?}" ]
     then
         python \
             "isobeon/schema-processor.py" \
                 "${schemainput:?}" \
-                "${schemaoutput}"
+                "${schemafile:?}"
     fi
 
     }
@@ -72,13 +131,13 @@ buildschema()
 installgenerator()
     {
     mkdir --parents \
-        "${openapiGeneratorPath}"
+        "${openapiGeneratorPath:?}"
 
-    if [ ! -e "${openapiGeneratorFullPath}" ]
+    if [ ! -e "${openapiGeneratorFullPath:?}" ]
     then
         wget \
-            https://repo1.maven.org/maven2/org/openapitools/${openapiGeneratorName}/${openapiGeneratorVersion}/${openapiGeneratorFileName} \
-             --output-document "${openapiGeneratorFullPath}"
+            https://repo1.maven.org/maven2/org/openapitools/${openapiGeneratorName:?}/${openapiGeneratorVersion:?}/${openapiGeneratorFileName:?} \
+             --output-document "${openapiGeneratorFullPath:?}"
     fi
 
     }
@@ -86,18 +145,14 @@ installgenerator()
 buildpythonclient()
     {
 
-    # buildschema
-    # installgenerator
-
-    local schemafile="build/execution-broker-${schemaversion:?}.yaml"
-    local buildpath="codegen/python/client/build"
+    local buildpath="${basepath:?}/codegen/python/client/build"
 
     rm -rf \
         "${buildpath:?}"
     mkdir --parents \
         "${buildpath:?}"
 
-    java -jar "${openapiGeneratorFullPath}" \
+    java -jar "${openapiGeneratorFullPath:?}" \
         generate \
         --generator-name python \
         --input-spec "${schemafile:?}" \
@@ -105,7 +160,7 @@ buildpythonclient()
         --additional-properties "projectName=calycopis-schema-client" \
         --additional-properties "packageName=calycopis_schema_client" \
         --additional-properties "packageUrl=https://github.com/ivoa/Calycopis-openapi" \
-        --additional-properties "packageVersion=${schemaversion:?}" \
+        --additional-properties "packageVersion=$(pythonversion)" \
 
 #       --additional-properties "modelNamePrefix=Ivoa"
 #       --additional-properties "modelPackage=models"
@@ -113,8 +168,8 @@ buildpythonclient()
 
     #
     # Add the extra wrappers
-    cp -r "codegen/python/client/wrappers" \
-        "${buildpath}/calycopis_schema_client/wrappers"
+    cp -r "${basepath:?}/codegen/python/client/wrappers" \
+        "${buildpath:?}/calycopis_schema_client/wrappers"
 
     pip install \
         twine \
@@ -128,15 +183,21 @@ buildpythonclient()
 
 buildjavaclient()
     {
-    pushd codegen/java/client/
-        ./mvnw clean install
+    pushd "${basepath:?}/codegen/java/client/"
+        ./mvnw \
+            -Drevision=$(javaversion) \
+            -Dcalycopis.schema.file=${schemafile:?} \
+            clean install
     popd
     }
 
 buildjavaspring()
     {
-    pushd codegen/java/spring/
-        ./mvnw clean install
+    pushd "${basepath:?}/codegen/java/spring/"
+        ./mvnw \
+            -Drevision=$(javaversion) \
+            -Dcalycopis.schema.file=${schemafile:?} \
+            clean install
     popd
     }
 

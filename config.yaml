@@ -16,6 +16,15 @@
 # Project properties for the build process.
 #
 
-schemasource:  schema/v1.0/execution-broker.yaml
-schemaversion: 1.0.6
+
+schema:
+  path: "v1.0"
+  version: "1.0.7"
+
+python:
+  build: "dev1"
+# stamp: "%Y%m%d%H%M%S"
+
+java:
+  build: "SNAPSHOT"
 

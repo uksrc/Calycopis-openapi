@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--+
+    |
+    | <meta:header>
+    |   <meta:licence>
+    |     Copyright (C) 2026 University of Manchester.
+    |
+    |     This information is free software: you can redistribute it and/or modify
+    |     it under the terms of the GNU General Public License as published by
+    |     the Free Software Foundation, either version 3 of the License, or
+    |     (at your option) any later version.
+    |
+    |     This information is distributed in the hope that it will be useful,
+    |     but WITHOUT ANY WARRANTY; without even the implied warranty of
+    |     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    |     GNU General Public License for more details.
+    |
+    |     You should have received a copy of the GNU General Public License
+    |     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    |   </meta:licence>
+    | </meta:header>
+    |
+    | AIMetrics: [
+    |     {
+    |     "timestamp": "2026-03-25T12:00:00",
+    |     "name": "Cursor CLI",
+    |     "version": "2026.02.13-41ac335",
+    |     "model": "Claude 4.6 Opus (Thinking)",
+    |     "contribution": {
+    |       "value": 1,
+    |       "units": "%"
+    |       }
+    |     }
+    |   ]
+    |
+    +-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>net.ivoa.calycopis</groupId>
+	<artifactId>calycopis-schema-client</artifactId>
+	<version>${revision}</version>
+	<packaging>jar</packaging>
+	<name>Calycopis Python client</name>
+	<description>IVOA ExecutionBroker Python client generated from the OpenAPI schema</description>
+
+    <properties>
+        <revision>0.0.0</revision>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <calycopis.project.name>calycopis-schema-client</calycopis.project.name>
+        <calycopis.package.name>calycopis_schema_client</calycopis.package.name>
+        <calycopis.package.url>https://github.com/ivoa/Calycopis-openapi</calycopis.package.url>
+        <calycopis.package.version>${revision}</calycopis.package.version>
+        <calycopis.schema.file>execution-broker.yaml</calycopis.schema.file>
+        <calycopis.output.path>${project.build.directory}</calycopis.output.path>
+        <openapi-generator.version>7.22.0</openapi-generator.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+
+                <executions>
+                    <execution>
+                        <id>generate-python-client</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${calycopis.schema.file}</inputSpec>
+                            <output>${calycopis.output.path}</output>
+                            <generatorName>python</generatorName>
+
+                            <packageName>${calycopis.package.name}</packageName>
+
+                            <configOptions>
+                                <projectName>${calycopis.project.name}</projectName>
+                                <packageName>${calycopis.package.name}</packageName>
+                                <packageUrl>${calycopis.package.url}</packageUrl>
+                                <packageVersion>${revision}</packageVersion>
+                            </configOptions>
+
+                            <!--generateApiTests>false</generateApiTests-->
+                            <!--generateModelTests>false</generateModelTests-->
+                            <!-- Prevent generated file timestamps causing noisy diffs. -->
+                            <!--hideGenerationTimestamp>true</hideGenerationTimestamp-->
+                            <!-- Keep generation output out of the Maven source tree. -->
+                            <!--cleanupOutput>true</cleanupOutput-->
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
+
