@@ -29,7 +29,7 @@ schemaversion=$(
 #schemapath="${basepath:?}/schema/${schemashort:?}"
 
 inputschema="${basepath:?}/schema/${schemashort:?}/execution-broker.yaml"
-singleschema="${basepath:?}/build/execution-broker-${schemaversion:?}.yaml"
+singleschema="${basepath:?}/codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
 
 pythonversion()
     {
