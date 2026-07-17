@@ -49,9 +49,9 @@
 		<java.version>21</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <calycopis.java.package>net.ivoa.calycopis.schema.client</calycopis.java.package>
+        <calycopis.client.package>net.ivoa.calycopis.schema.client</calycopis.client.package>
         <calycopis.model.prefix>Ivoa</calycopis.model.prefix>
-        <calycopis.schema.file>execution-broker.yaml</calycopis.schema.file>
+        <calycopis.schema.file>example.yaml</calycopis.schema.file>
         <openapi.generator.version>7.22.0</openapi.generator.version>
 	</properties>
 
@@ -170,8 +170,8 @@
                             <inputSpec>${calycopis.schema.file}</inputSpec>
                             <generatorName>java</generatorName>
                             <generateAliasAsModel>false</generateAliasAsModel>
-                            <apiPackage>${calycopis.java.package}.api</apiPackage>
-                            <modelPackage>${calycopis.java.package}.model</modelPackage>
+                            <apiPackage>${calycopis.client.package}.api</apiPackage>
+                            <modelPackage>${calycopis.client.package}.model</modelPackage>
                             <modelNamePrefix>${calycopis.model.prefix}</modelNamePrefix>
                             <!--+
                                 | https://github.com/OpenAPITools/openapi-generator/blob/master/docs/generators/java.md#config-options

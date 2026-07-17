@@ -51,7 +51,7 @@
         <calycopis.package.name>calycopis_schema_client</calycopis.package.name>
         <calycopis.package.url>https://github.com/ivoa/Calycopis-openapi</calycopis.package.url>
         <calycopis.package.version>${revision}</calycopis.package.version>
-        <calycopis.schema.file>execution-broker.yaml</calycopis.schema.file>
+        <calycopis.schema.file>example.yaml</calycopis.schema.file>
         <calycopis.output.path>${project.build.directory}</calycopis.output.path>
         <openapi-generator.version>7.22.0</openapi-generator.version>
     </properties>

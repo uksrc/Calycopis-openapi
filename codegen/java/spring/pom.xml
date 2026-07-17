@@ -55,9 +55,9 @@
 		<java.version>21</java.version>
         <maven.compiler.release>${java.version}</maven.compiler.release>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <calycopis.package>net.ivoa.calycopis.schema.spring</calycopis.package>
+        <calycopis.spring.package>net.ivoa.calycopis.schema.spring</calycopis.spring.package>
         <calycopis.model.prefix>Ivoa</calycopis.model.prefix>
-        <calycopis.schema.file>execution-broker.yaml</calycopis.schema.file>
+        <calycopis.schema.file>example.yaml</calycopis.schema.file>
         <openapi.generator.version>7.22.0</openapi.generator.version>
 	</properties>
 
@@ -203,8 +203,8 @@
                             <inputSpec>${calycopis.schema.file}</inputSpec>
                             <generatorName>spring</generatorName>
                             <generateAliasAsModel>false</generateAliasAsModel>
-                            <apiPackage>${calycopis.package}.api</apiPackage>
-                            <modelPackage>${calycopis.package}.model</modelPackage>
+                            <apiPackage>${calycopis.spring.package}.api</apiPackage>
+                            <modelPackage>${calycopis.spring.package}.model</modelPackage>
                             <modelNamePrefix>${calycopis.model.prefix}</modelNamePrefix>
                             <configOptions>
                                 <withXml>true</withXml>
