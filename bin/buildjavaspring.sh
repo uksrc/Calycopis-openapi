@@ -14,7 +14,7 @@
 #
 # AIMetrics: []
 #
-# A shell script to build the Python client package from the schema.
+# A shell script to build the Java Spring package from the schema.
 #
 
 basepath=$(
@@ -32,7 +32,7 @@ source "${basepath}/bin/versions.sh"
 pushd "${basepath:?}/codegen/java/spring/"
     ./mvnw \
         -Drevision=$(javaversion) \
-        -Dcalycopis.schema.file=${singleschema:?} \
+        -Dcalycopis.schema.file=${combinedschema:?} \
         clean install
 popd
 

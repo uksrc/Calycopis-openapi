@@ -27,22 +27,20 @@ basepath=$(
 
 source "${basepath}/bin/versions.sh"
 
-buildpath=${basepath:?}/codegen/python/client/target
-
 #echo "basepath      [${basepath}]"
 #echo "buildpath     [${buildpath}]"
 #echo "schemapath    [${schemapath}]"
 #echo "schemashort   [${schemashort}]"
 #echo "schemaversion [${schemaversion}]"
 #echo "inputschema   [${inputschema}]"
-echo "pythonversion  [$(pythonversion)]"
+#echo "pythonversion [$(pythonversion)]"
 
 #
 # Generate the Python client code.
 pushd "${basepath:?}/codegen/python/client/"
     ./mvnw \
         -Drevision=$(pythonversion) \
-        -Dcalycopis.schema.file=${singleschema:?} \
+        -Dcalycopis.schema.file=${combinedschema:?} \
         clean generate-sources
 popd
 
@@ -51,6 +49,8 @@ popd
 #pip install \
 #    twine \
 #    build
+
+buildpath=${basepath:?}/codegen/python/client/target
 
 #
 # Add our Python wrapper classes

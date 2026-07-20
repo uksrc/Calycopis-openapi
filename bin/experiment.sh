@@ -14,7 +14,7 @@
 #
 # AIMetrics: []
 #
-# A shell script to build the Java client package from the schema.
+# A shell script to build the Python client package from the schema.
 #
 
 basepath=$(
@@ -27,14 +27,14 @@ basepath=$(
 
 source "${basepath}/bin/versions.sh"
 
-#
-# Build the Java client Maven project.
-pushd "${basepath:?}/codegen/java/client/"
-    ./mvnw \
-        -Drevision=$(javaversion) \
-        -Dcalycopis.schema.file=${combinedschema:?} \
-        clean install
-popd
+echo "basepath       [${basepath}]"
+echo "schemapath     [${schemapath}]"
+echo "schemashort    [${schemashort}]"
+echo "schemaversion  [${schemaversion}]"
+echo "inputschema    [${inputschema}]"
+echo "combinedschema [${combinedschema}]"
 
+echo "javaversion    [${javaversion}]"
+echo "pythonversion  [${pythonversion}]"
 
 

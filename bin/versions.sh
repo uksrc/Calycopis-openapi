@@ -14,7 +14,7 @@
 #
 # AIMetrics: []
 #
-# A shell script to build the Python client package from the schema.
+# A shell script to set the version numbers and file paths.
 #
 
 schemashort=$(
@@ -25,51 +25,60 @@ schemaversion=$(
     yq '.schema.version // ""' "${basepath:?}/config.yaml"
     )
 
-#buildpath="${basepath:?}/build"
-#schemapath="${basepath:?}/schema/${schemashort:?}"
-
 inputschema="${basepath:?}/schema/${schemashort:?}/execution-broker.yaml"
-singleschema="${basepath:?}/codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
+combinedschema="${basepath:?}/codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
 
 pythonversion()
     {
-    local pythonversion="${schemaversion:?}"
-
-    local pythonbuild=$(
-        yq '.python.build // ""' "${basepath:?}/config.yaml"
-        )
-
-    if [ -n "${pythonbuild}" ]
+    if [ -n "${pythonversion}" ]
     then
-        pythonversion="${pythonversion:?}.${pythonbuild:?}"
+        pythonversion="${schemaversion:?}"
+
+        pythonbuild=$(
+            yq '.python.build // ""' "${basepath:?}/config.yaml"
+            )
+
+        if [ -n "${pythonbuild}" ]
+        then
+            pythonversion="${pythonversion:?}.${pythonbuild:?}"
+        fi
     fi
-
-    local pythonstamp=$(
-        yq '.python.stamp // ""' "${basepath:?}/config.yaml"
-        )
-
-    if [ -n "${pythonstamp}" ]
-    then
-        local pythondate=$(date "+${pythonstamp:?}")
-        pythonversion="${pythonversion:?}+${pythondate:?}"
-    fi
-
     echo "${pythonversion}"
     }
 
+pythonversion=$(pythonversion)
+
 javaversion()
     {
-    local javaversion="${schemaversion:?}"
-
-    local javabuild=$(
-        yq '.java.build // ""' "${basepath:?}/config.yaml"
-        )
-
-    if [ -n "${javabuild}" ]
+    if [ -n "${javaversion}" ]
     then
-        javaversion="${javaversion:?}-${javabuild:?}"
-    fi
+        javaversion="${schemaversion:?}"
 
+        javabuild=$(
+            yq '.java.build // ""' "${basepath:?}/config.yaml"
+            )
+
+        if [ -n "${javabuild}" ]
+        then
+            javaversion="${javaversion:?}-${javabuild:?}"
+        fi
+    fi
     echo "${javaversion}"
     }
+
+javaversion=$(javaversion)
+
+#
+# Update GitHub environment variables.
+if [ -n "${GITHUB_ENV}" ]
+then
+cat >> "${GITHUB_ENV}" << EOF
+schemashort=${schemashort}
+schemaversion=${schemaversion}
+inputschema=${inputschema}
+combinedschema=${combinedschema}
+javaversion=${javaversion}
+pythonversion=${pythonversion}
+EOF
+fi
 

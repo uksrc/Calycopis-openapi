@@ -23,7 +23,6 @@ schema:
 
 python:
   build: "dev1"
-# stamp: "%Y%m%d%H%M%S"
 
 java:
   build: "SNAPSHOT"

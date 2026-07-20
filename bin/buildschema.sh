@@ -14,7 +14,7 @@
 #
 # AIMetrics: []
 #
-# A shell script to build the Python client package from the schema.
+# A shell script to create the combined schema file.
 #
 
 basepath=$(
@@ -44,14 +44,14 @@ then
         "${buildpath:?}"
 fi
 
-if [ -e "${singleschema:?}" ]
+if [ -e "${combinedschema:?}" ]
 then
-    rm "${singleschema:?}"
+    rm "${combinedschema:?}"
 fi
 
 python \
     "${basepath}/isobeon/schema-processor.py" \
         "${inputschema:?}" \
-        "${singleschema:?}"
+        "${combinedschema:?}"
 
 
