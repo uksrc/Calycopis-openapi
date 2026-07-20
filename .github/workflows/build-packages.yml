@@ -251,7 +251,7 @@ jobs:
           pushd 'codegen/java/client'
             ./mvnw \
               --batch-mode \
-              clean generate-sources \
+              clean install \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
           popd
@@ -315,7 +315,7 @@ jobs:
           pushd 'codegen/java/spring'
             ./mvnw \
               --batch-mode \
-              clean generate-sources \
+              clean install \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
           popd
