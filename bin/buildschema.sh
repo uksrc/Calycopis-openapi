@@ -25,17 +25,17 @@ basepath=$(
         )
     )
 
-source "${basepath}/bin/versions.sh"
+source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 
-#echo "basepath      [${basepath}]"
-#echo "schemapath    [${schemapath}]"
-#echo "schemashort   [${schemashort}]"
-#echo "schemaversion [${schemaversion}]"
-#echo "inputschema   [${inputschema}]"
-#echo "singleschema  [${singleschema}]"
+#echo "basepath       [${basepath}]"
+#echo "schemapath     [${schemapath}]"
+#echo "schemashort    [${schemashort}]"
+#echo "schemaversion  [${schemaversion}]"
+#echo "inputschema    [${inputschema}]"
+#echo "combinedschema [${singleschema}]"
 
 buildpath=$(
-    dirname ${singleschema:?}
+    dirname ${combinedschema:?}
     )
 
 if [ ! -e "${buildpath:?}" ]

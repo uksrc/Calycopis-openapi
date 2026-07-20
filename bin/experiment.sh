@@ -25,7 +25,7 @@ basepath=$(
         )
     )
 
-source "${basepath}/bin/versions.sh"
+source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 
 echo "basepath       [${basepath}]"
 echo "schemapath     [${schemapath}]"
@@ -33,7 +33,6 @@ echo "schemashort    [${schemashort}]"
 echo "schemaversion  [${schemaversion}]"
 echo "inputschema    [${inputschema}]"
 echo "combinedschema [${combinedschema}]"
-
 echo "javaversion    [${javaversion}]"
 echo "pythonversion  [${pythonversion}]"
 

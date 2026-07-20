@@ -17,21 +17,22 @@
 # A shell script to set the version numbers and file paths.
 #
 
+configfile=${1:configfile required}
+
 schemashort=$(
-    yq '.schema.path' "config.yaml"
+    yq '.schema.path' "${configfile:?}"
     )
 
 schemaversion=$(
-    yq '.schema.version // ""' "config.yaml"
+    yq '.schema.version' "${configfile:?}"
     )
 
-inputschema="schema/${schemashort:?}/execution-broker.yaml"
-combinedschema="codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
+combinedschema="execution-broker-${schemaversion:?}.yaml"
 
 pythonversion="${schemaversion:?}"
 
 pythonbuild=$(
-    yq '.python.build // ""' "config.yaml"
+    yq '.python.build // ""' "${configfile}"
     )
 
 if [ -n "${pythonbuild}" ]
@@ -42,7 +43,7 @@ fi
 javaversion="${schemaversion:?}"
 
 javabuild=$(
-    yq '.java.build // ""' "config.yaml"
+    yq '.java.build // ""' "${configfile:?}"
     )
 
 if [ -n "${javabuild}" ]
@@ -57,7 +58,6 @@ then
 cat >> "${GITHUB_ENV}" << EOF
 schemashort=${schemashort}
 schemaversion=${schemaversion}
-inputschema=${inputschema}
 combinedschema=${combinedschema}
 javaversion=${javaversion}
 pythonversion=${pythonversion}

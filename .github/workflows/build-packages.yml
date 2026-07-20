@@ -69,38 +69,23 @@ jobs:
 
       # https://github.com/actions/checkout
       - name: Checkout the schema project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: 'true'
 
-      - name: Check the contents of GITHUB_ENV.
-        run: |
-          cat "${GITHUB_ENV}"
-        shell: bash
-
       - name: Configure our versions
         run: |
-            bin/versions.sh
+            bin/versions.sh config.yaml
         shell: bash
 
       - name: Check the contents of GITHUB_ENV.
         run: |
           cat "${GITHUB_ENV}"
-        shell: bash
-
-      - name: Check our environment variables.
-        run: |
-            echo "schemashort    [${schemashort}]"
-            echo "schemaversion  [${schemaversion}]"
-            echo "inputschema    [${inputschema}]"
-            echo "combinedschema [${combinedschema}]"
-            echo "javaversion    [${javaversion}]"
-            echo "pythonversion  [${pythonversion}]"
         shell: bash
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version: '3.14'
 
@@ -110,31 +95,272 @@ jobs:
         with:
           path: isobeon/requirements.txt
 
-      - name: Create the combined schema directory
-        run: |
-            mkdir --parents \
-                $(dirname "${{env.combinedschema}}")
-        shell: bash
-
       - name: Run the schema processor
         run: |
           python \
             isobeon/schema-processor.py \
-              '${{env.inputschema}}' \
-              '${{env.combinedschema}}'
+              'schema/${{schemashort}}/execution-broker.yaml' \
+              '/tmp/${{env.combinedschema}}'
 
       - name: Check the result
         run: |
-          head '${{env.combinedschema}}'
+          head '/tmp/${{env.combinedschema}}'
 
       - name: Check the result
         run: |
-          tail '${{env.combinedschema}}'
+          tail '/tmp/${{env.combinedschema}}'
 
       - name: Upload the schema file as a GitHub artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: 'calycopis-openapi-combined-schema'
+          path: '/tmp/${{env.combinedschema}}'
+
+  build-python-client:
+
+    needs: build-combined-schema
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v7
+        with:
+          submodules: 'true'
+
+      - name: Download the combined schema
+        uses: actions/download-artifact@v8
+        with:
+          name: 'calycopis-openapi-combined-schema'
+          path: '/tmp'
+
+      - name: Configure our versions
+        run: |
+            bin/versions.sh config.yaml
+        shell: bash
+
+      - name: Check the contents of GITHUB_ENV.
+        run: |
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      # https://github.com/actions/cache/blob/main/examples.md#java---maven
+      - name: Cache our Maven dependencies
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run the Maven build
+        run: |
+          pushd 'codegen/python/client'
+            ./mvnw \
+              --batch-mode \
+              clean generate-sources \
+                -Drevision=${{env.pythonversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+
+      # https://github.com/marketplace/actions/setup-python
+      - name: Setup Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.14'
+
+      - name: Install Python build tools
+        run: |
+            pip install \
+                twine \
+                build
+
+      - name: Build the Python distribution
+        run: |
+          python -m \
+            build \
+                'codegen/python/client/target'
+
+      - name: Upload the distribution wheel
+        uses: actions/upload-artifact@v7
+        with:
+          name: 'calycopis-openapi-python-client'
+          path: 'codegen/python/client/target/dist/calycopis_schema_client-${{env.pythonversion}}-py3-none-any.whl'
+
+  build-java-client:
+
+    needs: build-combined-schema
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v7
+        with:
+          submodules: 'true'
+
+      - name: Download the combined schema
+        uses: actions/download-artifact@v8
+        with:
+          name: 'calycopis-openapi-combined-schema'
+          path: '/tmp'
+
+      - name: Configure our versions
+        run: |
+            bin/versions.sh config.yaml
+        shell: bash
+
+      - name: Check the contents of GITHUB_ENV.
+        run: |
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      # https://github.com/actions/cache/blob/main/examples.md#java---maven
+      - name: Cache our Maven dependencies
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run the Maven build
+        run: |
+          pushd 'codegen/java/client'
+            ./mvnw \
+              --batch-mode \
+              clean generate-sources \
+                -Drevision=${{env.pythonversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+
+      - name: Get the Maven build version
+        run: |
+          pushd codegen/java/client
+            echo "pomversion=$(
+                ./mvnw \
+                    -q \
+                    help:evaluate \
+                    -Drevision=${{env.javaversion}} \
+                    -Dexpression=project.version \
+                    -DforceStdout \
+                    2> /dev/null
+                )" \
+                >> "$GITHUB_ENV"
+          popd
+
+      - name: Check the Maven POM version
+        run: |
+            echo "POM version [${{env.pomversion}}]"
+
+      - name: Upload the JAR as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
-          name: 'calycopis-schema-schema'
-          path: '${{env.combinedschema}}'
+          name: 'calycopis-schema-java-client'
+          path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
 
+  build-java-spring:
+
+    needs: build-combined-schema
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v7
+        with:
+          submodules: 'true'
+
+      - name: Download the combined schema
+        uses: actions/download-artifact@v8
+        with:
+          name: 'calycopis-openapi-combined-schema'
+          path: '/tmp'
+
+      - name: Configure our versions
+        run: |
+            bin/versions.sh config.yaml
+        shell: bash
+
+      - name: Check the contents of GITHUB_ENV.
+        run: |
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '25'
+
+      # https://github.com/actions/cache/blob/main/examples.md#java---maven
+      - name: Cache our Maven dependencies
+        uses: actions/cache@v6
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Run the Maven build
+        run: |
+          pushd 'codegen/java/spring'
+            ./mvnw \
+              --batch-mode \
+              clean generate-sources \
+                -Drevision=${{env.pythonversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+
+      - name: Get the Maven build version
+        run: |
+          pushd codegen/java/spring
+            echo "pomversion=$(
+                ./mvnw \
+                    -q \
+                    help:evaluate \
+                    -Drevision=${{env.javaversion}} \
+                    -Dexpression=project.version \
+                    -DforceStdout \
+                    2> /dev/null
+                )" \
+                >> "$GITHUB_ENV"
+          popd
+
+      - name: Check the Maven POM version
+        run: |
+            echo "POM version [${{env.pomversion}}]"
+
+      - name: Upload the JAR as a GitHub artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: 'calycopis-schema-java-client'
+          path: 'codegen/java/spring/target/calycopis-schema-client-${{env.pomversion}}.jar'
 

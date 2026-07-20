@@ -25,7 +25,7 @@ basepath=$(
         )
     )
 
-source "${basepath}/bin/versions.sh"
+source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 
 #
 # Build the Java Spring Maven project.
