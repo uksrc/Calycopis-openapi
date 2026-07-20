@@ -28,45 +28,27 @@ schemaversion=$(
 inputschema="schema/${schemashort:?}/execution-broker.yaml"
 combinedschema="codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
 
-pythonversion()
-    {
-    if [ -n "${pythonversion}" ]
-    then
-        pythonversion="${schemaversion:?}"
+pythonversion="${schemaversion:?}"
 
-        pythonbuild=$(
-            yq '.python.build // ""' "config.yaml"
-            )
+pythonbuild=$(
+    yq '.python.build // ""' "config.yaml"
+    )
 
-        if [ -n "${pythonbuild}" ]
-        then
-            pythonversion="${pythonversion:?}.${pythonbuild:?}"
-        fi
-    fi
-    echo "${pythonversion}"
-    }
+if [ -n "${pythonbuild}" ]
+then
+    pythonversion="${pythonversion:?}.${pythonbuild:?}"
+fi
 
-pythonversion=$(pythonversion)
+javaversion="${schemaversion:?}"
 
-javaversion()
-    {
-    if [ -n "${javaversion}" ]
-    then
-        javaversion="${schemaversion:?}"
+javabuild=$(
+    yq '.java.build // ""' "config.yaml"
+    )
 
-        javabuild=$(
-            yq '.java.build // ""' "config.yaml"
-            )
-
-        if [ -n "${javabuild}" ]
-        then
-            javaversion="${javaversion:?}-${javabuild:?}"
-        fi
-    fi
-    echo "${javaversion}"
-    }
-
-javaversion=$(javaversion)
+if [ -n "${javabuild}" ]
+then
+    javaversion="${javaversion:?}-${javabuild:?}"
+fi
 
 #
 # Update GitHub environment variables.
