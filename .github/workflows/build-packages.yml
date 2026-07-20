@@ -198,6 +198,20 @@ jobs:
           name: 'calycopis-openapi-python-client'
           path: 'codegen/python/client/target/dist/calycopis_schema_client-${{env.pythonversion}}-py3-none-any.whl'
 
+      - name: Publish the wheel to the UKSRC Nexus
+        if: >
+            github.repository == 'uksrc/Calycopis-openapi' &&
+            github.event_name == 'push' &&
+            github.ref_name == 'main'
+        working-directory: codegen/python/client/target
+        run: |
+          twine upload \
+            --repository-url https://repo.dev.uksrc.org/repository/localpypi/ \
+            dist/*
+        env:
+          TWINE_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
+
   build-java-client:
 
     needs: build-combined-schema
@@ -262,6 +276,51 @@ jobs:
           name: 'calycopis-openapi-java-client'
           path: 'codegen/java/client/target/calycopis-schema-client-${{env.javaversion}}.jar'
 
+      - name: Install our Maven settings
+        run: |
+            mkdir -p ~/.m2
+            cp -f codegen/java/settings.xml \
+                  ~/.m2/settings.xml
+
+      - name: Check our Maven settings
+        run: |
+            cat ~/.m2/settings.xml
+
+      - name: Publish the JAR to the UKSRC Nexus repository.
+        if: >
+            github.repository == 'uksrc/Calycopis-openapi' &&
+            github.event_name == 'push' &&
+            github.ref_name == 'main'
+        run: |
+          pushd codegen/java/client
+            ./mvnw \
+              --batch-mode \
+              deploy \
+                -Puksrc-profile \
+                -Drevision=${{env.javaversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+        env:
+          UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
+          UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
+
+      - name: Publish the JAR to the IVOA GitHub repository.
+        if: >
+            github.repository == 'ivoa/Calycopis-openapi' &&
+            github.event_name == 'push' &&
+            github.ref_name == 'main'
+        run: |
+          pushd codegen/java/client
+            ./mvnw \
+              --batch-mode \
+              deploy \
+                -Pivoa-profile \
+                -Drevision=${{env.javaversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build-java-spring:
 
     needs: build-combined-schema
@@ -325,4 +384,49 @@ jobs:
         with:
           name: 'calycopis-openapi-java-spring'
           path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.javaversion}}.jar'
+
+      - name: Install our Maven settings
+        run: |
+            mkdir -p ~/.m2
+            cp -f codegen/java/settings.xml \
+                  ~/.m2/settings.xml
+
+      - name: Check our Maven settings
+        run: |
+            cat ~/.m2/settings.xml
+
+      - name: Publish the JAR to the UKSRC Nexus repository.
+        if: >
+            github.repository == 'uksrc/Calycopis-openapi' &&
+            github.event_name == 'push' &&
+            github.ref_name == 'main'
+        run: |
+          pushd codegen/java/spring
+            ./mvnw \
+              --batch-mode \
+              deploy \
+                -Puksrc-profile \
+                -Drevision=${{env.javaversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+        env:
+          UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
+          UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
+
+      - name: Publish the JAR to the IVOA GitHub repository.
+        if: >
+            github.repository == 'ivoa/Calycopis-openapi' &&
+            github.event_name == 'push' &&
+            github.ref_name == 'main'
+        run: |
+          pushd codegen/java/spring
+            ./mvnw \
+              --batch-mode \
+              deploy \
+                -Pivoa-profile \
+                -Drevision=${{env.javaversion}} \
+                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
+          popd
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
