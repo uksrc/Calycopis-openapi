@@ -17,7 +17,7 @@
 # A shell script to set the version numbers and file paths.
 #
 
-configfile=${1:configfile required}
+configfile=${1:?}
 
 schemashort=$(
     yq '.schema.path' "${configfile:?}"
