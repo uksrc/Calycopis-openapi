@@ -80,7 +80,6 @@ jobs:
 
       - name: Configure our versions
         run: |
-            basepath=$(pwd)
             bin/versions.sh
         shell: bash
 

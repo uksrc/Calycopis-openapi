@@ -18,15 +18,15 @@
 #
 
 schemashort=$(
-    yq '.schema.path' "${basepath:?}/config.yaml"
+    yq '.schema.path' "config.yaml"
     )
 
 schemaversion=$(
-    yq '.schema.version // ""' "${basepath:?}/config.yaml"
+    yq '.schema.version // ""' "config.yaml"
     )
 
-inputschema="${basepath:?}/schema/${schemashort:?}/execution-broker.yaml"
-combinedschema="${basepath:?}/codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
+inputschema="schema/${schemashort:?}/execution-broker.yaml"
+combinedschema="codegen/openapi/target/execution-broker-${schemaversion:?}.yaml"
 
 pythonversion()
     {
@@ -35,7 +35,7 @@ pythonversion()
         pythonversion="${schemaversion:?}"
 
         pythonbuild=$(
-            yq '.python.build // ""' "${basepath:?}/config.yaml"
+            yq '.python.build // ""' "config.yaml"
             )
 
         if [ -n "${pythonbuild}" ]
@@ -55,7 +55,7 @@ javaversion()
         javaversion="${schemaversion:?}"
 
         javabuild=$(
-            yq '.java.build // ""' "${basepath:?}/config.yaml"
+            yq '.java.build // ""' "config.yaml"
             )
 
         if [ -n "${javabuild}" ]
