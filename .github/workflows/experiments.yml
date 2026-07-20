@@ -1,0 +1,68 @@
+#
+# <meta:header>
+#   <meta:licence>
+#     Copyright (c) 2026, Manchester University (http://www.manchester.ac.uk/)
+#
+#     This work is made available under the Creative Commons
+#     Attribution-ShareAlike 4.0 International licence.
+#
+#     For details of the licence terms see:
+#     https://creativecommons.org/licenses/by-sa/4.0/
+#   </meta:licence>
+# </meta:header>
+#
+# AIMetrics: []
+#
+# A GitHub workflow to test ideas.
+#
+
+name: Experiments
+
+env:
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  version-test:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      # https://github.com/actions/checkout
+      - name: Checkout the schema project
+        uses: actions/checkout@v7
+        with:
+          submodules: 'true'
+
+      - name: Check the contents of GITHUB_ENV.
+        run: |
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Configure our versions
+        run: |
+            bin/versions.sh config.yaml
+        shell: bash
+
+      - name: Check the contents of GITHUB_ENV.
+        run: |
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Check our environment variables.
+        run: |
+            echo "schemashort    [${schemashort}]"
+            echo "schemaversion  [${schemaversion}]"
+            echo "inputschema    [${inputschema}]"
+            echo "combinedschema [${combinedschema}]"
+            echo "javaversion    [${javaversion}]"
+            echo "pythonversion  [${pythonversion}]"
+        shell: bash
+
+
