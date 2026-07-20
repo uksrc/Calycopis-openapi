@@ -296,6 +296,7 @@ jobs:
             ./mvnw \
               --batch-mode \
               deploy \
+                -X \
                 -Puksrc-profile \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
@@ -314,7 +315,6 @@ jobs:
             ./mvnw \
               --batch-mode \
               deploy \
-                -X \
                 -Pivoa-profile \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
@@ -406,6 +406,7 @@ jobs:
             ./mvnw \
               --batch-mode \
               deploy \
+                -X \
                 -Puksrc-profile \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
@@ -424,7 +425,6 @@ jobs:
             ./mvnw \
               --batch-mode \
               deploy \
-                -X \
                 -Pivoa-profile \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
