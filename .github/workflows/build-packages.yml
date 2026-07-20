@@ -45,7 +45,7 @@
 # A GitHub workflow to build and publish libraries from the schema.
 #
 
-name: Calycopis builder
+name: Calycopis OpenAPI code generator
 
 on:
   push:
@@ -314,6 +314,7 @@ jobs:
             ./mvnw \
               --batch-mode \
               deploy \
+                -X \
                 -Pivoa-profile \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
@@ -423,6 +424,7 @@ jobs:
             ./mvnw \
               --batch-mode \
               deploy \
+                -X \
                 -Pivoa-profile \
                 -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
