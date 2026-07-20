@@ -99,7 +99,7 @@ jobs:
         run: |
           python \
             isobeon/schema-processor.py \
-              'schema/${{schemashort}}/execution-broker.yaml' \
+              'schema/${{env.schemashort}}/execution-broker.yaml' \
               '/tmp/${{env.combinedschema}}'
 
       - name: Check the result
