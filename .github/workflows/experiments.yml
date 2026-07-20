@@ -36,7 +36,7 @@ jobs:
 
       # https://github.com/actions/checkout
       - name: Checkout the schema project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           submodules: 'true'
 
@@ -47,7 +47,7 @@ jobs:
 
       - name: Configure our versions
         run: |
-            bin/versions.sh $(pwd)
+            bin/versions.sh config.yaml
         shell: bash
 
       - name: Check the contents of GITHUB_ENV.

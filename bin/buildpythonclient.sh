@@ -27,20 +27,12 @@ basepath=$(
 
 source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 
-#echo "basepath      [${basepath}]"
-#echo "buildpath     [${buildpath}]"
-#echo "schemapath    [${schemapath}]"
-#echo "schemashort   [${schemashort}]"
-#echo "schemaversion [${schemaversion}]"
-#echo "inputschema   [${inputschema}]"
-#echo "pythonversion [$(pythonversion)]"
-
 #
 # Generate the Python client code.
 pushd "${basepath:?}/codegen/python/client/"
     ./mvnw \
-        -Drevision=$(pythonversion) \
-        -Dcalycopis.schema.file=${combinedschema:?} \
+        -Drevision=${javaversion:?} \
+        -Dcalycopis.schema.file=/tmp/${combinedschema:?} \
         clean generate-sources
 popd
 
@@ -50,17 +42,21 @@ popd
 #    twine \
 #    build
 
-buildpath=${basepath:?}/codegen/python/client/target
-
 #
 # Add our Python wrapper classes
-cp -r "${basepath:?}/codegen/python/client/wrappers" \
-      "${buildpath:?}/calycopis_schema_client/wrappers"
+pushd "${basepath:?}/codegen/python/client/"
+    cp -r \
+        wrappers \
+        target/calycopis_schema_client/wrappers
+popd
 
 #
-# Build the Python code.
-python \
-    -m build \
-        "${buildpath:?}"
+# Build the Python module.
+pushd "${basepath:?}/codegen/python/client/"
+    python \
+        -m build \
+            target
+popd
+
 
 

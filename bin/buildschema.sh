@@ -27,31 +27,9 @@ basepath=$(
 
 source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 
-#echo "basepath       [${basepath}]"
-#echo "schemapath     [${schemapath}]"
-#echo "schemashort    [${schemashort}]"
-#echo "schemaversion  [${schemaversion}]"
-#echo "inputschema    [${inputschema}]"
-#echo "combinedschema [${singleschema}]"
-
-buildpath=$(
-    dirname ${combinedschema:?}
-    )
-
-if [ ! -e "${buildpath:?}" ]
-then
-    mkdir --parents \
-        "${buildpath:?}"
-fi
-
-if [ -e "${combinedschema:?}" ]
-then
-    rm "${combinedschema:?}"
-fi
-
 python \
     "${basepath}/isobeon/schema-processor.py" \
-        "${inputschema:?}" \
-        "${combinedschema:?}"
+        "${basepath}/schema/${schemashort:?}/execution-broker.yaml" \
+        "/tmp/${combinedschema:?}"
 
 

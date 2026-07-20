@@ -91,9 +91,9 @@ jobs:
 
       # https://github.com/marketplace/actions/python-dependency-installation
       - name: Install Python dependencies
-        uses: py-actions/py-dependency-install@v4
-        with:
-          path: isobeon/requirements.txt
+        run: |
+            pip install -r \
+              isobeon/requirements.txt
 
       - name: Run the schema processor
         run: |
@@ -192,7 +192,7 @@ jobs:
             build \
                 'codegen/python/client/target'
 
-      - name: Upload the distribution wheel
+      - name: Upload the Python wheel as a GitHub artifact
         uses: actions/upload-artifact@v7
         with:
           name: 'calycopis-openapi-python-client'
@@ -252,34 +252,15 @@ jobs:
             ./mvnw \
               --batch-mode \
               clean generate-sources \
-                -Drevision=${{env.pythonversion}} \
+                -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
           popd
 
-      - name: Get the Maven build version
-        run: |
-          pushd codegen/java/client
-            echo "pomversion=$(
-                ./mvnw \
-                    -q \
-                    help:evaluate \
-                    -Drevision=${{env.javaversion}} \
-                    -Dexpression=project.version \
-                    -DforceStdout \
-                    2> /dev/null
-                )" \
-                >> "$GITHUB_ENV"
-          popd
-
-      - name: Check the Maven POM version
-        run: |
-            echo "POM version [${{env.pomversion}}]"
-
-      - name: Upload the JAR as a GitHub artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload the Java JAR as a GitHub artifact
+        uses: actions/upload-artifact@v7
         with:
-          name: 'calycopis-schema-java-client'
-          path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
+          name: 'calycopis-openapi-java-client'
+          path: 'codegen/java/client/target/calycopis-schema-client-${{env.javaversion}}.jar'
 
   build-java-spring:
 
@@ -335,32 +316,13 @@ jobs:
             ./mvnw \
               --batch-mode \
               clean generate-sources \
-                -Drevision=${{env.pythonversion}} \
+                -Drevision=${{env.javaversion}} \
                 -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
           popd
 
-      - name: Get the Maven build version
-        run: |
-          pushd codegen/java/spring
-            echo "pomversion=$(
-                ./mvnw \
-                    -q \
-                    help:evaluate \
-                    -Drevision=${{env.javaversion}} \
-                    -Dexpression=project.version \
-                    -DforceStdout \
-                    2> /dev/null
-                )" \
-                >> "$GITHUB_ENV"
-          popd
-
-      - name: Check the Maven POM version
-        run: |
-            echo "POM version [${{env.pomversion}}]"
-
-      - name: Upload the JAR as a GitHub artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload the Java JAR as a GitHub artifact
+        uses: actions/upload-artifact@v7
         with:
-          name: 'calycopis-schema-java-client'
-          path: 'codegen/java/spring/target/calycopis-schema-client-${{env.pomversion}}.jar'
+          name: 'calycopis-openapi-java-spring'
+          path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.javaversion}}.jar'
 
