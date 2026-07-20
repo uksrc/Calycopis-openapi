@@ -113,7 +113,7 @@ jobs:
       - name: Create the combined schema directory
         run: |
             mkdir --parents \
-                dirname "${{env.combinedschema}}"
+                $(dirname "${{env.combinedschema}}")
         shell: bash
 
       - name: Run the schema processor
