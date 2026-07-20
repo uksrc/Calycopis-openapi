@@ -1,1 +1,6 @@
-/build
+build.properties
+/target
+.classpath
+.project
+.settings
+

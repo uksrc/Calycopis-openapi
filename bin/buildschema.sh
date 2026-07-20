@@ -1,3 +1,4 @@
+#!/bin/bash
 #
 # <meta:header>
 #   <meta:licence>
@@ -13,17 +14,22 @@
 #
 # AIMetrics: []
 #
-# Project properties for the build process.
+# A shell script to create the combined schema file.
 #
 
+basepath=$(
+    dirname $(
+        realpath $(
+            dirname "$0"
+            )
+        )
+    )
 
-schema:
-  path: "v1.0"
-  version: "1.0.7"
+source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 
-python:
-  build: "dev1"
+python \
+    "${basepath}/isobeon/schema-processor.py" \
+        "${basepath}/schema/${schemashort:?}/execution-broker.yaml" \
+        "/tmp/${combinedschema:?}"
 
-java:
-  build: "SNAPSHOT"
 
