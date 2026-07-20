@@ -48,20 +48,19 @@
 name: Calycopis builder
 
 env:
-  schemapath: 'v1.0'
-  schemaversion: '1.0.5'
-
-  openapiGeneratorName: 'openapi-generator-cli'
-  openapiGeneratorVersion: '7.22.0'
+# schemapath: 'v1.0'
+# schemaversion: '1.0.5'
+# openapiGeneratorName: 'openapi-generator-cli'
+# openapiGeneratorVersion: '7.22.0'
 
 on:
-  workflow_dispatch:
-
   push:
     branches:
       - 'main'
 
   pull_request:
+
+  workflow_dispatch:
 
 jobs:
 
@@ -80,10 +79,31 @@ jobs:
         with:
           submodules: 'true'
 
-      - name: Check the config
+      - name: Check the contents of GITHUB_ENV.
         run: |
-          echo "schemapath    [${{env.schemapath}}]"
-          echo "schemaversion [${{env.schemaversion}}]"
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Configure our versions
+        run: |
+            basepath=$(pwd)
+            bin/versions.sh
+        shell: bash
+
+      - name: Check the contents of GITHUB_ENV.
+        run: |
+          cat "${GITHUB_ENV}"
+        shell: bash
+
+      - name: Check our environment variables.
+        run: |
+            echo "schemashort    [${schemashort}]"
+            echo "schemaversion  [${schemaversion}]"
+            echo "inputschema    [${inputschema}]"
+            echo "combinedschema [${combinedschema}]"
+            echo "javaversion    [${javaversion}]"
+            echo "pythonversion  [${pythonversion}]"
+        shell: bash
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
@@ -97,355 +117,31 @@ jobs:
         with:
           path: isobeon/requirements.txt
 
-      - name: Create the schema build directory
+      - name: Create the combined schema directory
         run: |
-          mkdir --parents \
-            schema/build
+            mkdir --parents \
+                "dirname ${{env.combinedschema}}"
+        shell: bash
 
       - name: Run the schema processor
         run: |
           python \
             isobeon/schema-processor.py \
-              'schema/${{env.schemapath}}/execution-broker.yaml' \
-              'schema/build/execution-broker-${{env.schemaversion}}.yaml'
+              '${{env.inputschema}}' \
+              '${{env.combinedschema}}'
 
-      - name: Check result content
+      - name: Check the result
         run: |
-          head 'schema/build/execution-broker-${{env.schemaversion}}.yaml'
+          head '${{env.combinedschema}}'
 
-      - name: Check result content
+      - name: Check the result
         run: |
-          tail 'schema/build/execution-broker-${{env.schemaversion}}.yaml'
+          tail '${{env.combinedschema}}'
 
       - name: Upload the schema file as a GitHub artifact
         uses: actions/upload-artifact@v4
         with:
           name: 'calycopis-schema-schema'
-          path: 'schema/build/'
+          path: '${{env.combinedschema}}'
 
-  build-python-client:
-
-    needs: build-combined-schema
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-
-      # https://github.com/actions/checkout
-      - name: Checkout the schema project
-        uses: actions/checkout@v4
-        with:
-          submodules: 'true'
-
-      - name: Check the config
-        run: |
-          echo "schemapath    [${{env.schemapath}}]"
-          echo "schemaversion [${{env.schemaversion}}]"
-
-      - name: Create the schema build directory
-        run: |
-          mkdir --parents \
-            'schema/build/'
-
-      - name: Download the schema result
-        uses: actions/download-artifact@v4
-        with:
-          name: 'calycopis-schema-schema'
-          path: 'schema/build/'
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '25'
-
-      - name: Download the openapi-generator
-        id: download-openapi-generator
-        uses: clausnz/github-action-download-maven-artifact@master
-        with:
-          url: 'https://repo1.maven.org'
-          repository: 'maven2'
-          groupId:    'org.openapitools'
-          artifactId: 'openapi-generator-cli'
-          version:    '${{env.openapiGeneratorVersion}}'
-          extension:  'jar'
-
-      - name: Create the Python build directory
-        run: |
-          mkdir --parents \
-            'codegen/python/client/build'
-
-      - name: Generate the Python client
-        run: |
-          java -jar '${{steps.download-openapi-generator.outputs.file}}' \
-            generate \
-            --generator-name python \
-            --input-spec 'schema/build/execution-broker-${{env.schemaversion}}.yaml' \
-            --output     'codegen/python/client/build' \
-            --additional-properties 'projectName=calycopis-schema-client' \
-            --additional-properties 'packageName=calycopis_schema_client' \
-            --additional-properties 'packageUrl=https://github.com/ivoa/Calycopis-schema' \
-            --additional-properties 'packageVersion=${{env.schemaversion}}'
-
-      # https://github.com/marketplace/actions/setup-python
-      - name: Setup Python
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.14'
-
-      - name: Install Python build tools
-        uses: BSFishy/pip-action@v1
-        with:
-          packages: |
-            twine
-            build
-
-      - name: Build the Python distribution
-        run: |
-          python -m build \
-            'codegen/python/client/build'
-
-      - name: Upload the wheel as a GitHub artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'calycopis-schema-python-client'
-          path: 'codegen/python/client/build/dist/calycopis_schema_client-${{env.schemaversion}}-py3-none-any.whl'
-
-      - name: Publish the wheel to the UKSRC Nexus
-        if: >
-            github.repository == 'uksrc/Calycopis-openapi' &&
-            github.event_name == 'push' &&
-            github.ref_name == 'main'
-        working-directory: codegen/python/client/build
-        run: twine upload --repository-url https://repo.dev.uksrc.org/repository/localpypi/ dist/*
-        env:
-          TWINE_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
-
-  build-java-client:
-
-    needs: build-combined-schema
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-
-      # https://github.com/actions/checkout
-      - name: Checkout the schema project
-        uses: actions/checkout@v4
-        with:
-          submodules: 'true'
-
-      - name: Check the config
-        run: |
-          echo "schemapath    [${{env.schemapath}}]"
-          echo "schemaversion [${{env.schemaversion}}]"
-
-      - name: Download the schema result
-        uses: actions/download-artifact@v4
-        with:
-          name: 'calycopis-schema-schema'
-          path: '/tmp'
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '25'
-
-      # https://github.com/actions/cache/blob/main/examples.md#java---maven
-      - name: Cache our Maven dependencies
-        uses: actions/cache@v5
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Run the Maven build
-        run: |
-          pushd codegen/java/client
-            ./mvnw --batch-mode \
-              install \
-                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          popd
-
-      - name: Get the Maven POM version
-        run: |
-          pushd codegen/java/client
-            echo "pomversion=$(
-                ./mvnw \
-                    -q \
-                    help:evaluate \
-                    -Dexpression=project.version \
-                    -DforceStdout \
-                    2> /dev/null
-                )" \
-                >> "$GITHUB_ENV"
-          popd
-
-      - name: Upload the JAR as a GitHub artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'calycopis-schema-java-client'
-          path: 'codegen/java/client/target/calycopis-schema-client-${{env.pomversion}}.jar'
-
-      - name: Install our own Maven settings
-        run: |
-            mkdir -p ~/.m2
-            cp -f codegen/java/settings.xml \
-                  ~/.m2/settings.xml
-
-      - name: Check our Maven settings
-        run: |
-            cat ~/.m2/settings.xml
-
-      - name: Publish the JAR to the UKSRC Nexus repository.
-        if: >
-            github.repository == 'uksrc/Calycopis-openapi' &&
-            github.event_name == 'push' &&
-            github.ref_name == 'main'
-        run: |
-          pushd codegen/java/client
-            ./mvnw --batch-mode \
-              deploy \
-                -Puksrc-profile \
-                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          popd
-        env:
-          UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
-          UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
-
-      - name: Publish the JAR to the IVOA GitHub repository.
-        if: >
-            github.repository == 'ivoa/Calycopis-openapi' &&
-            github.event_name == 'push' &&
-            github.ref_name == 'main'
-        run: |
-          pushd codegen/java/client
-            ./mvnw --batch-mode \
-              deploy \
-                -Pivoa-profile \
-                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          popd
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  build-java-spring:
-
-    needs: build-combined-schema
-
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    steps:
-
-      # https://github.com/actions/checkout
-      - name: Checkout the schema project
-        uses: actions/checkout@v4
-        with:
-          submodules: 'true'
-
-      - name: Check the config
-        run: |
-          echo "schemapath    [${{env.schemapath}}]"
-          echo "schemaversion [${{env.schemaversion}}]"
-
-      - name: Download the schema result
-        uses: actions/download-artifact@v4
-        with:
-          name: 'calycopis-schema-schema'
-          path: '/tmp'
-
-      - name: Setup Java
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'temurin'
-          java-version: '25'
-
-      # https://github.com/actions/cache/blob/main/examples.md#java---maven
-      - name: Cache our Maven dependencies
-        uses: actions/cache@v5
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
-
-      - name: Run the Maven build
-        run: |
-          pushd codegen/java/spring
-            ./mvnw --batch-mode \
-              install \
-                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          popd
-
-      - name: Get the Maven POM version
-        run: |
-          pushd codegen/java/spring
-            echo "pomversion=$(
-                ./mvnw \
-                    -q \
-                    help:evaluate \
-                    -Dexpression=project.version \
-                    -DforceStdout \
-                    2> /dev/null
-                )" \
-                >> "$GITHUB_ENV"
-          popd
-
-      - name: Upload the JAR as a GitHub artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: 'calycopis-schema-java-spring'
-          path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.pomversion}}.jar'
-
-      - name: Install our own Maven settings
-        run: |
-            mkdir -p ~/.m2
-            cp -f codegen/java/settings.xml \
-                  ~/.m2/settings.xml
-
-      - name: Check our Maven settings
-        run: |
-            cat ~/.m2/settings.xml
-
-      - name: Publish the JAR to the UKSRC Nexus repository.
-        if: >
-            github.repository == 'uksrc/Calycopis-openapi' &&
-            github.event_name == 'push' &&
-            github.ref_name == 'main'
-        run: |
-          pushd codegen/java/spring
-            ./mvnw --batch-mode \
-              deploy \
-                -Puksrc-profile \
-                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          popd
-        env:
-          UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
-          UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
-
-      - name: Publish the JAR to the IVOA GitHub repository.
-        if: >
-            github.repository == 'ivoa/Calycopis-openapi' &&
-            github.event_name == 'push' &&
-            github.ref_name == 'main'
-        run: |
-          pushd codegen/java/spring
-            ./mvnw --batch-mode \
-              deploy \
-                -Pivoa-profile \
-                -Dcalycopis.schema.file=/tmp/execution-broker-${{env.schemaversion}}.yaml
-          popd
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
