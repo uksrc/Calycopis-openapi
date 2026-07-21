@@ -22,7 +22,7 @@ schema:
   version: "1.0.7"
 
 python:
-  build: "dev1"
+  build: "dev2"
 
 java:
   build: "SNAPSHOT"
