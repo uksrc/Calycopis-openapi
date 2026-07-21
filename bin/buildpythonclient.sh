@@ -31,7 +31,7 @@ source "${basepath}/bin/versions.sh" "${basepath}/config.yaml"
 # Generate the Python client code.
 pushd "${basepath:?}/codegen/python/client/"
     ./mvnw \
-        -Drevision=${javaversion:?} \
+        -Drevision=${pythonversion:?} \
         -Dcalycopis.schema.file=/tmp/${combinedschema:?} \
         clean generate-sources
 popd
