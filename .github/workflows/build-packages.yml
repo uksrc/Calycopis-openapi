@@ -165,14 +165,13 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run the Maven build
+        working-directory: codegen/python/client
         run: |
-          pushd 'codegen/python/client'
-            ./mvnw \
-              --batch-mode \
-              clean generate-sources \
-                -Drevision=${{env.pythonversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            clean generate-sources \
+              -Drevision=${{env.pythonversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
@@ -187,10 +186,11 @@ jobs:
                 build
 
       - name: Build the Python distribution
+        working-directory: codegen/python/client
         run: |
           python -m \
             build \
-                'codegen/python/client/target'
+                'target'
 
       - name: Upload the Python wheel as a GitHub artifact
         uses: actions/upload-artifact@v7
@@ -203,11 +203,11 @@ jobs:
             github.repository == 'uksrc/Calycopis-openapi' &&
             github.event_name == 'push' &&
             github.ref_name == 'main'
-        working-directory: codegen/python/client/target
+        working-directory: codegen/python/client
         run: |
           twine upload \
             --repository-url https://repo.dev.uksrc.org/repository/localpypi/ \
-            dist/*
+            target/dist/*
         env:
           TWINE_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
@@ -261,14 +261,13 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run the Maven build
+        working-directory: codegen/java/client
         run: |
-          pushd 'codegen/java/client'
-            ./mvnw \
-              --batch-mode \
-              clean install \
-                -Drevision=${{env.javaversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            clean install \
+              -Drevision=${{env.javaversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
 
       - name: Upload the Java JAR as a GitHub artifact
         uses: actions/upload-artifact@v7
@@ -291,16 +290,14 @@ jobs:
             github.repository == 'uksrc/Calycopis-openapi' &&
             github.event_name == 'push' &&
             github.ref_name == 'main'
+        working-directory: codegen/java/client
         run: |
-          pushd codegen/java/client
-            ./mvnw \
-              --batch-mode \
-              deploy \
-                -X \
-                -Puksrc-profile \
-                -Drevision=${{env.javaversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            deploy \
+              -Puksrc-profile \
+              -Drevision=${{env.javaversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
         env:
           UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
           UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
@@ -310,15 +307,14 @@ jobs:
             github.repository == 'ivoa/Calycopis-openapi' &&
             github.event_name == 'push' &&
             github.ref_name == 'main'
+        working-directory: codegen/java/client
         run: |
-          pushd codegen/java/client
-            ./mvnw \
-              --batch-mode \
-              deploy \
-                -Pivoa-profile \
-                -Drevision=${{env.javaversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            deploy \
+              -Pivoa-profile \
+              -Drevision=${{env.javaversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -371,14 +367,13 @@ jobs:
             ${{ runner.os }}-maven-
 
       - name: Run the Maven build
+        working-directory: codegen/java/spring
         run: |
-          pushd 'codegen/java/spring'
-            ./mvnw \
-              --batch-mode \
-              clean install \
-                -Drevision=${{env.javaversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            clean install \
+              -Drevision=${{env.javaversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
 
       - name: Upload the Java JAR as a GitHub artifact
         uses: actions/upload-artifact@v7
@@ -401,16 +396,14 @@ jobs:
             github.repository == 'uksrc/Calycopis-openapi' &&
             github.event_name == 'push' &&
             github.ref_name == 'main'
+        working-directory: codegen/java/spring
         run: |
-          pushd codegen/java/spring
-            ./mvnw \
-              --batch-mode \
-              deploy \
-                -X \
-                -Puksrc-profile \
-                -Drevision=${{env.javaversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            deploy \
+              -Puksrc-profile \
+              -Drevision=${{env.javaversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
         env:
           UKSRC_REPO_USERNAME: ${{ secrets.UKSRC_REPO_USERNAME }}
           UKSRC_REPO_PASSWORD: ${{ secrets.UKSRC_REPO_PASSWORD }}
@@ -420,15 +413,14 @@ jobs:
             github.repository == 'ivoa/Calycopis-openapi' &&
             github.event_name == 'push' &&
             github.ref_name == 'main'
+        working-directory: codegen/java/spring
         run: |
-          pushd codegen/java/spring
-            ./mvnw \
-              --batch-mode \
-              deploy \
-                -Pivoa-profile \
-                -Drevision=${{env.javaversion}} \
-                -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
-          popd
+          ./mvnw \
+            --batch-mode \
+            deploy \
+              -Pivoa-profile \
+              -Drevision=${{env.javaversion}} \
+              -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
