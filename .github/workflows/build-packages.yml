@@ -173,6 +173,13 @@ jobs:
               -Drevision=${{env.pythonversion}} \
               -Dcalycopis.schema.file=/tmp/${{env.combinedschema}}
 
+      - name: Add our wrapper classes
+        working-directory: codegen/python/client
+        run: |
+          cp -r \
+            wrappers \
+            target/calycopis_schema_client/wrappers
+
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
         uses: actions/setup-python@v7
