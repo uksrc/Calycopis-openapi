@@ -178,7 +178,7 @@ jobs:
         run: |
           cp -r \
             wrappers \
-            target/calycopis_schema_client/wrappers
+            target/calycopis_openapi_client/wrappers
 
       # https://github.com/marketplace/actions/setup-python
       - name: Setup Python
@@ -203,7 +203,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: 'calycopis-openapi-python-client'
-          path: 'codegen/python/client/target/dist/calycopis_schema_client-${{env.pythonversion}}-py3-none-any.whl'
+          path: 'codegen/python/client/target/dist/calycopis_openapi_client-${{env.pythonversion}}-py3-none-any.whl'
 
       - name: Publish the wheel to the UKSRC Nexus
         if: >
@@ -280,7 +280,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: 'calycopis-openapi-java-client'
-          path: 'codegen/java/client/target/calycopis-schema-client-${{env.javaversion}}.jar'
+          path: 'codegen/java/client/target/calycopis-openapi-client-${{env.javaversion}}.jar'
 
       - name: Install our Maven settings
         run: |
@@ -386,7 +386,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: 'calycopis-openapi-java-spring'
-          path: 'codegen/java/spring/target/calycopis-schema-spring-${{env.javaversion}}.jar'
+          path: 'codegen/java/spring/target/calycopis-openapi-spring-${{env.javaversion}}.jar'
 
       - name: Install our Maven settings
         run: |

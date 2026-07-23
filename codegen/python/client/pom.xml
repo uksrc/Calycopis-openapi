@@ -38,7 +38,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>net.ivoa.calycopis</groupId>
-	<artifactId>calycopis-schema-client</artifactId>
+	<artifactId>calycopis-openapi-client</artifactId>
 	<version>${revision}</version>
 	<packaging>jar</packaging>
 	<name>Calycopis Python client</name>
@@ -47,13 +47,12 @@
     <properties>
         <revision>0.0.0</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <calycopis.project.name>calycopis-schema-client</calycopis.project.name>
-        <calycopis.package.name>calycopis_schema_client</calycopis.package.name>
+        <calycopis.project.name>calycopis-openapi-client</calycopis.project.name>
+        <calycopis.package.name>calycopis_openapi_client</calycopis.package.name>
         <calycopis.package.url>https://github.com/ivoa/Calycopis-openapi</calycopis.package.url>
         <calycopis.package.version>${revision}</calycopis.package.version>
         <calycopis.schema.file>example.yaml</calycopis.schema.file>
         <calycopis.output.path>${project.build.directory}</calycopis.output.path>
-        <openapi-generator.version>7.22.0</openapi-generator.version>
     </properties>
 
     <build>
@@ -61,8 +60,7 @@
             <plugin>
                 <groupId>org.openapitools</groupId>
                 <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>${openapi-generator.version}</version>
-
+                <version>7.23.0</version>
                 <executions>
                     <execution>
                         <id>generate-python-client</id>
@@ -74,9 +72,7 @@
                             <inputSpec>${calycopis.schema.file}</inputSpec>
                             <output>${calycopis.output.path}</output>
                             <generatorName>python</generatorName>
-
                             <packageName>${calycopis.package.name}</packageName>
-
                             <configOptions>
                                 <projectName>${calycopis.project.name}</projectName>
                                 <packageName>${calycopis.package.name}</packageName>
@@ -97,6 +93,5 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
 
