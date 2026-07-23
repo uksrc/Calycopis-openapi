@@ -47,7 +47,19 @@ popd
 pushd "${basepath:?}/codegen/python/client/"
     cp -r \
         wrappers \
-        target/calycopis_schema_client/wrappers
+        target/calycopis_openapi_client/wrappers
+popd
+
+#
+# Fix the project license
+pushd "${basepath:?}/codegen/python/client/"
+    sed -i '
+        s/^\([[:space:]]*license[[:space:]]*=[[:space:]]*\).*$/\1"GPL-3.0-or-later"/
+        ' target/pyproject.toml
+
+    sed -i '
+        /^[[:space:]]*license[[:space:]]*=.*/d
+        ' target/setup.py
 popd
 
 #
