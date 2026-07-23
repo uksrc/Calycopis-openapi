@@ -47,9 +47,9 @@ from time import sleep
 from typing import Iterable, Optional, Set, Union
 from uuid import UUID
 
-from calycopis_schema_client import ApiClient, ApiResponse, Configuration
-from calycopis_schema_client.api import DefaultApi
-from calycopis_schema_client.models import (
+from calycopis_openapi_client import ApiClient, ApiResponse, Configuration
+from calycopis_openapi_client.api import DefaultApi
+from calycopis_openapi_client.models import (
     ExecutionRequest,
     OfferSetResponse,
     AbstractExecutionSession,

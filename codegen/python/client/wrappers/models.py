@@ -50,7 +50,7 @@ from __future__ import annotations
 
 from pydantic import Field, StrictStr
 
-from calycopis_schema_client.models import (
+from calycopis_openapi_client.models import (
     DockerContainer as _DockerContainer,
     SingularityContainer as _SingularityContainer,
     JupyterNotebook as _JupyterNotebook,
